@@ -1,0 +1,27 @@
+# Visual Studio files
+*.vcproj
+*.vcproj.*.user
+*.sln
+*.suo
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.user
+*.obj
+*.exe
+*.dll
+*.o
+*.pyc
+*.pyo
+
+# Build directories
+Debug/
+Release/
+x64/
+Win32/
+
+# Temporary files
+*.tmp
+*.log
+*~
