@@ -7,7 +7,7 @@
 
 # 获取脚本所在目录
 DIR="$( cd "$( dirname "${0}" )" && pwd )"
-cd "$DIR/legend-of-uni-web"
+cd "$DIR/../03_Web_Rebuild"
 
 echo "================================================="
 echo "🚀 《宇宙群英传》Web 重制版 - 启动中..."
