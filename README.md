@@ -1,10 +1,9 @@
 # Legend of Uni: Three-Body Rebuild | 宇宙群英传：三体重构
 
-![Project Header](./02_Project_Documentation/assets/main_star_map_ui_1778467960198.png)
-
 [![Web Version](https://img.shields.io/badge/Web_Version-Alpha-orange.svg)](#03-web-reconstruction-web重构版)
 [![Windows Version](https://img.shields.io/badge/Windows_Version-Legacy_Finished-blue.svg)](#01-windows-legacy-source-windows版源码)
 [![Tech Stack](https://img.shields.io/badge/Stack-React_19_%7C_Vite_%7C_TS-61dafb.svg)](#)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](#-开源协议-license)
 
 这是一个跨时代的“三体”主题 4X 太空策略模拟游戏项目。项目包含 2009 年的原始 Windows MFC 源代码以及正在进行的现代 Web 重构版。
 
@@ -77,6 +76,16 @@
 
 ---
 
-## 📜 许可
+---
 
-源代码保留不动，遵循项目原始授权或由开发者另行说明。
+## 📜 开源协议 (License)
+
+### Web 重构版 (Web Rebuild)
+本项目 Web 重构版部分遵循 **MIT License** 开源协议。你可以自由地使用、修改和分发该部分的源代码，但请保留原始的版权声明。
+
+### Windows 原始版 (Windows Legacy)
+Windows 原始版源代码（`01_Windows_Source`）的版权归原作者 **Tormoo** 所有。本仓库仅作历史归档与重构参考使用。在使用、研究该部分代码时，请务必尊重原作者的劳动成果与开发初衷。
+
+---
+
+> “失去人性，失去很多；失去兽性，失去一切。” —— 我们在数字世界重建这个宇宙，不仅是为了情怀，更是为了探索文明的无限可能。
