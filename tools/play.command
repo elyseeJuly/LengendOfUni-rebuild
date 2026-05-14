@@ -28,17 +28,23 @@ if [ ! -d "node_modules" ]; then
     npm install
 fi
 
+# 检查并清理旧进程
+echo "🧹 正在检查并清理旧的服务器进程..."
+lsof -ti :5173 | xargs kill -9 2>/dev/null
+lsof -ti :5174 | xargs kill -9 2>/dev/null
+lsof -ti :5175 | xargs kill -9 2>/dev/null
+
 # 启动服务器
 echo "🌐 正在建立本地纠缠节点..."
 echo "🚀 正在为您打开星图浏览器..."
 echo "-------------------------------------------------"
 
-# 在后台延迟打开浏览器，确保 Vite 已经启动
-(sleep 2 && open "http://localhost:5173") &
+# 使用 Vite 默认行为打开浏览器，或者延迟打开
+(sleep 3 && open "http://localhost:5173") &
 
 npm run dev || {
     echo "❌ 服务器启动失败！"
-    echo "请检查端口 5173 是否被占用。"
+    echo "请检查环境依赖或端口占用。"
     echo "按下回车键退出..."
     read
 }
