@@ -1,0 +1,151 @@
+import React, { useState, useEffect } from 'react';
+import { TopHUD } from './components/TopHUD';
+import { LeftHub } from './components/LeftHub';
+import { RightInspector } from './components/RightInspector';
+import { StarMap } from './components/StarMap';
+import { TecTreeView } from './ui/TecTreeView';
+import { TecTreeType } from './types/enums';
+import { StoryModal } from './components/StoryModal';
+import { GameInstance } from './core/Game';
+import { GameEventPayload } from './types/narrative';
+import { EndGameScreen } from './components/EndGameScreen';
+
+export const App: React.FC = () => {
+  const [isDarkMode] = useState(true);
+  const [showInspector] = useState(true);
+  const [activeView, setActiveView] = useState<'starmap' | 'techtree'>('starmap');
+  const [currentEvent, setCurrentEvent] = useState<GameEventPayload | null>(null);
+  const [isGameOver, setIsGameOver] = useState(false);
+
+  // Apply dark mode class to html element
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  // Listen for story events and game over
+  useEffect(() => {
+    const handleEvent = () => {
+      const game = GameInstance.get();
+      setCurrentEvent(game.currentEvent);
+    };
+
+    const handleGameOver = () => {
+      setIsGameOver(true);
+    };
+
+    window.addEventListener('game-event-triggered', handleEvent);
+    window.addEventListener('game-turn-complete', handleEvent);
+    window.addEventListener('game-loaded', handleEvent);
+    window.addEventListener('game-over', handleGameOver);
+    
+    // Auto-load on mount
+    if (GameInstance.loadGame()) {
+      console.log("Auto-loaded save data");
+    }
+
+    return () => {
+      window.removeEventListener('game-event-triggered', handleEvent);
+      window.removeEventListener('game-turn-complete', handleEvent);
+      window.removeEventListener('game-loaded', handleEvent);
+      window.removeEventListener('game-over', handleGameOver);
+    };
+  }, []);
+
+
+  // Handle tech tree rendering
+  useEffect(() => {
+    if (activeView === 'techtree') {
+      const container = document.getElementById('tech-tree-container');
+      if (container) {
+        const view = new TecTreeView(container);
+        view.render(container, TecTreeType.PHYSICS); // Default to Physics for now
+      }
+    }
+  }, [activeView]);
+
+  return (
+    <div className="h-screen w-screen flex flex-col bg-[var(--bg-main)] text-[var(--text-primary)] transition-colors duration-300 font-base overflow-hidden">
+      {/* Endgame Layer */}
+      {isGameOver && <EndGameScreen />}
+
+      {/* Story Modal Layer */}
+
+      {currentEvent && (
+        <StoryModal 
+          event={currentEvent} 
+          onClose={() => {
+            // Logic handled within the choice action or manually
+            // But we need a fallback for "Acknowledged"
+            if (!currentEvent.choices || currentEvent.choices.length === 0) {
+              GameInstance.get().currentEvent = null;
+              GameInstance.get().processNextEvent();
+              window.dispatchEvent(new CustomEvent('game-turn-complete'));
+            }
+          }} 
+        />
+      )}
+
+      {/* Top HUD */}
+      <TopHUD />
+
+      {/* Main Layout Body */}
+      <main className="flex-1 flex overflow-hidden">
+        {/* Left Hub */}
+        <LeftHub activeView={activeView} setActiveView={setActiveView} />
+
+        {/* Dynamic Center Viewport */}
+        <div className="flex-1 relative overflow-hidden bg-black/20">
+          {activeView === 'starmap' ? (
+            <>
+              <StarMap />
+              <canvas id="star-canvas-react" className="absolute inset-0 w-full h-full pointer-events-none" />
+            </>
+          ) : (
+            <div className="h-full w-full p-8 overflow-y-auto">
+              <div className="max-w-6xl mx-auto">
+                <div className="mb-8">
+                  <h1 className="text-3xl font-bold text-[var(--color-primary)]">科技研发中心</h1>
+                  <p className="text-[var(--text-secondary)] mt-2">基础物理已被锁定，重点转向应用技术与太空作战理论。</p>
+                </div>
+                <div id="tech-tree-container" className="min-h-[500px]">
+                  {/* Tech tree content will be rendered here by legacy logic */}
+                </div>
+              </div>
+            </div>
+          )}
+
+
+        </div>
+
+        {/* Right Contextual Inspector */}
+        {showInspector && <RightInspector />}
+      </main>
+
+      {/* Legacy Modal System Bridge */}
+      <div id="modal-container" className="modal-overlay hidden">
+        <div className="modal-box">
+          <div className="modal-header">
+            <h2 id="modal-title">System Modal</h2>
+            <button className="btn-close" onClick={() => document.getElementById('modal-container')?.classList.add('hidden')}>&times;</button>
+          </div>
+          <div id="modal-content" className="modal-content">
+            {/* Legacy content injected here */}
+          </div>
+        </div>
+      </div>
+
+      {/* Background Gradients for Sci-Fi Feel */}
+      <div className="fixed inset-0 pointer-events-none z-[-1]">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,_rgba(0,229,255,0.05)_0%,_transparent_50%)]"></div>
+        <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_70%,_rgba(13,71,161,0.05)_0%,_transparent_50%)]"></div>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+

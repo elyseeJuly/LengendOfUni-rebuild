@@ -1,0 +1,28 @@
+[
+  {
+    "name": "恒星级战舰",
+    "type": 0,
+    "dependTecType": 1,
+    "dependTecName": "行星发动机Ⅰ型",
+    "attack": 100,
+    "hp": 500,
+    "totalBuild": 100,
+    "buildPerRound": 10,
+    "cost": 100,
+    "priority": 1,
+    "needCiviLevel": 1
+  },
+  {
+    "name": "水滴",
+    "type": 0,
+    "dependTecType": 0,
+    "dependTecName": "质子3维展开",
+    "attack": 1000,
+    "hp": 5000,
+    "totalBuild": 500,
+    "buildPerRound": 50,
+    "cost": 500,
+    "priority": 0,
+    "needCiviLevel": 2
+  }
+]

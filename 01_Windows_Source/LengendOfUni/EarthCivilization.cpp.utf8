@@ -1,0 +1,60 @@
+#include "StdAfx.h"
+#include "EarthCivilization.h"
+#include "RandomNumber.h"
+#include "EconomyDepartment.h"
+#include "StarManager.h"
+#include "LengendOfUni.h"
+#include "ArmyDepartment.h"
+#include "IniConfig.h"
+#include <algorithm>
+
+IMPLEMENT_SERIAL(CEarthCivilization, CCivilization, 1)
+
+CEarthCivilization::CEarthCivilization(void)
+{
+	m_iIdlePopulation = 0;
+	m_sLevel = _T("鑽掕洰");
+}
+
+CEarthCivilization::~CEarthCivilization(void)
+{
+	Clear();
+}
+
+void CEarthCivilization::Init()
+{
+	CStarManager &starMgr = ((CLengendOfUniApp*)AfxGetApp())->m_game->GetStarManager();
+	CStar* pEarth = starMgr.GetStar(0);
+
+	m_tecTreeManager = new CTecTreeManager;
+	m_tecTreeManager->Init();
+	const int ciEarth = 0;
+	m_lstStars.push_back(ciEarth);
+	BuildStope(0, TRUE);
+	BuildBarback(0, TRUE);
+	BuildFactory(0, TRUE);
+	BuildCity(0, TRUE);
+/*	CStope *stope = new CStope;
+	stope->SetPlanetIndex(ciEarth);
+	stope->SetBuildCompleted();
+	m_vecStopes.push_back(stope);
+	CBarback *barback = new CBarback;
+	barback->SetPlanetIndex(ciEarth);
+	barback->SetBuildCompleted();
+	barback->GetDepartment()->SetName(_T("鍦扮悆鍩哄湴"));
+	m_vecBarbacks.push_back(barback);
+	CFactory *factory = new CFactory;
+	factory->SetPlanetIndex(ciEarth);
+	factory->SetBuildCompleted();
+	m_vecFactories.push_back(factory);
+	CCity *city = new CCity;
+	city->SetPlanetIndex(ciEarth);
+	city->SetBuildCompleted();
+	m_vecCities.push_back(city);
+
+	earth->SetStope(stope);
+	earth->SetFactory(factory);
+	earth->SetBarback(barback);
+	earth->SetCity(city);*/
+
+	CString sDepNameArray[] = {_T("缁忔祹閮

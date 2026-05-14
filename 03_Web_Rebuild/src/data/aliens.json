@@ -1,0 +1,42 @@
+[
+  {
+    "name": "三体",
+    "isplanet": 1,
+    "res": 1000,
+    "poplimit": 200,
+    "starsys": 1,
+    "personality": 0
+  },
+  {
+    "name": "歌者",
+    "isplanet": 1,
+    "res": 2000,
+    "poplimit": 500,
+    "starsys": 3,
+    "personality": 1
+  },
+  {
+    "name": "边缘世界",
+    "isplanet": 1,
+    "res": 1500,
+    "poplimit": 300,
+    "starsys": 2,
+    "personality": 3
+  },
+  {
+    "name": "魔戒",
+    "isplanet": 1,
+    "res": 1200,
+    "poplimit": 100,
+    "starsys": 3,
+    "personality": 2
+  },
+  {
+    "name": "归零者",
+    "isplanet": 1,
+    "res": 3000,
+    "poplimit": 1000,
+    "starsys": 3,
+    "personality": 2
+  }
+]

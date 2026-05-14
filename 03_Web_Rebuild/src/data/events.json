@@ -1,0 +1,42 @@
+[
+  {
+    "name": 2,
+    "eventtype": 0,
+    "eventeffect": 0,
+    "eventvalue": 0,
+    "talkcount": 1,
+    "talk0_pic": "shiqiang.bmp",
+    "talk0_talker": "史强",
+    "talk0_content": "古筝行动非常成功！我们拿到了伊文斯在审判日号上的三体通讯记录。"
+  },
+  {
+    "name": 10,
+    "eventtype": 0,
+    "eventeffect": 0,
+    "eventvalue": 0,
+    "talkcount": 1,
+    "talk0_pic": "sophon.bmp",
+    "talk0_talker": "智子",
+    "talk0_content": "你们是虫子！基础科学的枷锁已经锁死！"
+  },
+  {
+    "name": 50,
+    "eventtype": 0,
+    "eventeffect": 6,
+    "eventvalue": 0,
+    "talkcount": 1,
+    "talk0_pic": "luoji.bmp",
+    "talk0_talker": "最高统帅部",
+    "talk0_content": "月球危机爆发！由于过度开采和潮汐引力异常，月球即将解体坠落！我们需要立即调集所有资源推开月球碎片！"
+  },
+  {
+    "name": 300,
+    "eventtype": 0,
+    "eventeffect": 7,
+    "eventvalue": 0,
+    "talkcount": 1,
+    "talk0_pic": "wangmiao.bmp",
+    "talk0_talker": "联合政府",
+    "talk0_content": "太阳系即将毁灭。如果我们掌握了重核聚变行星发动机，我们将开启流浪地球计划！"
+  }
+]

@@ -24,4 +24,10 @@ Win32/
 # Temporary files
 *.tmp
 *.log
-*~
+
+# Web Rebuild files
+03_Web_Rebuild/node_modules/
+03_Web_Rebuild/dist/
+
+# OS files
+.DS_Store
