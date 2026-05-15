@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Map, Cpu, Swords, BarChart3, Users2, Building2, AlertOctagon, Globe, Atom, Rocket, Zap } from 'lucide-react';
+import { Map, Cpu, Swords, BarChart3, Users2, Building2, AlertOctagon, Globe, Atom, Rocket, Zap, Telescope, FlaskConical, Microscope } from 'lucide-react';
 import { GameInstance } from '../core/Game';
 import { DepartmentType } from '../types/enums';
 import { wallfacerPanel } from '../ui/WallfacerPanel';
@@ -61,6 +61,9 @@ export const LeftHub: React.FC<LeftHubProps> = ({ activeView, setActiveView }) =
     { type: DepartmentType.NUCLEAR, icon: <Atom size={18} />, label: "核技术" },
     { type: DepartmentType.SPACEFIGHT, icon: <Rocket size={18} />, label: "航天技术" },
     { type: DepartmentType.PROTON, icon: <Zap size={18} />, label: "质子技术" },
+    { type: DepartmentType.ASTROPHYSICS, icon: <Telescope size={18} />, label: "天体物理" },
+    { type: DepartmentType.CULTURETEC, icon: <FlaskConical size={18} />, label: "文化研究所" },
+    { type: DepartmentType.ECONOMYTEC, icon: <Microscope size={18} />, label: "经济研究所" },
   ];
 
   return (

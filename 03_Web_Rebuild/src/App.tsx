@@ -47,11 +47,21 @@ export const App: React.FC = () => {
       console.log("Auto-loaded save data");
     }
 
+    // Global Error Monitor
+    const globalErrorHandler = (event: ErrorEvent) => {
+      const game = GameInstance.get();
+      game.addHistory(`【系统崩溃】捕获到全局异常: ${event.message}`);
+      // 尝试释放处理锁
+      game.isProcessing = false;
+    };
+    window.addEventListener('error', globalErrorHandler);
+
     return () => {
       window.removeEventListener('game-event-triggered', handleEvent);
       window.removeEventListener('game-turn-complete', handleEvent);
       window.removeEventListener('game-loaded', handleEvent);
       window.removeEventListener('game-over', handleGameOver);
+      window.removeEventListener('error', globalErrorHandler);
     };
   }, []);
 

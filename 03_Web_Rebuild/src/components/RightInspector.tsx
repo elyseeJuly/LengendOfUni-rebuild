@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Target, Zap, ArrowUpCircle, Rocket, Factory, Pickaxe, Building } from 'lucide-react';
+import { Target, Zap, ArrowUpCircle, Rocket, Factory, Pickaxe, Building, Gem, Skull, Crown } from 'lucide-react';
 import { GameInstance } from '../core/Game';
 import { Star } from '../core/Star';
 import { createFleet } from '../core/Fleet';
@@ -9,7 +9,6 @@ export const RightInspector: React.FC = () => {
   const [, forceUpdate] = useState(0);
 
   useEffect(() => {
-    // Listen for star selection events from the StarMapRenderer
     const handleStarSelect = (e: Event) => {
       const customEvent = e as CustomEvent<Star>;
       setSelectedStar(customEvent.detail);
@@ -24,7 +23,6 @@ export const RightInspector: React.FC = () => {
     };
   }, []);
 
-  // Default to Earth if nothing selected
   const game = GameInstance.get();
   const star = selectedStar || (() => {
     const earth = game.starManager.getStar(4);
@@ -43,13 +41,34 @@ export const RightInspector: React.FC = () => {
   const earth = game.earthCivi;
 
   const handleBuildStope = () => {
-    if (!star.hasStope) { star.hasStope = true; forceUpdate(n => n + 1); }
+    if (!star.hasStope && earth.economy >= 30) {
+      earth.economy -= 30;
+      star.hasStope = true;
+      game.addHistory(`在 ${star.name} 建造采矿场，消耗 30 经济。`);
+      forceUpdate(n => n + 1);
+    } else if (!star.hasStope) {
+      alert("经济不足 30 点！");
+    }
   };
   const handleBuildFactory = () => {
-    if (!star.hasFactory) { star.hasFactory = true; forceUpdate(n => n + 1); }
+    if (!star.hasFactory && earth.economy >= 50) {
+      earth.economy -= 50;
+      star.hasFactory = true;
+      game.addHistory(`在 ${star.name} 建造加工厂，消耗 50 经济。`);
+      forceUpdate(n => n + 1);
+    } else if (!star.hasFactory) {
+      alert("经济不足 50 点！");
+    }
   };
   const handleBuildCity = () => {
-    if (!star.hasCity) { star.hasCity = true; forceUpdate(n => n + 1); }
+    if (!star.hasCity && earth.economy >= 80) {
+      earth.economy -= 80;
+      star.hasCity = true;
+      game.addHistory(`在 ${star.name} 建造太空城市，消耗 80 经济。`);
+      forceUpdate(n => n + 1);
+    } else if (!star.hasCity) {
+      alert("经济不足 80 点！");
+    }
   };
   const handleBuildFleet = () => {
     if (earth.economy >= 100) {
@@ -80,12 +99,11 @@ export const RightInspector: React.FC = () => {
         <h2 className="text-2xl font-bold text-[var(--color-primary)]">{star.name}</h2>
         <div className="text-xs text-[var(--text-secondary)] flex items-center gap-1">
           <Target size={12} />
-          <span>所属: {star.belongToCivi || "无"} | 资源: {star.totalResource}</span>
+          <span>所属: {star.belongToCivi || "无"} | 资源: {star.currentResource}/{star.totalResource}</span>
         </div>
       </div>
 
       <div className="space-y-6 flex-1 overflow-y-auto pr-2">
-        {/* Planet Details */}
         <section className="space-y-3">
           <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-primary)]">星球概况</h3>
           <div className="grid grid-cols-2 gap-3">
@@ -100,9 +118,66 @@ export const RightInspector: React.FC = () => {
           </div>
         </section>
 
-        {/* Infrastructure */}
         {isEarth && (
           <>
+            <section className="space-y-3">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-primary)]">文明状态</h3>
+              <div className="space-y-3">
+                <div className="bg-black/5 dark:bg-white/5 p-2.5 rounded border border-white/5">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-1.5">
+                      <Crown size={11} className="text-yellow-400" />
+                      <span className="text-[10px] text-[var(--text-secondary)] uppercase">文明等级</span>
+                    </div>
+                    <span className="text-xs font-bold text-yellow-400">{earth.getCiviLevelLabel()}</span>
+                  </div>
+                </div>
+                <div className="bg-black/5 dark:bg-white/5 p-2.5 rounded border border-white/5">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-1.5">
+                      <Gem size={11} className="text-cyan-400" />
+                      <span className="text-[10px] text-[var(--text-secondary)] uppercase">资源储备</span>
+                    </div>
+                    <span className="text-xs font-bold text-cyan-400">{earth.resource}</span>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-1.5">
+                      <Skull size={11} className={earth.treachery > 80 ? "text-red-500" : "text-[var(--text-secondary)]"} />
+                      <span className="text-[10px] text-[var(--text-secondary)] uppercase">逃亡主义</span>
+                    </div>
+                    <span className={`text-xs font-bold ${earth.treachery > 80 ? "text-red-500" : ""}`}>{earth.treachery}%</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                    <div className={`h-full rounded-full transition-all ${earth.treachery > 80 ? 'bg-red-500' : 'bg-orange-500'}`} style={{ width: `${Math.min(earth.treachery, 100)}%` }} />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="space-y-3">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-primary)]">工人分配</h3>
+              <div className="space-y-2">
+                <div className="flex justify-between text-[10px]">
+                  <span className="text-[var(--text-secondary)]">采矿工人</span>
+                  <span className="font-bold">{earth.miningWorkers}</span>
+                </div>
+                <div className="flex justify-between text-[10px]">
+                  <span className="text-[var(--text-secondary)]">工厂工人</span>
+                  <span className="font-bold">{earth.factoryWorkers}</span>
+                </div>
+                <div className="flex justify-between text-[10px]">
+                  <span className="text-[var(--text-secondary)]">文化工人</span>
+                  <span className="font-bold">{earth.cultureWorkers}</span>
+                </div>
+                <div className="flex justify-between text-[10px]">
+                  <span className="text-[var(--text-secondary)]">闲置工人</span>
+                  <span className="font-bold">{earth.idleWorkers}</span>
+                </div>
+              </div>
+            </section>
+
             <section className="space-y-3">
               <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-primary)]">基建设施</h3>
               <div className="space-y-2">
@@ -111,6 +186,7 @@ export const RightInspector: React.FC = () => {
                     <Pickaxe className={star.hasStope ? "text-[var(--color-primary)]" : "text-[var(--text-secondary)]"} size={18} />
                     <div className="text-left">
                       <div className="text-sm font-bold">{star.hasStope ? '✅' : '➕'} 采矿场</div>
+                      {!star.hasStope && <div className="text-[10px] text-[var(--text-secondary)]">消耗 30 经济</div>}
                     </div>
                   </div>
                   {!star.hasStope && <ArrowUpCircle className="opacity-0 group-hover:opacity-100 transition-opacity" size={16} />}
@@ -120,6 +196,7 @@ export const RightInspector: React.FC = () => {
                     <Factory className={star.hasFactory ? "text-[var(--color-primary)]" : "text-[var(--text-secondary)]"} size={18} />
                     <div className="text-left">
                       <div className="text-sm font-bold">{star.hasFactory ? '✅' : '➕'} 加工厂</div>
+                      {!star.hasFactory && <div className="text-[10px] text-[var(--text-secondary)]">消耗 50 经济</div>}
                     </div>
                   </div>
                   {!star.hasFactory && <ArrowUpCircle className="opacity-0 group-hover:opacity-100 transition-opacity" size={16} />}
@@ -129,6 +206,7 @@ export const RightInspector: React.FC = () => {
                     <Building className={star.hasCity ? "text-[var(--color-primary)]" : "text-[var(--text-secondary)]"} size={18} />
                     <div className="text-left">
                       <div className="text-sm font-bold">{star.hasCity ? '✅' : '➕'} 太空城市</div>
+                      {!star.hasCity && <div className="text-[10px] text-[var(--text-secondary)]">消耗 80 经济</div>}
                     </div>
                   </div>
                   {!star.hasCity && <ArrowUpCircle className="opacity-0 group-hover:opacity-100 transition-opacity" size={16} />}

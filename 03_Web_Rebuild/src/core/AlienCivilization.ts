@@ -1,5 +1,5 @@
 import { Civilization } from "./Civilization";
-import { AiPersonality, FriendshipType } from "../types/enums";
+import { AiPersonality, EpochType, FriendshipType } from "../types/enums";
 import { GameInstance } from "./Game";
 import { createFleet } from "./Fleet";
 import { CombatEngine } from "./CombatEngine";
@@ -9,64 +9,160 @@ import aliensData from "../data/aliens.json";
 export class AlienCivilization extends Civilization {
   public typeIndex: number;
   public personality: AiPersonality;
-  public friendshipType: FriendshipType;
-  
-  constructor(name: string, typeIndex: number) {
+  public attackCooldown: number = 0;
+  public lastAttackYear: number = 0;
+  public starsys: number = 0;
+
+  constructor(name: string, typeIndex: number, personality: AiPersonality, starsys: number = 1) {
     super(name);
     this.typeIndex = typeIndex;
-    this.personality = AiPersonality.HUNTER;
+    this.personality = personality;
     this.friendshipType = FriendshipType.NORMAL;
+    this.starsys = starsys;
+    this.population = 500;
+    this.army = 50;
+    this.resource = 1000;
   }
 
   public runARound(): void {
+    if (this.isDieOut()) return;
     const game = GameInstance.get();
-    
-    // 面壁威慑评估
+
+    this.growEconomy();
+    this.ageBehavior(game);
+    this.processFleets(game);
+  }
+
+  private growEconomy(): void {
+    this.resource += Math.floor(Math.random() * 10);
+    this.army += 2;
+    if (Math.random() < 0.12) this.population += Math.floor(Math.random() * 10) + 5;
+  }
+
+  private ageBehavior(game: any): void {
+    const deterrenceRate = this.calculateDeterrence(game);
+
+    switch (this.personality) {
+      case AiPersonality.HUNTER:
+        this.hunterBehavior(game, deterrenceRate);
+        break;
+      case AiPersonality.CLEANER:
+        this.cleanerBehavior(game, deterrenceRate);
+        break;
+      case AiPersonality.EXPANSIONIST:
+        this.expansionistBehavior(game, deterrenceRate);
+        break;
+      case AiPersonality.DEFENSIVE:
+        this.defensiveBehavior(game, deterrenceRate);
+        break;
+      case AiPersonality.OPPORTUNIST:
+        this.opportunistBehavior(game, deterrenceRate);
+        break;
+    }
+  }
+
+  private calculateDeterrence(game: any): number {
     let deterrenceRate = 0;
     const swordholderName = game.earthCivi.swordholder;
     if (swordholderName) {
       const sh = game.personManager.getPerson(swordholderName);
-      if (sh) {
-        // 简单计算执剑人威慑力 (采用领导力作为威慑力)
-        deterrenceRate = sh.leadership;
+      if (sh) deterrenceRate = sh.leadership;
+    }
+    return deterrenceRate;
+  }
+
+  private hunterBehavior(game: any, deterrenceRate: number): void {
+    if (!game.earthCivi.isDieOut() && deterrenceRate < 90 && Math.random() < 0.18) {
+      if (game.epoch === EpochType.DETERRENCE || game.epoch === EpochType.BROADCAST) {
+        if (Math.random() < 0.3) return;
+      }
+      if (this.attackCooldown === 0) {
+        this.attackCooldown = 5 + Math.floor(Math.random() * 6);
+        game.addHistory(`【情报】${this.name} 舰队正在集结，预计 ${this.attackCooldown} 年后抵达太阳系。`);
+      } else if (this.attackCooldown > 1) {
+        this.attackCooldown--;
+        game.addHistory(`【情报】${this.name} 舰队距抵达还有 ${this.attackCooldown} 年。`);
+      } else {
+        this.attackCooldown = 0;
+        this.launchFleetAttack(game, 6);
       }
     }
+  }
 
-    if (deterrenceRate > 80) {
-      // 威慑纪元：异星不敢轻举妄动
-      if (Math.random() < 0.05) {
-        game.addHistory(`【情报】受到执剑人 ${swordholderName} 的威慑，${this.name} 舰队停止集结。`);
-      }
-    } else {
-      // 威慑度不足或无执剑人，必定进攻
-      if (Math.random() < 0.08) {
-        game.addHistory(`【警告】探测到 ${this.name} 正在向太阳系派遣远征舰队！`);
-        const fleet = createFleet(`${this.name} 远征军`, this.name, -1, 0, 5);
-        fleet.weapons.push({ weaponName: "水滴", currentBuild: 100 });
-        this.fleets.push(fleet);
+  private cleanerBehavior(game: any, deterrenceRate: number): void {
+    if (!game.earthCivi.isDieOut() && deterrenceRate < 70 && Math.random() < 0.12) {
+      if (this.attackCooldown === 0) {
+        this.attackCooldown = 3 + Math.floor(Math.random() * 4);
+        game.addHistory(`【侦测】探测到 ${this.name} 具有清理倾向！舰队正在接近。`);
+      } else if (this.attackCooldown > 1) {
+        this.attackCooldown--;
+      } else {
+        this.attackCooldown = 0;
+        this.launchFleetAttack(game, 8);
       }
     }
+  }
 
-    // 异星舰队飞行与结算
+  private expansionistBehavior(game: any, deterrenceRate: number): void {
+    if (Math.random() < 0.14) {
+      const allStars = game.starManager.getAllStars();
+      const unowned = allStars.filter((s: any) => s.isPlanet && !s.belongToCivi);
+      if (unowned.length > 0 && deterrenceRate < 80) {
+        const target = unowned[Math.floor(Math.random() * unowned.length)];
+        target.belongToCivi = this.name;
+        this.starIndices.add(target.index);
+        game.addHistory(`${this.name} 扩张至 ${target.name}。`);
+      }
+    }
+  }
+
+  private defensiveBehavior(game: any, _deterrenceRate: number): void {
+    if (Math.random() < 0.05) {
+      game.addHistory(`${this.name} 保持防御态势，加固现有领地。`);
+    }
+    this.army += 5;
+  }
+
+  private opportunistBehavior(game: any, deterrenceRate: number): void {
+    if (this.friendshipType >= FriendshipType.FRIEND && Math.random() < 0.08) {
+      const received = Math.min(100, Math.floor(game.earthCivi.economy * 0.1));
+      game.earthCivi.economy -= received;
+      game.addHistory(`${this.name} 以友好名义索取了 ${received} 经济援助。`);
+      return;
+    }
+    if (deterrenceRate < 50 && Math.random() < 0.25) {
+      this.launchFleetAttack(game, 4);
+    }
+  }
+
+  private launchFleetAttack(game: any, eta: number): void {
+    const targetIdx = 4;
+    const fleet = createFleet(`${this.name} 远征军`, this.name, targetIdx, 0, eta);
+    fleet.weapons.push({ weaponName: "水滴型战舰", currentBuild: 80 });
+    fleet.weapons.push({ weaponName: "强互作用探测器", currentBuild: 40 });
+    this.fleets.push(fleet);
+    game.addHistory(`【警报】${this.name} 远征舰队已启程，预计 ${eta} 年后抵达！`);
+  }
+
+  private processFleets(game: any): void {
     for (let i = this.fleets.length - 1; i >= 0; i--) {
       const fleet = this.fleets[i];
       if (fleet.eta > 0) {
         fleet.eta--;
         if (fleet.eta === 0) {
-          game.addHistory(`【警报】${fleet.name} 抵达太阳系！人类文明面临毁灭打击！`);
-          
+          game.addHistory(`【警报】${fleet.name} 抵达太阳系！`);
           const earthTarget = game.starManager.getStar(fleet.targetStarIndex);
           if (earthTarget && earthTarget.belongToCivi === "地球") {
-            // 简单防守
             let defBarback = createBarback("earth_def", 0);
-            defBarback.soldierCount = 500;
+            defBarback.soldierCount = 500 + game.earthCivi.army;
             const win = CombatEngine.resolveFleetVsBarback(fleet, defBarback);
             if (win) {
               earthTarget.belongToCivi = this.name;
-              game.addHistory(`【战败】地球被 ${this.name} 占领，人类文明面临灭绝！`);
-              // 由 Game.checkGameOverConditions 统一处理状态
+              game.earthCivi.population = Math.floor(game.earthCivi.population * 0.3);
+              game.addHistory(`【战败】地球被 ${this.name} 占领，人类文明遭受重创！`);
             } else {
               game.addHistory(`【奇迹】地球守军成功击退了 ${fleet.name}！`);
+              this.friendshipType = Math.max(FriendshipType.VERYANGRY, this.friendshipType - 1);
               this.fleets.splice(i, 1);
             }
           }
@@ -84,21 +180,30 @@ export class AlienCiviManager {
   }
 
   public init(): void {
+    if (!aliensData || !Array.isArray(aliensData)) return;
+
     aliensData.forEach((data: any) => {
-      const alien = new AlienCivilization(data.name || data.Name, data.personality || 0); 
-      // BUG-A3 Fix: 给每个异星一个虚拟星系索引，防止其初始即灭亡
+      const personality = data.personality ?? AiPersonality.HUNTER;
+      const alien = new AlienCivilization(
+        data.name || data.Name,
+        this.aliens.size,
+        personality,
+        data.starsys || 1
+      );
       alien.starIndices.add(1000 + this.aliens.size);
+      alien.population = data.res || 500;
+      alien.resource = data.res || 1000;
       this.aliens.set(alien.name, alien);
     });
   }
 
   public isAllCiviConquered(): boolean {
     for (const alien of this.aliens.values()) {
-      if (!alien.isDieOut()) {
+      if (!alien.isDieOut() && !alien.isBund) {
         return false;
       }
     }
-    return true;
+    return this.aliens.size > 0;
   }
 
   public runARound(): void {

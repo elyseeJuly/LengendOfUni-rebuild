@@ -67,7 +67,7 @@
   },
   {
     "name": "沈渊",
-    "faceFile": "",
+    "faceFile": "character_shenyuan_1778726061895.png",
     "army": 30,
     "economy": 30,
     "leadership": 40,
@@ -78,7 +78,7 @@
   },
   {
     "name": "霍金",
-    "faceFile": "",
+    "faceFile": "character_hawking_1778726088806.png",
     "army": 5,
     "economy": 20,
     "leadership": 30,
@@ -122,7 +122,7 @@
   },
   {
     "name": "水娃",
-    "faceFile": "",
+    "faceFile": "character_shuiwa_1778726120500.png",
     "army": 20,
     "economy": 10,
     "leadership": 15,
@@ -133,7 +133,7 @@
   },
   {
     "name": "华华",
-    "faceFile": "",
+    "faceFile": "character_huahua_1778818926539.png",
     "army": 15,
     "economy": 20,
     "leadership": 25,
@@ -188,7 +188,7 @@
   },
   {
     "name": "雷志成",
-    "faceFile": "",
+    "faceFile": "character_leizhicheng_1778818873520.png",
     "army": 50,
     "economy": 40,
     "leadership": 60,
@@ -199,7 +199,7 @@
   },
   {
     "name": "杨卫宁",
-    "faceFile": "",
+    "faceFile": "character_yangweining_1778818900159.png",
     "army": 30,
     "economy": 30,
     "leadership": 50,
@@ -210,7 +210,7 @@
   },
   {
     "name": "严井",
-    "faceFile": "",
+    "faceFile": "character_yanjing_1778819395854.png",
     "army": 40,
     "economy": 40,
     "leadership": 50,
@@ -221,7 +221,7 @@
   },
   {
     "name": "白冰",
-    "faceFile": "",
+    "faceFile": "character_baibing_1778819424975.png",
     "army": 30,
     "economy": 30,
     "leadership": 40,
@@ -232,7 +232,7 @@
   },
   {
     "name": "苗福全",
-    "faceFile": "",
+    "faceFile": "character_miaofuquan_1778818954566.png",
     "army": 20,
     "economy": 90,
     "leadership": 50,
@@ -243,7 +243,7 @@
   },
   {
     "name": "滑膛",
-    "faceFile": "",
+    "faceFile": "character_huatang_1778819276066.png",
     "army": 95,
     "economy": 30,
     "leadership": 60,
@@ -254,7 +254,7 @@
   },
   {
     "name": "朱汉扬",
-    "faceFile": "",
+    "faceFile": "character_zhuhanyang_1778833149488.png",
     "army": 60,
     "economy": 40,
     "leadership": 70,
@@ -265,7 +265,7 @@
   },
   {
     "name": "刘慈欣",
-    "faceFile": "",
+    "faceFile": "character_liucixin_1778819370180.png",
     "army": 50,
     "economy": 50,
     "leadership": 60,

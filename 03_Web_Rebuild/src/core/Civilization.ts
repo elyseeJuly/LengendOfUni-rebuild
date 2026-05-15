@@ -1,5 +1,6 @@
 import { TecTreeManager } from "./TecTreeManager";
 import { Fleet } from "./Fleet";
+import { FriendshipType } from "../types/enums";
 
 export class Civilization {
   public name: string = "";
@@ -10,12 +11,17 @@ export class Civilization {
   public army: number = 0;
   public treachery: number = 0;
   public civiLevel: number = 0;
-  
+  public idlePopulation: number = 0;
+
   public starIndices: Set<number> = new Set();
   public barbackIds: Set<string> = new Set();
   public fleets: Fleet[] = [];
-  
+
   public tecTreeManager: TecTreeManager;
+
+  public friendshipType: FriendshipType = FriendshipType.NORMAL;
+  public diplomacyCooldown: number = 0;
+  public isBund: boolean = false;
 
   constructor(name: string) {
     this.name = name;
@@ -24,5 +30,10 @@ export class Civilization {
 
   public isDieOut(): boolean {
     return this.starIndices.size === 0;
+  }
+
+  public getCiviLevelLabel(): string {
+    const levels = ["荒蛮", "起源", "风暴", "逐鹿", "霸王"];
+    return levels[Math.min(this.civiLevel, levels.length - 1)];
   }
 }

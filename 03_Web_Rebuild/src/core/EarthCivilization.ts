@@ -9,29 +9,36 @@ export class EarthCivilization extends Civilization {
   public idlePopulation: number = 0;
   public levelString: string = "普通文明";
   public deterrenceValue: number = 0;
-
-  
   public wallfacers: Set<string> = new Set();
   public swordholder: string | null = null;
-  
   public departments: Map<DepartmentType, Department> = new Map();
+
+  public miningWorkers: number = 0;
+  public factoryWorkers: number = 0;
+  public cultureWorkers: number = 0;
+  public idleWorkers: number = 65;
+
+  public miningRatio: number = 30;
+  public factoryRatio: number = 30;
+  public cultureRatio: number = 30;
 
   constructor() {
     super("地球");
-    
-    // 初始化 11 个部门
     const deptNames = [
-      "经济部", "军事部", "文化部", "人力资源部", "宇宙社会学", 
+      "经济部", "军事部", "文化部", "人力资源部", "宇宙社会学",
       "核技术", "航天技术", "质子技术", "天体物理", "文化研究所", "经济研究所"
     ];
     for (let i = 0; i < 11; i++) {
       const d = createDepartment(i as DepartmentType, deptNames[i]);
       this.departments.set(i as DepartmentType, d);
     }
-
-    // BUG-06 Fix: Initialize Earth
-    this.starIndices.add(4); // Earth index=4
-    this.population = 100;
+    this.starIndices.add(4);
+    this.population = 65;
+    this.economy = 100;
+    this.resource = 100;
+    this.army = 10;
+    this.idlePopulation = 65;
+    this.idleWorkers = 65;
   }
 
   public addWallfacer(name: string): void {
@@ -49,61 +56,190 @@ export class EarthCivilization extends Civilization {
   public runARound(): void {
     const game = GameInstance.get();
 
-    // 计算部门加成 (以经济部为例)
-    let economyBonus = 0;
-    const ecoDept = this.departments.get(DepartmentType.ECONOMY);
-    if (ecoDept && ecoDept.leaderName) {
-      const leader = game.personManager.getPerson(ecoDept.leaderName);
-      if (leader) economyBonus = leader.economy * 0.1; // 每 1 点经济属性增加 10% 产出
-    }
+    this.allocateWorkers();
 
-    // 基础地球属性成长计算
-    this.economy += 10 * (1 + economyBonus);
-    this.culture += 5;
-    
-    // 人口增长（受拥有的星系数量和人口上限影响）
-    const popGrowthRate = 0.02; // 2% per turn
-    const totalPopLimit = Array.from(this.starIndices).reduce((sum, idx) => {
-      const s = game.starManager.getStar(idx);
-      return sum + (s ? s.populationLimit : 0);
-    }, 0);
-    if (this.population < totalPopLimit) {
-      this.population += Math.max(1, Math.floor(this.population * popGrowthRate));
-      if (this.population > totalPopLimit) this.population = totalPopLimit;
-    }
+    this.processMining(game);
+    this.processFactories(game);
+    this.processCulture(game);
+    this.processTechResearch(game);
+    this.processPopulationGrowth(game);
+    this.processTreachery(game);
 
-    // BUG-B2 Fix: 同步星球人口显示
-    for (const idx of this.starIndices) {
-      const star = game.starManager.getStar(idx);
-      if (star) star.currentPopulation = this.population;
-    }
+    const oldCulture = this.culture;
+    this.culture += this.processCultureDept(game);
 
-    // 面壁计划加成 (隐性增加威慑值)
     for (const wName of this.wallfacers) {
       const p = game.personManager.getPerson(wName);
       if (p) {
-        // 领袖能力与艺术(欺骗)能力提升威慑建立速度
         this.deterrenceValue += (p.leadership + p.art) * 0.5;
+        this.army += 5;
       }
     }
 
-    // 科技研发进度推进 (以物理部为例计算加成)
-    let physicsBonus = 0;
-    const physDept = this.departments.get(DepartmentType.ASTROPHYSICS);
-    if (physDept && physDept.leaderName) {
-      const leader = game.personManager.getPerson(physDept.leaderName);
-      if (leader) physicsBonus = leader.science * 0.2; // 每 1 点科学属性增加 20% 效率
+    if (this.swordholder) {
+      const sh = game.personManager.getPerson(this.swordholder);
+      if (sh) {
+        this.army += sh.leadership * 2;
+      }
     }
 
-    for (const tree of this.tecTreeManager.trees.values()) {
-      let treeBonus = 0;
-      if (tree.type === TecTreeType.PHYSICS) treeBonus = physicsBonus;
-      // 其他系可以接其他部的 bonus
+    game.updateCiviLevel(oldCulture);
+
+    this.syncStarPopulation(game);
+    this.processFleets(game);
+  }
+
+  private allocateWorkers(): void {
+    const total = this.idleWorkers;
+    this.miningWorkers = Math.floor(total * this.miningRatio / 90);
+    this.factoryWorkers = Math.floor(total * this.factoryRatio / 90);
+    this.cultureWorkers = Math.floor(total * this.cultureRatio / 90);
+    this.idleWorkers = total - this.miningWorkers - this.factoryWorkers - this.cultureWorkers;
+  }
+
+  private processMining(game: any): void {
+    const ecoDept = this.departments.get(DepartmentType.ECONOMY);
+    let leaderBonus = 0;
+    if (ecoDept && ecoDept.leaderName) {
+      const leader = game.personManager.getPerson(ecoDept.leaderName);
+      if (leader) leaderBonus = Math.floor(leader.economy / 20);
+    }
+
+    let stopeCount = 0;
+    for (const idx of this.starIndices) {
+      const star = game.starManager.getStar(idx);
+      if (star && star.hasStope) stopeCount++;
+    }
+    if (stopeCount === 0) return;
+
+    const workersPerStope = Math.floor(this.miningWorkers / stopeCount);
+    let miningWeight = 2;
+    const tm = this.tecTreeManager;
+    if (tm.isTecFinished(TecTreeType.AEROSPACE, "星矿Ⅲ")) miningWeight = 5;
+    else if (tm.isTecFinished(TecTreeType.AEROSPACE, "星矿Ⅱ")) miningWeight = 4;
+    else if (tm.isTecFinished(TecTreeType.AEROSPACE, "星矿Ⅰ")) miningWeight = 3;
+
+    for (const idx of this.starIndices) {
+      const star = game.starManager.getStar(idx);
+      if (!star || !star.hasStope) continue;
+      let add = Math.floor((workersPerStope + leaderBonus) * miningWeight / 2);
+      const treacheryFactor = Math.max(1, 100 - this.treachery);
+      add = Math.floor(add * treacheryFactor / 100);
+      add = Math.min(add, 100);
+      if (add > star.currentResource) add = star.currentResource;
+      star.currentResource -= add;
+      this.resource += add;
+    }
+  }
+
+  private processFactories(game: any): void {
+    const ecoDept = this.departments.get(DepartmentType.ECONOMY);
+    let leaderBonus = 0;
+    if (ecoDept && ecoDept.leaderName) {
+      const leader = game.personManager.getPerson(ecoDept.leaderName);
+      if (leader) leaderBonus = Math.floor(leader.economy / 30);
+    }
+
+    let factoryCount = 0;
+    for (const idx of this.starIndices) {
+      const star = game.starManager.getStar(idx);
+      if (star && star.hasFactory) factoryCount++;
+    }
+    if (factoryCount === 0) {
+      this.economy += Math.max(1, Math.floor(5 * (1 + this.civiLevel * 0.2)));
+      return;
+    }
+
+    const workersPerFactory = Math.floor(this.factoryWorkers / factoryCount);
+    let factoryWeight = 2;
+    const tm = this.tecTreeManager;
+    if (tm.isTecFinished(TecTreeType.AEROSPACE, "星厂Ⅲ")) factoryWeight = 5;
+    else if (tm.isTecFinished(TecTreeType.AEROSPACE, "星厂Ⅱ")) factoryWeight = 4;
+    else if (tm.isTecFinished(TecTreeType.AEROSPACE, "星厂Ⅰ")) factoryWeight = 3;
+
+    let totalEco = 0;
+    for (const idx of this.starIndices) {
+      const star = game.starManager.getStar(idx);
+      if (!star || !star.hasFactory) continue;
+      let add = Math.floor((workersPerFactory + leaderBonus) * factoryWeight / 2);
+      if (tm.isTecFinished(TecTreeType.AEROSPACE, "行星发动机Ⅰ型")) {
+        add *= 5;
+      }
+      const treacheryFactor = Math.max(1, 100 - this.treachery);
+      add = Math.floor(add * treacheryFactor / 100);
+      const maxEco = tm.isTecFinished(TecTreeType.AEROSPACE, "行星发动机Ⅰ型") ? 500 : 100;
+      add = Math.min(add, maxEco);
+
+      const hasMassConversion = tm.isTecFinished(TecTreeType.INFORMATION, "质能转换");
+      if (!hasMassConversion) {
+        const resCost = add * 2;
+        if (resCost > this.resource) add = Math.floor(this.resource / 2);
+        this.resource -= add * 2;
+      }
+      totalEco += add;
+    }
+    this.economy += totalEco;
+  }
+
+  private processCulture(game: any): number {
+    const culDept = this.departments.get(DepartmentType.CULTURE);
+    let leaderBonus = 0;
+    if (culDept && culDept.leaderName) {
+      const leader = game.personManager.getPerson(culDept.leaderName);
+      if (leader) leaderBonus = Math.floor(leader.social / 5);
+    }
+
+    let weight = 2;
+    const tm = this.tecTreeManager;
+    if (tm.isTecFinished(TecTreeType.INFORMATION, "思想钢印Ⅲ")) weight = 5;
+    else if (tm.isTecFinished(TecTreeType.INFORMATION, "思想钢印Ⅱ")) weight = 4;
+    else if (tm.isTecFinished(TecTreeType.INFORMATION, "思想钢印Ⅰ")) weight = 3;
+
+    let cultureGain = Math.floor((this.cultureWorkers + leaderBonus) * weight / 20);
+    cultureGain = Math.min(cultureGain, 100);
+    return cultureGain;
+  }
+
+  private processCultureDept(game: any): number {
+    let base = 5;
+    const culDept = this.departments.get(DepartmentType.CULTURE);
+    if (culDept && culDept.leaderName) {
+      const leader = game.personManager.getPerson(culDept.leaderName);
+      if (leader) base += Math.floor(leader.social * 0.5);
+    }
+    return base;
+  }
+
+  private processTechResearch(game: any): void {
+    const deptToTree: Map<DepartmentType, TecTreeType> = new Map([
+      [DepartmentType.ASTROSOCIOLOGY, TecTreeType.PHYSICS],
+      [DepartmentType.NUCLEAR, TecTreeType.AEROSPACE],
+      [DepartmentType.SPACEFIGHT, TecTreeType.MILITARY],
+      [DepartmentType.PROTON, TecTreeType.INFORMATION],
+      [DepartmentType.ASTROPHYSICS, TecTreeType.INTERSTELLAR],
+    ]);
+
+    for (const [deptType, treeType] of deptToTree) {
+      const dept = this.departments.get(deptType);
+      let scienceBonus = 0;
+      if (dept && dept.leaderName) {
+        const leader = game.personManager.getPerson(dept.leaderName);
+        if (leader) scienceBonus = Math.floor(leader.science / 10);
+      }
+
+      const tree = this.tecTreeManager.trees.get(treeType);
+      if (!tree) continue;
 
       for (const node of tree.nodes.values()) {
         if (node.inResearch && !node.finished) {
-          const baseWork = 10;
-          node.currentWorkload += baseWork * (1 + treeBonus); 
+          let progress = 10 + scienceBonus;
+          const treacheryFactor = Math.max(1, 100 - this.treachery);
+          progress = Math.floor(progress * treacheryFactor / 100);
+          if (game.isSophonBlocked()) {
+            progress = Math.max(1, Math.floor(progress / 10));
+          }
+          progress = Math.min(progress, 100);
+          node.currentWorkload += progress;
           if (node.currentWorkload >= node.totalWorkload) {
             node.currentWorkload = node.totalWorkload;
             node.finished = true;
@@ -113,29 +249,80 @@ export class EarthCivilization extends Civilization {
         }
       }
     }
+  }
 
-    // 舰队飞行与战斗逻辑
+  private processPopulationGrowth(game: any): void {
+    let growthWeight = 2;
+    const tm = this.tecTreeManager;
+    if (tm.isTecFinished(TecTreeType.AEROSPACE, "殖民城Ⅲ")) growthWeight = 5;
+    else if (tm.isTecFinished(TecTreeType.AEROSPACE, "殖民城Ⅱ")) growthWeight = 4;
+    else if (tm.isTecFinished(TecTreeType.AEROSPACE, "殖民城Ⅰ")) growthWeight = 3;
+
+    let cityCount = 0;
+    for (const idx of this.starIndices) {
+      const star = game.starManager.getStar(idx);
+      if (star && star.hasCity) cityCount++;
+    }
+
+    const baseGrowth = cityCount > 0 ? Math.floor(5 * growthWeight / 2) * cityCount : 1;
+    const popGain = Math.min(baseGrowth, 30);
+
+    const totalPopLimit = Array.from(this.starIndices).reduce((sum: number, idx: number) => {
+      const s = game.starManager.getStar(idx);
+      return sum + (s ? s.populationLimit : 0);
+    }, 0);
+
+    this.population += popGain;
+    this.idlePopulation += popGain;
+    this.idleWorkers += popGain;
+    if (this.population > totalPopLimit) {
+      this.population = totalPopLimit;
+    }
+
+    const humanResDept = this.departments.get(DepartmentType.HUMANRES);
+    if (humanResDept && humanResDept.leaderName) {
+      const leader = game.personManager.getPerson(humanResDept.leaderName);
+      if (leader) {
+        const extraPop = Math.floor(leader.leadership * 0.2);
+        this.population += extraPop;
+        this.idlePopulation += extraPop;
+        this.idleWorkers += extraPop;
+      }
+    }
+  }
+
+  private processTreachery(game: any): void {
+    const randomGain = Math.floor(Math.random() * 3);
+    this.treachery = Math.min(100, this.treachery + randomGain);
+    if (this.treachery > 80) {
+      game.addHistory(`【警告】逃亡主义上升至 ${this.treachery}，文明面临内部分裂风险！`);
+    }
+  }
+
+  private syncStarPopulation(game: any): void {
+    for (const idx of this.starIndices) {
+      const star = game.starManager.getStar(idx);
+      if (star) star.currentPopulation = this.population;
+    }
+  }
+
+  private processFleets(game: any): void {
     for (let i = this.fleets.length - 1; i >= 0; i--) {
       const fleet = this.fleets[i];
       if (fleet.eta > 0) {
         fleet.eta--;
         if (fleet.eta === 0) {
           game.addHistory(`舰队 [${fleet.name}] 已抵达目的地星系 ${fleet.targetStarIndex}！`);
-          
-          // 判定目标星系归属
           const targetStar = game.starManager.getStar(fleet.targetStarIndex);
           if (targetStar && targetStar.belongToCivi !== this.name) {
-            // 在实际逻辑中，应该查询异星文明的 barback
-            // 这里我们现场造一个临时的用于防守演示
             const tempDef = createBarback("temp_def", fleet.targetStarIndex);
-            tempDef.soldierCount = 100; // 假想敌
-            
+            tempDef.soldierCount = 100;
             const win = CombatEngine.resolveFleetVsBarback(fleet, tempDef);
             if (win) {
               targetStar.belongToCivi = this.name;
+              this.starIndices.add(fleet.targetStarIndex);
               game.addHistory(`【胜利】成功占领星系 ${targetStar.name}！`);
             } else {
-              // 舰队被消灭
               this.fleets.splice(i, 1);
             }
           }

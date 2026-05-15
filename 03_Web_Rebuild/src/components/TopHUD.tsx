@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
-import { Users, TrendingUp, Landmark, Shield, AlertTriangle, Settings, Save, SkipForward } from 'lucide-react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { Users, TrendingUp, Landmark, Shield, AlertTriangle, Settings, Save, SkipForward, Gem, Skull } from 'lucide-react';
 import { GameInstance } from '../core/Game';
 import { systemMenuPanel } from '../ui/SystemMenuPanel';
 import { useFloatingText, FloatingLayer } from './FloatingText';
@@ -38,6 +38,8 @@ export const TopHUD: React.FC = () => {
   const { addFloater: addEcoFloater, floaters: ecoFloaters } = useFloatingText();
   const { addFloater: addCulFloater, floaters: culFloaters } = useFloatingText();
   const { addFloater: addArmyFloater, floaters: armyFloaters } = useFloatingText();
+  const { addFloater: addResFloater, floaters: resFloaters } = useFloatingText();
+  const { addFloater: addTreacheryFloater, floaters: treacheryFloaters } = useFloatingText();
   const { addFloater: addDetFloater, floaters: detFloaters } = useFloatingText();
 
   const stats = useMemo(() => {
@@ -50,10 +52,12 @@ export const TopHUD: React.FC = () => {
       pop: earth.population,
       eco: Math.floor(earth.economy),
       cul: Math.floor(earth.culture),
-      army: earth.fleets.length,
+      army: earth.army,
+      res: earth.resource,
+      treachery: earth.treachery,
       deterrence: Math.floor(earth.deterrenceValue)
     };
-  }, [updateCount]); // Re-calculate only when turn completes or forceUpdate is called
+  }, [updateCount]);
 
   useEffect(() => {
     const prev = prevStatsRef.current;
@@ -62,10 +66,12 @@ export const TopHUD: React.FC = () => {
       if (stats.eco !== prev.eco) addEcoFloater(stats.eco - prev.eco);
       if (stats.cul !== prev.cul) addCulFloater(stats.cul - prev.cul);
       if (stats.army !== prev.army) addArmyFloater(stats.army - prev.army);
+      if (stats.res !== prev.res) addResFloater(stats.res - prev.res);
+      if (stats.treachery !== prev.treachery) addTreacheryFloater(stats.treachery - prev.treachery);
       if (stats.deterrence !== prev.deterrence) addDetFloater(stats.deterrence - prev.deterrence);
     }
     prevStatsRef.current = stats;
-  }, [stats.year, stats.pop, stats.eco, stats.cul, stats.army, stats.deterrence, addPopFloater, addEcoFloater, addCulFloater, addArmyFloater, addDetFloater]);
+  }, [stats.year, stats.pop, stats.eco, stats.cul, stats.army, stats.res, stats.treachery, stats.deterrence, addPopFloater, addEcoFloater, addCulFloater, addArmyFloater, addResFloater, addTreacheryFloater, addDetFloater]);
 
   const handleNextTurn = () => {
     GameInstance.get().runARound();
@@ -98,15 +104,33 @@ export const TopHUD: React.FC = () => {
     return (stats as any)[key] - (prevStatsRef.current as any)[key];
   };
 
+  const handleSyncState = () => {
+    const game = GameInstance.get();
+    game.isProcessing = false;
+    game.currentEvent = null;
+    // @ts-ignore
+    game.eventQueue = [];
+    game.addHistory("【系统自愈】已强制同步逻辑状态，解除所有交互锁定。");
+    setUpdateCount(n => n + 1);
+    window.dispatchEvent(new CustomEvent('game-turn-complete'));
+  };
+
   return (
     <header className="h-16 w-full glass-panel flex items-center justify-between px-6 z-50">
       {/* Left: Era Display */}
-      <div className="flex items-center gap-4">
-        <div className="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-[0.2em]">
+      <div 
+        className="flex items-center gap-4 cursor-pointer group relative"
+        onClick={handleSyncState}
+        title="点击强制同步状态"
+      >
+        <div className="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-[0.2em] group-hover:text-[var(--color-primary)] transition-colors">
           Current Era
         </div>
-        <div className="text-2xl font-bold tracking-tighter text-[var(--color-primary)]">
+        <div className="text-2xl font-bold tracking-tighter text-[var(--color-primary)] group-hover:scale-105 transition-transform">
           {stats.epochName} <span className="text-sm ml-1 opacity-70">YEAR {stats.year}</span>
+        </div>
+        <div className="absolute top-full left-0 mt-1 p-2 bg-black/80 backdrop-blur-md rounded border border-white/10 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          如遇死锁请点击同步状态
         </div>
       </div>
 
@@ -139,6 +163,21 @@ export const TopHUD: React.FC = () => {
           value={stats.army} 
           delta={getDelta('army')}
           floaters={armyFloaters} 
+        />
+        <ResourceItem 
+          icon={<Gem size={14} />} 
+          label="资源" 
+          value={stats.res} 
+          delta={getDelta('res')}
+          floaters={resFloaters} 
+        />
+        <ResourceItem 
+          icon={<Skull size={14} />} 
+          label="逃亡" 
+          value={stats.treachery} 
+          delta={getDelta('treachery')}
+          colorClass={stats.treachery > 80 ? "text-[var(--color-danger)]" : ""}
+          floaters={treacheryFloaters}
         />
         <ResourceItem 
           icon={<AlertTriangle size={14} />} 
