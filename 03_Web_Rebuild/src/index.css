@@ -38,10 +38,16 @@
     --bg-panel: var(--color-gov-panel);
     --text-primary: var(--color-gov-text);
     --text-secondary: var(--color-gov-text-muted);
+    --text-accent: var(--color-gov-primary);
     --color-primary: var(--color-gov-primary);
     --color-research: var(--color-gov-secondary);
     --color-danger: var(--color-gov-danger);
     --color-neutral: var(--color-gov-neutral);
+    --color-primary-rgb: 13, 71, 161;
+    --color-primary-glass: rgba(13, 71, 161, 0.1);
+    --color-primary-glass-hover: rgba(13, 71, 161, 0.2);
+    --border-glass: rgba(0, 0, 0, 0.08);
+    --border-glass-strong: rgba(0, 0, 0, 0.12);
   }
 
   .dark {
@@ -49,10 +55,16 @@
     --bg-panel: var(--color-forest-panel);
     --text-primary: var(--color-forest-text);
     --text-secondary: var(--color-forest-text-muted);
+    --text-accent: var(--color-forest-primary);
     --color-primary: var(--color-forest-primary);
     --color-research: var(--color-forest-primary);
     --color-danger: var(--color-forest-danger);
     --color-neutral: var(--color-gov-neutral);
+    --color-primary-rgb: 0, 229, 255;
+    --color-primary-glass: rgba(0, 229, 255, 0.1);
+    --color-primary-glass-hover: rgba(0, 229, 255, 0.2);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --border-glass-strong: rgba(255, 255, 255, 0.12);
   }
 
   body {
@@ -69,7 +81,7 @@
 }
 
 @utility glass-panel {
-  @apply backdrop-blur-[12px] border border-white/10 dark:border-white/5;
+  @apply backdrop-blur-[12px] border border-black/5 dark:border-white/5;
   background: var(--bg-panel);
 }
 
@@ -175,11 +187,11 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/10 rounded-full;
+  @apply bg-black/10 dark:bg-white/10 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-white/20;
+  @apply bg-black/20 dark:bg-white/20;
 }
 
 /* ============== Modal System ============== */
@@ -212,7 +224,7 @@
   overflow-y: auto;
   padding: 32px;
   @apply glass-panel shadow-2xl relative;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-glass);
   animation: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -224,9 +236,10 @@
   background-size: 400% 400%;
   z-index: -1;
   border-radius: inherit;
-  opacity: 0.3;
+  opacity: 0.15;
   animation: border-flow 6s linear infinite;
 }
+.dark .modal-box::before { opacity: 0.3; }
 
 @keyframes border-flow {
   0% { background-position: 0% 50%; }
@@ -243,7 +256,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-glass);
   padding-bottom: 20px;
   margin-bottom: 24px;
 }
@@ -259,14 +272,14 @@
 
 .btn-close {
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-glass);
   color: var(--text-secondary);
   font-size: 1.2rem;
   cursor: pointer;
   padding: 8px 16px;
   border-radius: 8px;
   transition: all 0.2s;
-  @apply hover:bg-white/5 hover:border-white/20 hover:text-white;
+  @apply hover:bg-black/5 dark:hover:bg-white/5;
 }
 
 /* ============== Tech Tree ============== */
@@ -280,22 +293,22 @@
 .tech-node {
   padding: 20px;
   @apply glass-panel;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(128, 128, 128, 0.03);
+  border: 1px solid var(--border-glass);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tech-node:hover {
-  background: rgba(0, 229, 255, 0.05);
-  border-color: rgba(0, 229, 255, 0.3);
+  background: var(--color-primary-glass);
+  border-color: var(--color-primary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .tech-node h4 {
   margin: 0 0 8px 0;
-  @apply font-bold text-white;
+  @apply font-bold text-[var(--text-primary)];
 }
 
 .tech-node p {
@@ -304,12 +317,12 @@
 }
 
 .tech-node.finished {
-  border-color: rgba(0, 229, 255, 0.4);
-  background: rgba(0, 229, 255, 0.05);
+  border-color: var(--color-primary);
+  background: var(--color-primary-glass);
 }
 
 .tech-node.finished h4 {
-  color: #00E5FF;
+  color: var(--color-primary);
 }
 
 .tech-node.researching {
@@ -325,7 +338,7 @@
 .progress-bar-bg {
   width: 100%;
   height: 6px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--border-glass);
   border-radius: 4px;
   overflow: hidden;
   margin-top: 12px;
@@ -333,19 +346,30 @@
 
 .progress-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #00E5FF, #7B61FF);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-research));
   border-radius: 4px;
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary {
-  @apply backdrop-blur-[12px] border border-white/10 rounded-lg px-4 py-2 cursor-pointer transition-all;
-  background: rgba(0, 229, 255, 0.1);
-  border-color: rgba(0, 229, 255, 0.2);
-  color: #00E5FF;
+  @apply backdrop-blur-[12px] border rounded-lg px-4 py-2 cursor-pointer transition-all;
+  background: var(--color-primary-glass);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .btn-primary:hover {
-  background: rgba(0, 229, 255, 0.2);
-  border-color: rgba(0, 229, 255, 0.4);
+  background: var(--color-primary-glass-hover);
+}
+
+.btn-glass {
+  @apply backdrop-blur-[12px] border rounded-lg px-4 py-2 cursor-pointer transition-all;
+  background: transparent;
+  border-color: var(--border-glass);
+  color: var(--text-primary);
+}
+
+.btn-glass:hover {
+  background: var(--color-primary-glass);
+  border-color: var(--color-primary);
 }

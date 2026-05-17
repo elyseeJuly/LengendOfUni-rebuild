@@ -456,54 +456,109 @@ export class GameInstance {
   public static saveGame(): void {
     if (!this.instance) return;
     this.instance.addHistory("游戏已保存到本地存储。");
-    const data = JSON.stringify(this.instance, this.replacer);
-    localStorage.setItem("LegendOfUni_Save", data);
+    const saveData = { version: 3, timestamp: Date.now(), data: JSON.stringify(this.instance, this.replacer) };
+    localStorage.setItem("LegendOfUni_Save", JSON.stringify(saveData));
   }
 
   public static loadGame(): boolean {
-    const dataStr = localStorage.getItem("LegendOfUni_Save");
-    if (!dataStr) return false;
-
     try {
+      const rawStr = localStorage.getItem("LegendOfUni_Save");
+      if (!rawStr) return false;
+
+      let dataStr: string;
+      try {
+        const wrapper = JSON.parse(rawStr);
+        if (wrapper && typeof wrapper === 'object' && wrapper.data) {
+          dataStr = wrapper.data;
+        } else {
+          dataStr = rawStr;
+        }
+      } catch {
+        dataStr = rawStr;
+      }
+
       const parsedData = JSON.parse(dataStr, this.reviver);
       this.instance = new Game();
-      
-      // Deep assign properties
+
       Object.assign(this.instance, parsedData);
-      
-      // Patch critical prototypes that have methods called on them
-      Object.setPrototypeOf(this.instance.earthCivi, EarthCivilization.prototype);
-      Object.setPrototypeOf(this.instance.alienCiviManager, AlienCiviManager.prototype);
-      
-      if (this.instance.alienCiviManager && this.instance.alienCiviManager.aliens) {
-        for (const alien of this.instance.alienCiviManager.aliens.values()) {
-           Object.setPrototypeOf(alien, AlienCivilization.prototype);
-        }
-      }
 
-      // BUG-08 Fix: Restore nested prototypes
-      Object.setPrototypeOf(this.instance.earthCivi.tecTreeManager, TecTreeManager.prototype);
-      for (const tree of this.instance.earthCivi.tecTreeManager.trees.values()) {
-        Object.setPrototypeOf(tree, TecTree.prototype);
-      }
-      Object.setPrototypeOf(this.instance.starManager, StarManager.prototype);
-      Object.setPrototypeOf(this.instance.personManager, PersonManager.prototype);
-      Object.setPrototypeOf(this.instance.eventManager, GameEventManager.prototype);
-      this.instance.eventManager.init();
+      this.restorePrototypes();
 
-      // 强制清理运行时状态，确保加载后可以点击下一回合
       this.instance.currentEvent = null;
       this.instance.eventQueue = [];
       this.instance.isProcessing = false;
-      
+
+      if (!this.validateSaveIntegrity()) {
+        console.error("Save data integrity check failed, resetting game.");
+        this.reset();
+        return false;
+      }
+
       this.instance.addHistory("【系统】游戏读取成功。");
-      
       window.dispatchEvent(new CustomEvent('game-loaded'));
       return true;
     } catch (e) {
       console.error("Failed to load game:", e);
       return false;
     }
+  }
+
+  private static restorePrototypes(): void {
+    const inst = this.instance!;
+    const safeSP = (obj: any, proto: any) => { if (obj) Object.setPrototypeOf(obj, proto); };
+
+    safeSP(inst.earthCivi, EarthCivilization.prototype);
+    safeSP(inst.alienCiviManager, AlienCiviManager.prototype);
+    safeSP(inst.earthCivi?.tecTreeManager, TecTreeManager.prototype);
+    safeSP(inst.starManager, StarManager.prototype);
+    safeSP(inst.personManager, PersonManager.prototype);
+    safeSP(inst.eventManager, GameEventManager.prototype);
+    inst.eventManager?.init();
+
+    if (inst.earthCivi?.tecTreeManager?.trees) {
+      for (const tree of inst.earthCivi.tecTreeManager.trees.values()) {
+        safeSP(tree, TecTree.prototype);
+      }
+    }
+
+    if (inst.alienCiviManager?.aliens) {
+      for (const alien of inst.alienCiviManager.aliens.values()) {
+        safeSP(alien, AlienCivilization.prototype);
+      }
+    }
+
+    if (inst.earthCivi?.departments) {
+      const deptProto = Object.getPrototypeOf(new Map());
+      for (const dept of inst.earthCivi.departments.values()) {
+        if (typeof dept === 'object' && dept !== null) {
+          safeSP(dept, deptProto);
+        }
+      }
+    }
+
+    if (inst.starManager?.stars) {
+      for (const star of inst.starManager.stars.values()) {
+        if (star && !(star as any).buildingProgress) {
+          (star as any).buildingProgress = null;
+        }
+      }
+    }
+
+    if (inst.earthCivi?.fleets) {
+      for (const fleet of inst.earthCivi.fleets) {
+        if (fleet && !fleet.weapons) {
+          fleet.weapons = [];
+        }
+      }
+    }
+  }
+
+  private static validateSaveIntegrity(): boolean {
+    const inst = this.instance!;
+    if (!inst.earthCivi || typeof inst.earthCivi.population !== 'number') return false;
+    if (!inst.starManager || !inst.starManager.stars) return false;
+    if (!inst.personManager) return false;
+    return true;
   }
 
   private static replacer(_key: string, value: any) {

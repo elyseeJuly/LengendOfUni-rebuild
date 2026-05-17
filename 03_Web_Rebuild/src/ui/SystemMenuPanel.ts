@@ -19,8 +19,8 @@ export class SystemMenuPanel {
           <button class="btn-primary" id="btn-save-game" style="width: 100%;">💾 保存游戏</button>
           <button class="btn-glass" id="btn-load-game" style="width: 100%; font-size: 1.1rem; padding: 12px;">📂 读取游戏</button>
           <button class="btn-glass" id="btn-toggle-theme" style="width: 100%; font-size: 1.1rem; padding: 12px;">🌓 切换主题 (明/暗)</button>
-          <button class="btn-glass" id="btn-restart" style="width: 100%; font-size: 1.1rem; padding: 12px; border-color: #FF5500; color: #FF5500;">🔄 重新开始</button>
-          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+          <button class="btn-glass" id="btn-restart" style="width: 100%; font-size: 1.1rem; padding: 12px; border-color: #E65100; color: #E65100;">🔄 重新开始</button>
+          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-glass); text-align: center;">
             <button class="btn-glass" id="btn-close-menu" style="width: 100%;">返回游戏</button>
           </div>
         </div>
@@ -66,7 +66,10 @@ export class SystemMenuPanel {
 
     this.container.querySelector("#btn-toggle-theme")?.addEventListener("click", () => {
       document.documentElement.classList.toggle("dark");
-      console.log("Theme toggled: ", document.documentElement.classList.contains("dark") ? "Dark" : "Light");
+      const isDark = document.documentElement.classList.contains("dark");
+      localStorage.setItem('game-theme', isDark ? 'dark' : 'light');
+      window.dispatchEvent(new CustomEvent('theme-change', { detail: { isDark } }));
+      console.log("Theme toggled: ", isDark ? "Dark" : "Light");
     });
 
     this.container.querySelector("#btn-restart")?.addEventListener("click", () => {

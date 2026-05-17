@@ -66,23 +66,23 @@ export class PersonSelectPanel {
       const avatarUrl = p.faceFile ? `/images/${p.faceFile}` : '';
       const avatarHtml = avatarUrl 
         ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--color-primary);margin-right:12px;" />`
-        : `<div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-right:12px;">${p.name[0]}</div>`;
+        : `<div style="width:48px;height:48px;border-radius:50%;background:var(--border-glass);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-right:12px;">${p.name[0]}</div>`;
 
       html += `
         <div class="person-card" data-name="${p.name}" style="
           display: flex; justify-content: space-between; align-items: center; 
-          padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+          padding: 12px; background: var(--border-glass); border: 1px solid var(--border-glass-strong);
           border-radius: 8px; cursor: pointer; transition: all 0.2s;">
           
           <div style="display: flex; align-items: center; flex: 1;">
             ${avatarHtml}
             <div>
-              <h4 style="margin: 0 0 8px 0; color: var(--text-accent);">${p.name}</h4>
+              <h4 style="margin: 0 0 8px 0; color: var(--color-primary);">${p.name}</h4>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: 0.8rem; color: var(--text-secondary);">
-                <span>科研: <b style="color:#fff">${p.science}</b></span>
-                <span>领导: <b style="color:#fff">${p.leadership}</b></span>
-                <span>经济: <b style="color:#fff">${p.economy}</b></span>
-                <span>军事: <b style="color:#fff">${p.army}</b></span>
+                <span>科研: <b style="color:var(--text-primary)">${p.science}</b></span>
+                <span>领导: <b style="color:var(--text-primary)">${p.leadership}</b></span>
+                <span>经济: <b style="color:var(--text-primary)">${p.economy}</b></span>
+                <span>军事: <b style="color:var(--text-primary)">${p.army}</b></span>
               </div>
             </div>
           </div>
@@ -107,12 +107,12 @@ export class PersonSelectPanel {
       });
       // 添加 Hover 效果
       card.addEventListener("mouseenter", (e) => {
-        (e.currentTarget as HTMLElement).style.background = "rgba(0, 229, 255, 0.1)";
-        (e.currentTarget as HTMLElement).style.borderColor = "var(--text-accent)";
+        (e.currentTarget as HTMLElement).style.background = "var(--color-primary-glass)";
+        (e.currentTarget as HTMLElement).style.borderColor = "var(--color-primary)";
       });
       card.addEventListener("mouseleave", (e) => {
-        (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)";
-        (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.1)";
+        (e.currentTarget as HTMLElement).style.background = "var(--border-glass)";
+        (e.currentTarget as HTMLElement).style.borderColor = "var(--border-glass-strong)";
       });
     });
   }

@@ -11,7 +11,10 @@ import { GameEventPayload } from './types/narrative';
 import { EndGameScreen } from './components/EndGameScreen';
 
 export const App: React.FC = () => {
-  const [isDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem('game-theme');
+    return saved !== null ? saved === 'dark' : true;
+  });
   const [showInspector] = useState(true);
   const [activeView, setActiveView] = useState<'starmap' | 'techtree'>('starmap');
   const [currentEvent, setCurrentEvent] = useState<GameEventPayload | null>(null);
@@ -24,7 +27,19 @@ export const App: React.FC = () => {
     } else {
       document.documentElement.classList.remove('dark');
     }
+    localStorage.setItem('game-theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
+
+  useEffect(() => {
+    const handleThemeChange = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail && typeof detail.isDark === 'boolean') {
+        setIsDarkMode(detail.isDark);
+      }
+    };
+    window.addEventListener('theme-change', handleThemeChange);
+    return () => window.removeEventListener('theme-change', handleThemeChange);
+  }, []);
 
   // Listen for story events and game over
   useEffect(() => {

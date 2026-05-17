@@ -56,25 +56,25 @@ export class DepartmentPanel {
 
       const avatarUrl = leader?.faceFile ? `/images/${leader.faceFile}` : '';
       const avatarHtml = avatarUrl 
-        ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:64px;height:64px;border-radius:12px;object-fit:cover;border:2px solid var(--text-accent);margin-right:16px;" />`
-        : `<div style="width:64px;height:64px;border-radius:12px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-right:16px;">${dept.leaderName[0]}</div>`;
+        ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:64px;height:64px;border-radius:12px;object-fit:cover;border:2px solid var(--color-primary);margin-right:16px;" />`
+        : `<div style="width:64px;height:64px;border-radius:12px;background:var(--border-glass);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-right:16px;">${dept.leaderName[0]}</div>`;
 
       leaderInfoHtml = `
-        <div style="padding: 12px; background: rgba(0, 229, 255, 0.1); border: 1px solid var(--text-accent); border-radius: 8px; display: flex; align-items: center; margin-bottom: 16px;">
+        <div style="padding: 12px; background: var(--color-primary-glass); border: 1px solid var(--color-primary); border-radius: 8px; display: flex; align-items: center; margin-bottom: 16px;">
           ${avatarHtml}
           <div style="flex: 1;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <span style="color: #fff; font-weight: bold; font-size: 1.1rem;">${dept.leaderName}</span>
+              <span style="color: var(--text-primary); font-weight: bold; font-size: 1.1rem;">${dept.leaderName}</span>
               <span style="color: var(--text-secondary); font-size: 0.8rem;">负责人</span>
             </div>
-            <div style="color: #FFD700; font-size: 0.85rem;">${bonusText}</div>
+            <div style="color: var(--color-primary); font-size: 0.85rem;">${bonusText}</div>
           </div>
           <button class="btn-glass" id="btn-change-leader" style="margin-left: 16px; padding: 6px 12px;">更换</button>
         </div>
       `;
     } else {
       leaderInfoHtml = `
-        <div style="padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.3); border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="padding: 12px; background: var(--border-glass); border: 1px dashed var(--border-glass-strong); border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
           <span style="color: var(--text-secondary);">当前无负责人，部门效率处于基础状态。</span>
           <button class="btn-primary" id="btn-change-leader" style="padding: 6px 16px; font-size: 0.9rem;">指派负责人</button>
         </div>
@@ -83,7 +83,7 @@ export class DepartmentPanel {
 
     let html = `
       <div style="margin-bottom: 20px;">
-        <h3 style="color: var(--text-accent); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+        <h3 style="color: var(--color-primary); border-bottom: 1px solid var(--border-glass); padding-bottom: 8px;">
           部门概况
         </h3>
         <p style="color: var(--text-secondary); margin-bottom: 16px;">本部门负责处理地球文明相关的管理与研发。分配合适的负责人可以极大提高本部门的产出效率。</p>

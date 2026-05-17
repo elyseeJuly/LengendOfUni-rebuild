@@ -26,16 +26,16 @@ export class WallfacerPanel {
       const p = game.personManager.getPerson(name);
       const avatarUrl = p?.faceFile ? `/images/${p.faceFile}` : '';
       const avatarHtml = avatarUrl 
-        ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--text-accent);margin-right:12px;" />`
-        : `<div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:0.8rem;margin-right:12px;">${name[0]}</div>`;
+        ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--color-primary);margin-right:12px;" />`
+        : `<div style="width:32px;height:32px;border-radius:50%;background:var(--border-glass);display:flex;align-items:center;justify-content:center;font-size:0.8rem;margin-right:12px;">${name[0]}</div>`;
 
       wallfacersHtml += `
-        <div style="padding: 8px 16px; background: rgba(0, 229, 255, 0.1); border: 1px solid var(--text-accent); border-radius: 8px; display: flex; align-items: center; margin-bottom: 8px;">
+        <div style="padding: 8px 16px; background: var(--color-primary-glass); border: 1px solid var(--color-primary); border-radius: 8px; display: flex; align-items: center; margin-bottom: 8px;">
           ${avatarHtml}
           <div style="flex: 1; display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: #fff; font-weight: bold;">${name}</span>
+            <span style="color: var(--text-primary); font-weight: bold;">${name}</span>
             <span style="color: var(--text-secondary); font-size: 0.9rem;">(建立效率: ${(p?.leadership || 0) + (p?.art || 0)})</span>
-            <button class="btn-glass btn-remove-wallfacer" data-name="${name}" style="padding: 4px 8px; border-color: #FF5500; color: #FF5500;">撤销</button>
+            <button class="btn-glass btn-remove-wallfacer" data-name="${name}" style="padding: 4px 8px; border-color: #E65100; color: #E65100;">撤销</button>
           </div>
         </div>
       `;
@@ -55,20 +55,20 @@ export class WallfacerPanel {
       const sh = game.personManager.getPerson(earth.swordholder);
       const avatarUrl = sh?.faceFile ? `/images/${sh.faceFile}` : '';
       const avatarHtml = avatarUrl 
-        ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #FFD700;margin-bottom:12px;" />`
-        : `<div style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#FFD700;margin:0 auto 12px;">${earth.swordholder[0]}</div>`;
+        ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--color-primary);margin-bottom:12px;" />`
+        : `<div style="width:80px;height:80px;border-radius:50%;background:var(--color-primary-glass);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-primary);margin:0 auto 12px;">${earth.swordholder[0]}</div>`;
 
       swordholderHtml = `
-        <div style="padding: 16px; background: rgba(255, 215, 0, 0.1); border: 1px solid #FFD700; border-radius: 8px; text-align: center;">
+        <div style="padding: 16px; background: var(--color-primary-glass); border: 1px solid var(--color-primary); border-radius: 8px; text-align: center;">
           ${avatarHtml}
-          <h3 style="color: #FFD700; margin: 0 0 8px 0;">现任执剑人: ${earth.swordholder}</h3>
-          <p style="color: var(--text-secondary); margin: 0 0 12px 0;">该执剑人的威慑度评估为: <b style="color: #fff;">${sh?.leadership || 0}%</b></p>
+          <h3 style="color: var(--color-primary); margin: 0 0 8px 0;">现任执剑人: ${earth.swordholder}</h3>
+          <p style="color: var(--text-secondary); margin: 0 0 12px 0;">该执剑人的威慑度评估为: <b style="color: var(--text-primary);">${sh?.leadership || 0}%</b></p>
           <button class="btn-glass" id="btn-change-swordholder">更换执剑人</button>
         </div>
       `;
     } else {
       swordholderHtml = `
-        <div style="padding: 16px; background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.3); border-radius: 8px; text-align: center;">
+        <div style="padding: 16px; background: var(--border-glass); border: 1px dashed var(--border-glass-strong); border-radius: 8px; text-align: center;">
           <p style="color: var(--text-secondary); margin: 0 0 12px 0;">当前未设立执剑人，地球时刻面临异星打击风险。</p>
           <button class="btn-primary" id="btn-change-swordholder">设立执剑人</button>
         </div>
@@ -79,7 +79,7 @@ export class WallfacerPanel {
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
         <!-- 左侧：面壁者 -->
         <div>
-          <h3 style="color: var(--text-accent); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+          <h3 style="color: var(--color-primary); border-bottom: 1px solid var(--border-glass); padding-bottom: 8px;">
             面壁计划
           </h3>
           <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">
@@ -90,25 +90,25 @@ export class WallfacerPanel {
 
         <!-- 右侧：执剑人与威慑 -->
         <div>
-          <h3 style="color: #FFD700; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+          <h3 style="color: var(--color-primary); border-bottom: 1px solid var(--border-glass); padding-bottom: 8px;">
             黑暗森林威慑
           </h3>
           <div style="margin-bottom: 24px;">
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px;">当前文明威慑值积累：</p>
-            <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-              <div style="width: ${Math.min(earth.deterrenceValue, 100)}%; height: 100%; background: #00E5FF; transition: width 0.3s;"></div>
+            <div style="width: 100%; height: 8px; background: var(--border-glass); border-radius: 4px; overflow: hidden;">
+              <div style="width: ${Math.min(earth.deterrenceValue, 100)}%; height: 100%; background: var(--color-primary); transition: width 0.3s;"></div>
             </div>
-            <p style="text-align: right; color: #00E5FF; font-size: 0.8rem; margin-top: 4px;">${Math.floor(earth.deterrenceValue)} / 100</p>
+            <p style="text-align: right; color: var(--color-primary); font-size: 0.8rem; margin-top: 4px;">${Math.floor(earth.deterrenceValue)} / 100</p>
           </div>
           
           ${swordholderHtml}
 
           <!-- 终极广播按钮 -->
-          <div style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,0,0,0.3); text-align: center;">
-            <button class="btn-primary" id="btn-broadcast" style="background: rgba(255,0,0,0.1); border-color: #FF0000; color: #FF0000; width: 100%;">
+          <div style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(231, 76, 60, 0.3); text-align: center;">
+            <button class="btn-primary" id="btn-broadcast" style="background: rgba(231, 76, 60, 0.1); border-color: #E74C3C; color: #E74C3C; width: 100%;">
               ⚠️ 广播宇宙坐标 (终极威慑)
             </button>
-            <p style="color: #FF5500; font-size: 0.8rem; margin-top: 8px;">一旦按下，太阳系坐标将暴露，敌我双方将共同走向毁灭。</p>
+            <p style="color: var(--color-danger); font-size: 0.8rem; margin-top: 8px;">一旦按下，太阳系坐标将暴露，敌我双方将共同走向毁灭。</p>
           </div>
         </div>
       </div>

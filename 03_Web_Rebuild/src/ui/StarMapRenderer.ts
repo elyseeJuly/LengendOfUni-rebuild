@@ -26,6 +26,8 @@ export class StarMapRenderer {
   public panX: number = 0;
   public panY: number = 0;
 
+  private distantGalaxies: { x: number; y: number; r: number; alpha: number }[] = [];
+
   public onStarClick: ((star: Star) => void) | null = null;
 
   constructor(canvasId: string) {
@@ -35,9 +37,22 @@ export class StarMapRenderer {
     this.ctx = canvas.getContext("2d")!;
     
     this.resize();
-    window.addEventListener("resize", () => this.resize());
+    this.generateDistantGalaxies();
+    window.addEventListener("resize", () => { this.resize(); this.generateDistantGalaxies(); });
     
     this.initMouseEvents();
+  }
+
+  private generateDistantGalaxies(): void {
+    this.distantGalaxies = [];
+    for (let i = 0; i < 300; i++) {
+      this.distantGalaxies.push({
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
+        r: Math.random() * 1.8 + 0.2,
+        alpha: Math.random() * 0.25 + 0.03,
+      });
+    }
   }
 
   public zoomIn(): void { this.zoomLevel = Math.min(3.0, this.zoomLevel + 0.2); }
@@ -169,6 +184,13 @@ export class StarMapRenderer {
 
     this.ctx.fillStyle = trailColor;
     this.ctx.fillRect(0, 0, this.width, this.height);
+
+    for (const g of this.distantGalaxies) {
+      this.ctx.beginPath();
+      this.ctx.arc(g.x, g.y, g.r, 0, Math.PI * 2);
+      this.ctx.fillStyle = `rgba(200, 220, 255, ${g.alpha})`;
+      this.ctx.fill();
+    }
 
     this.ctx.save();
     this.ctx.translate(this.width / 2 + this.panX, this.height / 2 + this.panY);
