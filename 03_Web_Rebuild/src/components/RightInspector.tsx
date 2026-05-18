@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Target, Zap, ArrowUpCircle, Rocket, Factory, Pickaxe, Building, Gem, Skull, Crown } from 'lucide-react';
+import { Target, Zap, ArrowUpCircle, Rocket, Factory, Pickaxe, Building, Gem, Skull, Crown, Anchor, Wrench } from 'lucide-react';
 import { GameInstance } from '../core/Game';
 import { Star } from '../core/Star';
 import { createFleet } from '../core/Fleet';
+import weaponsData from '../data/weapons.json';
 
 export const RightInspector: React.FC = () => {
   const [selectedStar, setSelectedStar] = useState<Star | null>(null);
@@ -281,6 +282,49 @@ export const RightInspector: React.FC = () => {
                   </div>
                 </button>
               </div>
+
+              {earth.fleets.filter(f => f.weapons.length > 0).length > 0 && (
+                <div className="mt-4 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Wrench size={12} className="text-[var(--text-secondary)]" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)]">武器建造进度</span>
+                  </div>
+                  {earth.fleets.filter(f => f.weapons.length > 0).map((fleet) => (
+                    <div key={fleet.id} className="bg-black/5 dark:bg-white/5 rounded-lg border border-white/5 p-2.5">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-1.5">
+                          <Anchor size={12} className="text-[var(--color-primary)]" />
+                          <span className="text-[11px] font-bold truncate max-w-[140px]">{fleet.name}</span>
+                        </div>
+                        <span className="text-[9px] text-[var(--text-secondary)]">
+                          {fleet.leaderName || '未指派'}
+                        </span>
+                      </div>
+                      {fleet.weapons.map((wp, wi) => {
+                        const proto = (weaponsData as any[]).find((w: any) => w.name === wp.weaponName);
+                        const totalBuild = proto?.totalBuild ?? 100;
+                        const pct = Math.min((wp.currentBuild / totalBuild) * 100, 100);
+                        const isFinished = wp.currentBuild >= totalBuild;
+                        return (
+                          <div key={wi} className="flex items-center gap-2 mb-1 last:mb-0">
+                            <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${isFinished ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                            <span className="text-[10px] text-[var(--text-secondary)] flex-shrink-0 w-14 truncate">{wp.weaponName}</span>
+                            <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full rounded-full transition-all ${isFinished ? 'bg-green-500' : 'bg-yellow-500'}`}
+                                style={{ width: `${pct}%` }}
+                              />
+                            </div>
+                            <span className={`text-[9px] font-bold flex-shrink-0 w-8 text-right ${isFinished ? 'text-green-500' : 'text-[var(--text-secondary)]'}`}>
+                              {isFinished ? '✓' : `${Math.floor(pct)}%`}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              )}
             </section>
           </>
         )}

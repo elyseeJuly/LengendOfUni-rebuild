@@ -1,4 +1,5 @@
 import { GameInstance } from "../core/Game";
+import { getImageUrl } from "../utils/assetUrl";
 
 export class PersonSelectPanel {
   private container: HTMLElement;
@@ -63,7 +64,7 @@ export class PersonSelectPanel {
       const p = game.personManager.getPerson(name);
       if (!p) return;
 
-      const avatarUrl = p.faceFile ? `/images/${p.faceFile}` : '';
+      const avatarUrl = p.faceFile ? getImageUrl(p.faceFile) : '';
       const avatarHtml = avatarUrl 
         ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--color-primary);margin-right:12px;" />`
         : `<div style="width:48px;height:48px;border-radius:50%;background:var(--border-glass);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-right:12px;">${p.name[0]}</div>`;

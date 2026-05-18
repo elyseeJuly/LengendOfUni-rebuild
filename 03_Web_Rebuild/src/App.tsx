@@ -6,6 +6,7 @@ import { StarMap } from './components/StarMap';
 import { TecTreeView } from './ui/TecTreeView';
 import { TecTreeType } from './types/enums';
 import { StoryModal } from './components/StoryModal';
+import { Tutorial } from './components/Tutorial';
 import { GameInstance } from './core/Game';
 import { GameEventPayload } from './types/narrative';
 import { EndGameScreen } from './components/EndGameScreen';
@@ -19,6 +20,7 @@ export const App: React.FC = () => {
   const [activeView, setActiveView] = useState<'starmap' | 'techtree'>('starmap');
   const [currentEvent, setCurrentEvent] = useState<GameEventPayload | null>(null);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(() => !localStorage.getItem('game-tutorial-seen'));
 
   // Apply dark mode class to html element
   useEffect(() => {
@@ -94,25 +96,24 @@ export const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen flex flex-col bg-[var(--bg-main)] text-[var(--text-primary)] transition-colors duration-300 font-base overflow-hidden">
-      {/* Endgame Layer */}
-      {isGameOver && <EndGameScreen />}
-
-      {/* Story Modal Layer */}
-
       {currentEvent && (
-        <StoryModal 
-          event={currentEvent} 
+        <StoryModal
+          event={currentEvent}
           onClose={() => {
-            // Logic handled within the choice action or manually
-            // But we need a fallback for "Acknowledged"
             if (!currentEvent.choices || currentEvent.choices.length === 0) {
               GameInstance.get().currentEvent = null;
               GameInstance.get().processNextEvent();
               window.dispatchEvent(new CustomEvent('game-turn-complete'));
             }
-          }} 
+          }}
         />
       )}
+
+      {showTutorial && (
+        <Tutorial onComplete={() => setShowTutorial(false)} />
+      )}
+
+      {isGameOver && <EndGameScreen />}
 
       {/* Top HUD */}
       <TopHUD />

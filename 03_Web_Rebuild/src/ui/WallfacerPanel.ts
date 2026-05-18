@@ -1,5 +1,6 @@
 import { GameInstance } from "../core/Game";
 import { personSelectPanel } from "./PersonSelectPanel";
+import { getImageUrl } from "../utils/assetUrl";
 
 export class WallfacerPanel {
   private get modal(): HTMLElement { return document.getElementById("modal-container")!; }
@@ -24,7 +25,7 @@ export class WallfacerPanel {
     let wallfacersHtml = "";
     earth.wallfacers.forEach(name => {
       const p = game.personManager.getPerson(name);
-      const avatarUrl = p?.faceFile ? `/images/${p.faceFile}` : '';
+      const avatarUrl = p?.faceFile ? getImageUrl(p.faceFile) : '';
       const avatarHtml = avatarUrl 
         ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--color-primary);margin-right:12px;" />`
         : `<div style="width:32px;height:32px;border-radius:50%;background:var(--border-glass);display:flex;align-items:center;justify-content:center;font-size:0.8rem;margin-right:12px;">${name[0]}</div>`;
@@ -53,7 +54,7 @@ export class WallfacerPanel {
     let swordholderHtml = "";
     if (earth.swordholder) {
       const sh = game.personManager.getPerson(earth.swordholder);
-      const avatarUrl = sh?.faceFile ? `/images/${sh.faceFile}` : '';
+      const avatarUrl = sh?.faceFile ? getImageUrl(sh.faceFile) : '';
       const avatarHtml = avatarUrl 
         ? `<img src="${avatarUrl}" onerror="this.style.display='none'" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--color-primary);margin-bottom:12px;" />`
         : `<div style="width:80px;height:80px;border-radius:50%;background:var(--color-primary-glass);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-primary);margin:0 auto 12px;">${earth.swordholder[0]}</div>`;
