@@ -1,10 +1,13 @@
 # Legend of Uni: Three-Body Rebuild | 宇宙群英传：三体重构
 
 [![Web Version](https://img.shields.io/badge/Web_Version-Alpha_2.1-orange.svg)](#-web-reconstruction-web重构版)
+[![Play Online](https://img.shields.io/badge/Play_Online-GitHub_Pages-success.svg)](https://elyseejuly.github.io/LengendOfUni-rebuild/)
 [![Windows Version](https://img.shields.io/badge/Windows_Version-Legacy_Finished-blue.svg)](#-windows-legacy-source-windows版源码)
 [![Stack](https://img.shields.io/badge/Stack-React_19_|_Vite_8_|_TS_5-61dafb.svg)](#)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](#-开源协议-license)
 [![Build](https://img.shields.io/badge/TypeScript-零错误零警告-success.svg)](#)
+
+👉 **[在线游玩 Web 重构版](https://elyseejuly.github.io/LengendOfUni-rebuild/)** 👈
 
 > *「失去人性，失去很多；失去兽性，失去一切。」—— 基于《三体》宇宙观的回合制 4X 太空策略模拟游戏*
 
@@ -84,8 +87,8 @@
 
 三层事件引擎：
 
-1. **固定年份事件**：关键年份触发（年 0/2/10/50/300），推动主线剧情
-2. **随机事件池**：200KB 丰富随机事件，按纪元/科技/概率过滤
+1. **固定年份事件**：关键年份触发（年 0/2/10/50/300），推动主线剧情，并解锁特定的历史人物加入阵营（如罗辑、章北海、程心等）。
+2. **随机事件池**：200KB 丰富随机事件，按纪元/科技/概率严格过滤，确保事件符合时间线逻辑。
 3. **条件过滤事件**（8 个预置故事线）：
    - 面壁者选拔（年 10-50，文化 ≥ 30）
    - 威慑体系建立（需黑暗森林威慑科技，威慑 ≥ 50）
@@ -94,6 +97,10 @@
    - 地外文明初接触（年 80+，需 50 光年远镜）
    - 逃亡主义叛乱（年 60+，逃亡 ≤ 30）
    - 智子反制突破（需 550W 量子计算机）
+
+**官方时间线对比系统**：内置完整的《三体》宇宙官方纪元时间线。游戏内提供「编年史观测」随时对比进度，当游戏结局时将展示双轨时间线（官方原著 vs 玩家本局真实履历），让您复盘历史的蝴蝶效应。
+
+**智能角色指派**：在指派各部门负责人与面壁者时，系统会根据岗位核心需求自动按能力值降序排列人才，最适合的人选永远置顶。
 
 **Flag 持久化系统**：事件选项会设置 Flag，后续事件依据 Flag 触发不同分支，形成因果链。
 
