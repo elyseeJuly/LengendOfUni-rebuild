@@ -1,5 +1,6 @@
 import { Star, createEmptyStar } from "./Star";
 import starsData from "../data/stars.json";
+import { generateStars } from "./StarGenerator";
 import { StarArea } from "../types/enums";
 
 export class StarManager {
@@ -22,8 +23,16 @@ export class StarManager {
       this.stars.set(star.index, star);
     });
 
-    // BUG-01 Fix: Initialize Earth
-    const earth = this.stars.get(4);
+    // 1万光年 101-200
+    const lightYear1W = generateStars(1001, 101, 100, [100, 1000], [100, 500], "LY");
+    lightYear1W.forEach(star => this.stars.set(star.index, star));
+
+    // 银河系 201-1000
+    const galaxyStars = generateStars(2002, 201, 800, [50, 2000], [50, 1000], "GLX");
+    galaxyStars.forEach(star => this.stars.set(star.index, star));
+
+    // BUG-01 Fix: Initialize Earth (Index 3)
+    const earth = this.stars.get(3);
     if (earth) {
       earth.belongToCivi = "地球";
       earth.found = true;
@@ -46,7 +55,7 @@ export class StarManager {
     // 1万光年 101-200
     // 银河系 201-1000
     return this.getAllStars().filter(s => {
-      if (area === StarArea.SOLARSYSTEM) return s.index <= 8;
+      if (area === StarArea.SOLARSYSTEM) return s.index <= 9;
       if (area === StarArea.LIGHTYEAR_50) return s.index > 8 && s.index <= 100;
       if (area === StarArea.LIGHTYEAR_1W) return s.index > 100 && s.index <= 200;
       if (area === StarArea.GALAXY) return s.index > 200 && s.index <= 1000;

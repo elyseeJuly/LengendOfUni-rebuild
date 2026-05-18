@@ -99,7 +99,7 @@ export enum EventEffect {
   ADDECONEMY = 1,
   ADDCULTURE = 2,
   ADDPOP = 3,
-  ADDTREACHERY = 4,
+  REDUCE_TREACHERY = 4,
   WAR = 5,
   MOON_CRISIS = 6,
   WANDERING_EARTH = 7

@@ -201,11 +201,11 @@ export class Game {
       this.epoch = EpochType.CRISIS;
     } else if (this.year >= 201 && this.year <= 260) {
       this.epoch = EpochType.DETERRENCE;
-    } else if (this.year >= 261 && this.year <= 268) {
+    } else if (this.year >= 261 && this.year <= 300) {
       this.epoch = EpochType.BROADCAST;
-    } else if (this.year >= 269 && this.year <= 330) {
+    } else if (this.year >= 301 && this.year <= 350) {
       this.epoch = EpochType.BUNKER;
-    } else if (this.year >= 331) {
+    } else if (this.year >= 351) {
       this.epoch = EpochType.GALAXY;
     }
 
@@ -312,7 +312,7 @@ export class Game {
       case EventEffect.ADDECONEMY: this.earthCivi.economy = Math.max(0, this.earthCivi.economy + 50); break;
       case EventEffect.ADDCULTURE: this.earthCivi.culture = Math.max(0, this.earthCivi.culture + 30); break;
       case EventEffect.ADDPOP: this.earthCivi.population = Math.max(0, this.earthCivi.population + 20); break;
-      case EventEffect.ADDTREACHERY: this.earthCivi.treachery = Math.max(0, this.earthCivi.treachery - 15); break;
+      case EventEffect.REDUCE_TREACHERY: this.earthCivi.treachery = Math.max(0, this.earthCivi.treachery - 15); break;
       case EventEffect.WAR:
         const sanTi = this.alienCiviManager.aliens.get("三体");
         if (sanTi && !sanTi.isDieOut()) {
@@ -352,7 +352,9 @@ export class Game {
           case 'military':
             const fleetsToAdd = Math.max(0, val);
             for (let i = 0; i < fleetsToAdd; i++) {
-              this.earthCivi.fleets.push(createFleet(`第${this.earthCivi.fleets.length + 1}舰队`, "地球", 4, 4, 0));
+              const fleet = createFleet(`第${this.earthCivi.fleets.length + 1}舰队`, "地球", 4, 4, 0);
+              fleet.weapons.push({ weaponName: "恒星级战舰", currentBuild: 50 });
+              this.earthCivi.fleets.push(fleet);
             }
             break;
           case 'economy': this.earthCivi.economy = Math.max(0, this.earthCivi.economy + val); break;

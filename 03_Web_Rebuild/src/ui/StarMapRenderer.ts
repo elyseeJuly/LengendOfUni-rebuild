@@ -74,22 +74,47 @@ export class StarMapRenderer {
     const cx = this.width / 2;
     const cy = this.height / 2;
 
-    // 分布逻辑：原版 0-8 是太阳系
-    // 这里我们做个简单的太阳系轨道布局模型演示
-    stars.filter(s => s.index <= 8).forEach(s => {
+    const orbitScales: Record<number, number> = {
+      0: 0,     // 太阳
+      1: 0.39,  // 水星
+      2: 0.72,  // 金星
+      3: 1.0,   // 地球
+      4: 1.05,  // 月球
+      5: 1.52,  // 火星
+      6: 3.5,   // 木星
+      7: 5.0,   // 土星
+      8: 7.0,   // 天王星
+      9: 9.0,   // 海王星
+    };
+    const baseRadius = 35;
+
+    stars.forEach(s => {
       let orbitRadius = 0;
       let radius = 6;
       let angle = Math.random() * Math.PI * 2;
       let speed = 0;
 
-      if (s.index === 1) { // 太阳
-        orbitRadius = 0;
-        radius = 20;
-      } else {
-        // 其他行星按 index 散开
-        orbitRadius = 40 + s.index * 35;
-        radius = s.index === 5 /* 木星 */ ? 12 : 6;
-        speed = 0.005 / (s.index * 0.5); // 越远越慢
+      if (s.index <= 9) { // Solar System
+        if (s.index === 0) { // 太阳
+          orbitRadius = 0;
+          radius = 20;
+        } else {
+          orbitRadius = (orbitScales[s.index] || 0) * baseRadius + 30;
+          radius = s.index === 6 /* 木星 */ ? 12 : 6;
+          speed = 0.005 / (s.index * 0.5); // 越远越慢
+        }
+      } else if (s.index <= 100) { // 50 light-years
+        orbitRadius = 500 + Math.random() * 500;
+        radius = 4 + Math.random() * 4;
+        speed = 0.0005;
+      } else if (s.index <= 200) { // 10000 light-years
+        orbitRadius = 1500 + Math.random() * 1000;
+        radius = 3 + Math.random() * 3;
+        speed = 0.0001;
+      } else { // Galaxy
+        orbitRadius = 3000 + Math.random() * 2000;
+        radius = 2 + Math.random() * 2;
+        speed = 0.00005;
       }
 
       this.renderStars.push({
@@ -205,7 +230,7 @@ export class StarMapRenderer {
       let color = isLightMode ? "#64748B" : "#556080"; 
       let glowColor = isLightMode ? "rgba(100, 116, 139, 0.3)" : "rgba(85, 96, 128, 0.5)";
       
-      if (star.index === 1) {
+      if (star.index === 0) {
         // Sun
         color = isLightMode ? "#F59E0B" : "#FFD700";
         glowColor = isLightMode ? "rgba(245, 158, 11, 0.6)" : "rgba(255, 215, 0, 0.8)";

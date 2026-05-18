@@ -32,10 +32,10 @@ export class EarthCivilization extends Civilization {
       const d = createDepartment(i as DepartmentType, deptNames[i]);
       this.departments.set(i as DepartmentType, d);
     }
-    this.starIndices.add(4);
+    this.starIndices.add(3); // Earth index
     this.population = 65;
     this.economy = 100;
-    this.resource = 100;
+    this.resource = 200;
     this.army = 10;
     this.idlePopulation = 65;
     this.idleWorkers = 65;
@@ -61,13 +61,12 @@ export class EarthCivilization extends Civilization {
 
     this.processMining(game);
     this.processFactories(game);
-    this.processCulture(game);
+    this.culture += this.processCulture(game);
     this.processTechResearch(game);
     this.processPopulationGrowth(game);
     this.processTreachery(game);
 
     const oldCulture = this.culture;
-    this.culture += this.processCultureDept(game);
 
     for (const wName of this.wallfacers) {
       const p = game.personManager.getPerson(wName);
@@ -176,9 +175,11 @@ export class EarthCivilization extends Civilization {
 
   private allocateWorkers(): void {
     const total = this.idleWorkers;
-    this.miningWorkers = Math.floor(total * this.miningRatio / 90);
-    this.factoryWorkers = Math.floor(total * this.factoryRatio / 90);
-    this.cultureWorkers = Math.floor(total * this.cultureRatio / 90);
+    const totalRatio = this.miningRatio + this.factoryRatio + this.cultureRatio;
+    const denom = totalRatio > 0 ? totalRatio : 1;
+    this.miningWorkers = Math.floor(total * this.miningRatio / denom);
+    this.factoryWorkers = Math.floor(total * this.factoryRatio / denom);
+    this.cultureWorkers = Math.floor(total * this.cultureRatio / denom);
     this.idleWorkers = total - this.miningWorkers - this.factoryWorkers - this.cultureWorkers;
   }
 
@@ -231,7 +232,7 @@ export class EarthCivilization extends Civilization {
       if (star && star.hasFactory) factoryCount++;
     }
     if (factoryCount === 0) {
-      this.economy += Math.max(1, Math.floor(5 * (1 + this.civiLevel * 0.2)));
+      this.economy += Math.max(1, Math.floor(15 * (1 + this.civiLevel * 0.2)));
       return;
     }
 
@@ -269,9 +270,13 @@ export class EarthCivilization extends Civilization {
   private processCulture(game: any): number {
     const culDept = this.departments.get(DepartmentType.CULTURE);
     let leaderBonus = 0;
+    let deptBase = 5;
     if (culDept && culDept.leaderName) {
       const leader = game.personManager.getPerson(culDept.leaderName);
-      if (leader) leaderBonus = Math.floor(leader.social / 5);
+      if (leader) {
+        leaderBonus = Math.floor(leader.social / 5);
+        deptBase += Math.floor(leader.social * 0.5);
+      }
     }
 
     let weight = 2;
@@ -280,20 +285,11 @@ export class EarthCivilization extends Civilization {
     else if (tm.isTecFinished(TecTreeType.INFORMATION, "思想钢印Ⅱ")) weight = 4;
     else if (tm.isTecFinished(TecTreeType.INFORMATION, "思想钢印Ⅰ")) weight = 3;
 
-    let cultureGain = Math.floor((this.cultureWorkers + leaderBonus) * weight / 20);
+    let cultureGain = Math.floor((this.cultureWorkers + leaderBonus) * weight / 20) + deptBase;
     cultureGain = Math.min(cultureGain, 100);
     return cultureGain;
   }
 
-  private processCultureDept(game: any): number {
-    let base = 5;
-    const culDept = this.departments.get(DepartmentType.CULTURE);
-    if (culDept && culDept.leaderName) {
-      const leader = game.personManager.getPerson(culDept.leaderName);
-      if (leader) base += Math.floor(leader.social * 0.5);
-    }
-    return base;
-  }
 
   private processTechResearch(game: any): void {
     const deptToTree: Map<DepartmentType, TecTreeType> = new Map([
@@ -346,7 +342,7 @@ export class EarthCivilization extends Civilization {
           const treacheryFactor = Math.max(1, 100 - this.treachery);
           progress = Math.floor(progress * treacheryFactor / 100);
           if (game.isSophonBlocked()) {
-            progress = Math.max(1, Math.floor(progress / 10));
+            progress = Math.max(3, Math.floor(progress / 3));
           }
           progress = Math.min(progress, 100);
           node.currentWorkload += progress;

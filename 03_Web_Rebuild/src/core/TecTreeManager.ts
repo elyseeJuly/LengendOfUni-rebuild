@@ -129,7 +129,7 @@ export class TecTreeManager {
     tree.addNode("意识上传", "550W量子计算机", false, 350, 250, "可对抗智子封锁。");
     tree.addNode("550W量子计算机", "全域AI监控网", false, 200, 150, "自动侦察所有已知星球。");
     tree.addNode("550W量子计算机", "MOSS协议", false, 300, 200, "被攻击额外减伤20%。");
-    tree.addNode("数字文明", "数字方舟", false, 400, 350, "触发数字永生胜利。");
+    tree.addNode("意识上传", "数字方舟", false, 400, 350, "触发数字永生胜利。");
     tree.addNode("数字文明", "量子通信", false, 200, 120, "超光速信息传输。");
     tree.addNode("量子通信", "超光速通信", false, 300, 200, "与最远星域即时联络。");
 

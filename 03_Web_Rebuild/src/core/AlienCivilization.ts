@@ -62,11 +62,11 @@ export class AlienCivilization extends Civilization {
   }
 
   private calculateDeterrence(game: any): number {
-    let deterrenceRate = 0;
+    let deterrenceRate = game.earthCivi.deterrenceValue * 0.5;
     const swordholderName = game.earthCivi.swordholder;
     if (swordholderName) {
       const sh = game.personManager.getPerson(swordholderName);
-      if (sh) deterrenceRate = sh.leadership;
+      if (sh) deterrenceRate += sh.leadership;
     }
     return deterrenceRate;
   }
@@ -131,12 +131,12 @@ export class AlienCivilization extends Civilization {
       return;
     }
     if (deterrenceRate < 50 && Math.random() < 0.25) {
-      this.launchFleetAttack(game, 4);
+      this.launchFleetAttack(game, 3);
     }
   }
 
   private launchFleetAttack(game: any, eta: number): void {
-    const targetIdx = 4;
+    const targetIdx = 3;
     const fleet = createFleet(`${this.name} 远征军`, this.name, targetIdx, 0, eta);
     fleet.weapons.push({ weaponName: "水滴型战舰", currentBuild: 80 });
     fleet.weapons.push({ weaponName: "强互作用探测器", currentBuild: 40 });
