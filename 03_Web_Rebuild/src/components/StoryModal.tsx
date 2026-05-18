@@ -116,7 +116,8 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
         </div>
 
         {/* Right: Content Section */}
-        <div className="flex-1 p-10 flex flex-col justify-between bg-[radial-gradient(circle_at_center,var(--color-primary),transparent_100%)] opacity-[0.03]">
+        <div className="flex-1 p-10 flex flex-col justify-between relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-primary),transparent_100%)] opacity-[0.03] pointer-events-none" />
           <div className="relative z-10 space-y-8">
             <div className="flex items-start justify-between">
               <div className="space-y-1">

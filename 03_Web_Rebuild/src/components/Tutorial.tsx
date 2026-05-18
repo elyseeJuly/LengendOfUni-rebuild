@@ -235,15 +235,14 @@ export const Tutorial: React.FC<{ onComplete: () => void }> = ({ onComplete }) =
   return (
     <div className={`fixed inset-0 z-[500] flex items-center justify-center transition-all duration-400 ${exiting ? 'opacity-0' : 'opacity-100'}`}>
       {/* Darkened background with highlight cutout */}
-      <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
+      {!activeHighlight && <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />}
       
       {/* Highlight glow */}
       {activeHighlight && (
         <div 
-          className={`absolute ${activeHighlight} border-2 border-[var(--color-primary)] rounded-lg z-[501] pointer-events-none`}
+          className={`absolute ${activeHighlight} border-2 border-[var(--color-primary)] rounded-lg z-[501] pointer-events-none transition-all duration-500`}
           style={{
-            boxShadow: '0 0 30px rgba(0,229,255,0.3), inset 0 0 30px rgba(0,229,255,0.1)',
-            animation: 'pulse 2s ease-in-out infinite',
+            boxShadow: '0 0 0 9999px rgba(0,0,0,0.85), 0 0 30px rgba(0,229,255,0.3), inset 0 0 30px rgba(0,229,255,0.1)',
           }}
         />
       )}
