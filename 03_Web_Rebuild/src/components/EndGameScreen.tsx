@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GameInstance } from '../core/Game';
 import { RefreshCw, BookOpen, AlertTriangle } from 'lucide-react';
+import { TimelineComparisonPanel } from './TimelineComparisonPanel';
 
 export const EndGameScreen: React.FC = () => {
   const game = GameInstance.get();
@@ -58,6 +59,9 @@ export const EndGameScreen: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* 双轨纪元对比 */}
+        <TimelineComparisonPanel />
 
         <div className="flex gap-6">
           <button 

@@ -514,7 +514,8 @@ export class GameEventManager {
         dialogNodes,
         data.id,
         data.triggerCondition,
-        data.choices
+        data.choices,
+        data.effects
       );
       events.push(e);
     });

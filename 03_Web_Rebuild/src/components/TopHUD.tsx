@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { Users, TrendingUp, Landmark, Shield, AlertTriangle, Settings, Save, SkipForward, Gem, Skull } from 'lucide-react';
+import { Users, TrendingUp, Landmark, Shield, AlertTriangle, Settings, Save, SkipForward, Gem, Skull, HelpCircle } from 'lucide-react';
 import { GameInstance } from '../core/Game';
 import { systemMenuPanel } from '../ui/SystemMenuPanel';
 import { useFloatingText, FloatingLayer } from './FloatingText';
@@ -192,6 +192,9 @@ export const TopHUD: React.FC = () => {
 
       {/* Right: System Operations */}
       <div className="flex items-center gap-3">
+        <button onClick={() => window.dispatchEvent(new CustomEvent('open-tutorial'))} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-[var(--text-secondary)]" title="帮助教程">
+          <HelpCircle size={20} />
+        </button>
         <button onClick={handleSave} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-[var(--text-secondary)]" title="保存存档">
           <Save size={20} />
         </button>

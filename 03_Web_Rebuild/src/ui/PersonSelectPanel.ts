@@ -5,6 +5,7 @@ export class PersonSelectPanel {
   private container: HTMLElement;
   private mounted: boolean = false;
   private onSelectCallback: ((personName: string) => void) | null = null;
+  private sortCriteria: string = "";
 
   constructor() {
     // 创建一个专用的 DOM 容器插入 body
@@ -31,11 +32,12 @@ export class PersonSelectPanel {
     }
   }
 
-  public open(onSelect: (personName: string) => void) {
+  public open(sortCriteria: string, onSelect: (personName: string) => void) {
     if (!this.mounted) {
       document.body.appendChild(this.container);
       this.mounted = true;
     }
+    this.sortCriteria = sortCriteria;
     this.onSelectCallback = onSelect;
     this.container.classList.remove("hidden");
     this.render();
@@ -58,11 +60,43 @@ export class PersonSelectPanel {
       return;
     }
 
+    const availablePersons = availableNames.map(name => game.personManager.getPerson(name)).filter(p => p !== undefined);
+
+    availablePersons.sort((a: any, b: any) => {
+      let scoreA = 0;
+      let scoreB = 0;
+      switch (this.sortCriteria) {
+        case "0": // ECONOMY
+          scoreA = a.economy; scoreB = b.economy; break;
+        case "1": // ARMY
+        case "6": // SPACEFIGHT
+          scoreA = a.army; scoreB = b.army; break;
+        case "8": // ASTROPHYSICS
+        case "5": // NUCLEAR
+        case "7": // PROTON
+        case "10": // ECONOMYTEC
+        case "9": // CULTURETEC
+          scoreA = a.science; scoreB = b.science; break;
+        case "2": // CULTURE
+          scoreA = a.social; scoreB = b.social; break;
+        case "3": // HUMANRES
+          scoreA = a.leadership; scoreB = b.leadership; break;
+        case "wallfacer":
+          scoreA = a.leadership + a.art; scoreB = b.leadership + b.art; break;
+        case "swordholder":
+          scoreA = a.leadership; scoreB = b.leadership; break;
+        default: break;
+      }
+      return scoreB - scoreA;
+    });
+
     let html = `<div style="display: flex; flex-direction: column; gap: 12px;">`;
     
-    availableNames.forEach(name => {
-      const p = game.personManager.getPerson(name);
+    availablePersons.forEach((p: any, index: number) => {
       if (!p) return;
+
+      const isTopChoice = index === 0 && this.sortCriteria !== "";
+      const topBadgeHtml = isTopChoice ? `<span style="background: var(--color-primary); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-left: 8px;">最适合</span>` : "";
 
       const avatarUrl = p.faceFile ? getImageUrl(p.faceFile) : '';
       const avatarHtml = avatarUrl 
@@ -78,7 +112,9 @@ export class PersonSelectPanel {
           <div style="display: flex; align-items: center; flex: 1;">
             ${avatarHtml}
             <div>
-              <h4 style="margin: 0 0 8px 0; color: var(--color-primary);">${p.name}</h4>
+              <h4 style="margin: 0 0 8px 0; color: var(--color-primary); display: flex; align-items: center;">
+                ${p.name} ${topBadgeHtml}
+              </h4>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: 0.8rem; color: var(--text-secondary);">
                 <span>科研: <b style="color:var(--text-primary)">${p.science}</b></span>
                 <span>领导: <b style="color:var(--text-primary)">${p.leadership}</b></span>

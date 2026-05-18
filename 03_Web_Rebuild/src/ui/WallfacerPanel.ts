@@ -122,7 +122,7 @@ export class WallfacerPanel {
     const btnAddWallfacer = document.getElementById("btn-add-wallfacer");
     if (btnAddWallfacer) {
       btnAddWallfacer.addEventListener("click", () => {
-        personSelectPanel.open((name) => {
+        personSelectPanel.open("wallfacer", (name) => {
           earth.addWallfacer(name);
           game.personManager.availablePersons.delete(name);
           this.render();
@@ -145,7 +145,7 @@ export class WallfacerPanel {
     const btnChangeSwordholder = document.getElementById("btn-change-swordholder");
     if (btnChangeSwordholder) {
       btnChangeSwordholder.addEventListener("click", () => {
-        personSelectPanel.open((name) => {
+        personSelectPanel.open("swordholder", (name) => {
           if (earth.swordholder) {
             game.personManager.availablePersons.add(earth.swordholder);
           }

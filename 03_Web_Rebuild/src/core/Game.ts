@@ -15,6 +15,7 @@ export class Game {
   public year: number = 0;
   public epoch: EpochType = EpochType.CRISIS;
   public historyLogs: string[] = [];
+  public playerTimeline: Array<{ year: number; event: string }> = [];
 
   public starManager: StarManager;
   public personManager: PersonManager;
@@ -170,7 +171,10 @@ export class Game {
           })) : [
             {
               label: "确认",
-              action: () => this.applyEventEffect(e.effect)
+              action: () => {
+                if (e.effects) this.applyNewEffects(e.effects);
+                this.applyEventEffect(e.effect);
+              }
             }
           ]
         };
@@ -212,6 +216,7 @@ export class Game {
     if (prevEpoch !== this.epoch) {
       const epochNames = ["危机纪元", "威慑纪元", "广播纪元", "掩体纪元", "银河纪元"];
       this.addHistory(`【纪元更替】进入${epochNames[this.epoch]}！`);
+      this.playerTimeline.push({ year: this.year, event: `【纪元更替】人类正式进入${epochNames[this.epoch]}` });
       window.dispatchEvent(new CustomEvent('epoch-changed'));
     }
   }
@@ -368,6 +373,10 @@ export class Game {
       } else if (eff.type === 'flag') {
         this.addFlag(eff.target);
         this.addHistory(`[因果标记] 已激活: ${eff.target}`);
+      } else if (eff.type === 'unlock_person') {
+        this.personManager.unlockPerson(eff.target);
+        this.addHistory(`【人员加入】${eff.target} 加入了您的阵营！`);
+        this.playerTimeline.push({ year: this.year, event: `重要历史人物 ${eff.target} 正式登场` });
       } else if (eff.type === 'event_effect') {
         this.applyEventEffect(eff.value as EventEffect);
       } else if (eff.type === 'diplomacy') {
@@ -411,7 +420,7 @@ export class Game {
       case 'alliance':
         if (alien.friendshipType >= FriendshipType.FRIEND) {
           alien.isBund = true;
-          alien.friendshipType = FriendshipType.VERYFRIEND;
+          alien.friendshipType = Math.min(FriendshipType.VERYFRIEND, alien.friendshipType + 1);
           return `与 ${alienName} 正式结成战略同盟！`;
         }
         return `${alienName} 拒绝了同盟提议，关系不足。`;

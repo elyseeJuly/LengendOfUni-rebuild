@@ -21,9 +21,19 @@ export class PersonManager {
       p.leadership = data.leadership ?? data.Leadership ?? 0;
       p.social = data.social ?? data.Social ?? 0;
       
+      const initialWhitelist = ["丁仪", "汪淼", "常伟思", "大史", "雷志成", "杨卫宁", "叶文洁"];
       this.persons.set(p.name, p);
-      this.availablePersons.add(p.name);
+      if (initialWhitelist.includes(p.name)) {
+        this.availablePersons.add(p.name);
+      }
     });
+  }
+
+  public unlockPerson(name: string): void {
+    if (this.persons.has(name) && !this.availablePersons.has(name)) {
+      this.availablePersons.add(name);
+      // Let Game instance add a history log or toast if possible, handled externally
+    }
   }
 
   public getPerson(name: string): Person | undefined {

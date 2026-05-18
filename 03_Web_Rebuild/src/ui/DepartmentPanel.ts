@@ -114,7 +114,7 @@ export class DepartmentPanel {
     const btnChangeLeader = document.getElementById("btn-change-leader");
     if (btnChangeLeader) {
       btnChangeLeader.addEventListener("click", () => {
-        personSelectPanel.open((selectedName) => {
+        personSelectPanel.open(this.currentType?.toString() || "", (selectedName) => {
           // 如果之前有负责人，需要将其释放回 availablePersons
           if (dept.leaderName) {
             game.personManager.availablePersons.add(dept.leaderName);

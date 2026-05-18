@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Map, Cpu, Swords, BarChart3, Users2, Building2, AlertOctagon, Globe, Atom, Rocket, Zap, Telescope, FlaskConical, Microscope } from 'lucide-react';
+import { Map, Cpu, Swords, BarChart3, Users2, Building2, AlertOctagon, Globe, Atom, Rocket, Zap, Telescope, FlaskConical, Microscope, Clock } from 'lucide-react';
 import { GameInstance } from '../core/Game';
 import { DepartmentType } from '../types/enums';
 import { wallfacerPanel } from '../ui/WallfacerPanel';
@@ -23,8 +23,8 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick }) => (
 );
 
 interface LeftHubProps {
-  activeView: 'starmap' | 'techtree';
-  setActiveView: (view: 'starmap' | 'techtree') => void;
+  activeView: 'starmap' | 'techtree' | 'timeline';
+  setActiveView: (view: 'starmap' | 'techtree' | 'timeline') => void;
 }
 
 // Singleton department panel for legacy bridge
@@ -84,6 +84,12 @@ export const LeftHub: React.FC<LeftHubProps> = ({ activeView, setActiveView }) =
           label="科技研发" 
           active={activeView === 'techtree'} 
           onClick={() => setActiveView('techtree')}
+        />
+        <NavItem 
+          icon={<Clock size={18} />} 
+          label="编年史观测" 
+          active={activeView === 'timeline'} 
+          onClick={() => setActiveView('timeline')}
         />
       </div>
 

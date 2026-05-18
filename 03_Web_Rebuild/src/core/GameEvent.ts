@@ -24,6 +24,7 @@ export interface GameEvent {
   dialogNodes: DialogNode[];
   triggerCondition?: TriggerCondition;
   choices?: GameEventChoice[];
+  effects?: any[];
 }
 
 export function createGameEvent(
@@ -35,7 +36,8 @@ export function createGameEvent(
   dialogNodes: DialogNode[] = [],
   id?: string,
   triggerCondition?: TriggerCondition,
-  choices?: GameEventChoice[]
+  choices?: GameEventChoice[],
+  effects?: any[]
 ): GameEvent {
   return {
     id,
@@ -47,7 +49,8 @@ export function createGameEvent(
     hasTriggered: false,
     dialogNodes,
     triggerCondition,
-    choices
+    choices,
+    effects
   };
 }
 

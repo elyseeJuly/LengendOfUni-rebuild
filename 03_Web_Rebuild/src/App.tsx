@@ -3,6 +3,7 @@ import { TopHUD } from './components/TopHUD';
 import { LeftHub } from './components/LeftHub';
 import { RightInspector } from './components/RightInspector';
 import { StarMap } from './components/StarMap';
+import { TimelineViewer } from './components/TimelineViewer';
 import { TecTreeView } from './ui/TecTreeView';
 import { TecTreeType } from './types/enums';
 import { StoryModal } from './components/StoryModal';
@@ -39,8 +40,15 @@ export const App: React.FC = () => {
         setIsDarkMode(detail.isDark);
       }
     };
+    const handleOpenTutorial = () => setShowTutorial(true);
+    
     window.addEventListener('theme-change', handleThemeChange);
-    return () => window.removeEventListener('theme-change', handleThemeChange);
+    window.addEventListener('open-tutorial', handleOpenTutorial);
+    
+    return () => {
+      window.removeEventListener('theme-change', handleThemeChange);
+      window.removeEventListener('open-tutorial', handleOpenTutorial);
+    };
   }, []);
 
   // Listen for story events and game over
@@ -100,11 +108,9 @@ export const App: React.FC = () => {
         <StoryModal
           event={currentEvent}
           onClose={() => {
-            if (!currentEvent.choices || currentEvent.choices.length === 0) {
-              GameInstance.get().currentEvent = null;
-              GameInstance.get().processNextEvent();
-              window.dispatchEvent(new CustomEvent('game-turn-complete'));
-            }
+            GameInstance.get().currentEvent = null;
+            GameInstance.get().processNextEvent();
+            window.dispatchEvent(new CustomEvent('game-turn-complete'));
           }}
         />
       )}
@@ -130,7 +136,7 @@ export const App: React.FC = () => {
               <StarMap />
               <canvas id="star-canvas-react" className="absolute inset-0 w-full h-full pointer-events-none" />
             </>
-          ) : (
+          ) : activeView === 'techtree' ? (
             <div className="h-full w-full p-8 overflow-y-auto">
               <div className="max-w-6xl mx-auto">
                 <div className="mb-8">
@@ -142,6 +148,8 @@ export const App: React.FC = () => {
                 </div>
               </div>
             </div>
+          ) : (
+            <TimelineViewer />
           )}
 
 
