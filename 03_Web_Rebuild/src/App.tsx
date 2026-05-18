@@ -18,7 +18,7 @@ export const App: React.FC = () => {
     return saved !== null ? saved === 'dark' : true;
   });
   const [showInspector] = useState(true);
-  const [activeView, setActiveView] = useState<'starmap' | 'techtree'>('starmap');
+  const [activeView, setActiveView] = useState<'starmap' | 'techtree' | 'timeline'>('starmap');
   const [currentEvent, setCurrentEvent] = useState<GameEventPayload | null>(null);
   const [isGameOver, setIsGameOver] = useState(false);
   const [showTutorial, setShowTutorial] = useState(() => !localStorage.getItem('game-tutorial-seen'));
