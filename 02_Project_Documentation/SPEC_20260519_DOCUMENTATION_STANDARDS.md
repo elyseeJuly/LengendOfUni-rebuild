@@ -66,6 +66,7 @@ Diagnostic reviews and balance reports.
 *   [AUDIT_20260517_GAME_OPTIMIZATION_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260517_GAME_OPTIMIZATION_PLAN.md) — *10-turn Autoplay data + multi-level optimization plan*
 *   [AUDIT_20260518_CODE_QUALITY.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260518_CODE_QUALITY.md) — *Static code analysis*
 *   [AUDIT_20260518_STRATEGY_CURVE.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260518_STRATEGY_CURVE.md) — *Difficulty and strategy curve analysis*
+*   [AUDIT_20260520_RANDOM_EVENTS_CANON_ANALYSIS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260520_RANDOM_EVENTS_CANON_ANALYSIS.md) — *Canonical analysis of pure random events and infinite triggers audit*
 
 ### 4.3 Testing Standards & Coverage (`TEST_`)
 Standards and definitions of tests.
@@ -94,6 +95,7 @@ Active development logs, blueprints, and task runners.
 *   [EXEC_20260514_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_WALKTHROUGH.md) — *Walkthrough for daily verification*
 *   [EXEC_20260514_WALKTHROUGH_FINAL.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_WALKTHROUGH_FINAL.md) — *Walkthrough for grand finale and event audits*
 *   [EXEC_20260520_EVENT_SYSTEM_OVERHAUL_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260520_EVENT_SYSTEM_OVERHAUL_WALKTHROUGH.md) — *Walkthrough for event system and Liu Cixin narrative integration*
+*   [EXEC_20260520_TACTICAL_BULLETIN_BOARD_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260520_TACTICAL_BULLETIN_BOARD_WALKTHROUGH.md) — *Walkthrough for vertical strategic bulletin board implementation*
 
 ---
 

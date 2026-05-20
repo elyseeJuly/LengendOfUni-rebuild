@@ -36,7 +36,7 @@ export function normalizeEventMeta(event: GameEvent): GameEvent {
         weight: (event.triggerCondition as any).weight || 1,
         probability: event.triggerCondition.probability,
         cooldownYears: (event.triggerCondition as any).cooldownYears,
-        maxTriggers: (event.triggerCondition as any).maxTriggers,
+        maxTriggers: (event.triggerCondition as any).maxTriggers !== undefined ? (event.triggerCondition as any).maxTriggers : 1,
         tags: (event.triggerCondition as any).tags,
         severity: (event.triggerCondition as any).severity
       };

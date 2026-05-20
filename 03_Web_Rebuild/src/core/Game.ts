@@ -448,7 +448,32 @@ export class Game {
         this.personManager.unlockPerson(eff.target);
         this.addHistory(`【人员加入】${eff.target} 加入了您的阵营！`);
         this.playerTimeline.push({ year: this.year, event: `重要历史人物 ${eff.target} 正式登场` });
-        this.triggerCharacterUnlockPopup(eff.target);
+        
+        const introData: Record<string, { role: string; content: string }> = {
+          "伊文斯": { role: "降临派领袖", content: "建造审判日号，与三体文明建立深海直接联系。" },
+          "林云": { role: "天才武器科学家", content: "对球状闪电和宏原子武器具有执着的研究。" },
+          "罗辑": { role: "第四位面壁者", content: "人类唯一的破壁人，宇宙黑暗森林法则的悟道者。" },
+          "泰勒": { role: "第一位面壁者", content: "筹备量子化舰队，试图以死去的幽灵抵抗侵略。" },
+          "雷迪亚兹": { role: "第二位面壁者", content: "筹划水星核爆，拟用与太阳系同归于尽的方式实施威慑。" },
+          "希恩斯": { role: "第三位面壁者", content: "脑科学家，暗中打下思想钢印，开启逃亡计划。" },
+          "章北海": { role: "太空军政委", content: "增援未来实施者，谋划百年逃亡，自然选择号逆天启航。" },
+          "庄颜": { role: "画中人", content: "罗辑的挚爱，面壁计划中最温柔的人性火种与背景图景。" },
+          "程心": { role: "第二代执剑人", content: "爱的圣母，在冷酷宇宙博弈中让地球错失两次生存良机。" },
+          "维德": { role: "PIA首任局长", content: "终身践行“前进！前进！不择手段地前进”的冷酷钢铁人物。" },
+          "艾AA": { role: "星空企业家", content: "活泼聪颖的商业天才，在世界末日中维系人类生的希望。" },
+          "云天明": { role: "大脑流浪者", content: "被三体捕获重构，以三个童话故事破译并传递最后的宇宙生路。" },
+          "智子": { role: "三体文明代言人", content: "优雅日本女性形态，美丽之下操控超维计算，宣判人类流放。" },
+          "关一帆": { role: "星舰探索员", content: "深空探索先驱，于宇宙二维化的宏大边缘守望最后的余晖。" }
+        };
+        const intro = introData[eff.target];
+        const epochNames = ["危机纪元", "威慑纪元", "广播纪元", "掩体纪元", "银河纪元"];
+        const epName = epochNames[this.epoch] || "未知纪元";
+        if (intro) {
+          this.tickerMessages.push(`👥 [战略人事公报] ${epName} ${this.year} 年 - 【重要人物正式入列】${eff.target} (${intro.role})。设定：“${intro.content}”`);
+        } else {
+          this.tickerMessages.push(`👥 [战略人事公报] ${epName} ${this.year} 年 - 【人员加入】重要人物 ${eff.target} 正式加入统帅部。`);
+        }
+        window.dispatchEvent(new CustomEvent('ticker-message-added'));
       } else if (eff.type === 'event_effect') {
         this.applyEventEffect(eff.value as EventEffect);
       } else if (eff.type === 'diplomacy') {
