@@ -21,7 +21,7 @@ export const EVENT_LANE_WEIGHTS: Record<EventLane, number> = {
 
 export const EVENT_BUDGET = {
   maxEventsPerTurn: 1,
-  minGapAfterAnyEvent: 2,
+  minGapAfterAnyEvent: 3,
   minGapAfterMajorEvent: 5,
   ambientGlobalCooldown: 4,
   majorGlobalCooldown: 12

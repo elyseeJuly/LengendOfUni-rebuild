@@ -11,6 +11,7 @@ import { Tutorial } from './components/Tutorial';
 import { GameInstance } from './core/Game';
 import { GameEventPayload } from './types/narrative';
 import { EndGameScreen } from './components/EndGameScreen';
+import { NewsTicker } from './components/NewsTicker';
 
 export const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -123,6 +124,9 @@ export const App: React.FC = () => {
 
       {/* Top HUD */}
       <TopHUD />
+
+      {/* Scrolling News Ticker */}
+      <NewsTicker />
 
       {/* Main Layout Body */}
       <main className="flex-1 flex overflow-hidden">

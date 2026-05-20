@@ -7454,5 +7454,231 @@
         ]
       }
     ]
+  },
+  {
+    "id": "liucixin_devourer_approaching",
+    "title": "【惊掠：巨型吞食者飞船逼近】",
+    "triggerCondition": {
+      "epoch": "CRISIS,DETERRENCE",
+      "probability": 0.08,
+      "reqTech": null
+    },
+    "dialogQueue": [
+      {
+        "speakerName": "PDC 深空监测站",
+        "avatarUrl": "default",
+        "content": "警报！一艘长度达5万公里的巨型环状飞船‘吞食者’正在减速驶向太阳系！他们的先遣使者自称是地球恐龙的后裔，宣称要吞食整个太阳系行星作为养料！"
+      },
+      {
+        "speakerName": "丁仪",
+        "avatarUrl": "default",
+        "content": "执政官，吞食者的技术远超我们。但他们的生存哲学非常单纯——他们是一群太空游牧的巨兽，我们需要立刻做出决策！"
+      }
+    ],
+    "choices": [
+      {
+        "label": "加速研发重核聚变，启动行星发动机技术备战（消耗资源，大幅提升重工业储备）。",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "resource",
+            "value": -400
+          },
+          {
+            "type": "resource",
+            "target": "army",
+            "value": 150
+          },
+          {
+            "type": "flag",
+            "target": "devourer_prepared"
+          }
+        ]
+      },
+      {
+        "label": "与吞食帝国展开外交，承诺割让月球采矿权换取和平（获得短期资源，但文化名誉大幅受损）。",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "resource",
+            "value": 300
+          },
+          {
+            "type": "resource",
+            "target": "prestige",
+            "value": -15
+          },
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": -50
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liucixin_poetry_cloud_art",
+    "title": "【奇观：恒星级李白诗云工程】",
+    "triggerCondition": {
+      "epoch": "DETERRENCE,BROADCAST",
+      "probability": 0.06,
+      "reqTech": null
+    },
+    "dialogQueue": [
+      {
+        "speakerName": "天文学家",
+        "avatarUrl": "default",
+        "content": "不可思议！一个自称‘李白’的量子神级文明降临太阳系。他宣称要写出所有可能的中国古典诗词，并准备将整个太阳系的物质（包括地球）转化为量子存储介质！"
+      },
+      {
+        "speakerName": "伊文斯",
+        "avatarUrl": "default",
+        "content": "执政官，这就是‘大艺术’的终极形态！在神级文明眼中，生存与毁灭都不如一首完美的诗作重要。我们必须用文化与他对话！"
+      }
+    ],
+    "choices": [
+      {
+        "label": "派遣人类顶级文学代表进行诗词唱和，展现人类独特的艺术灵魂（大幅提升文化与声望，免受降维危机）。",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": 200
+          },
+          {
+            "type": "resource",
+            "target": "prestige",
+            "value": 10
+          }
+        ]
+      },
+      {
+        "label": "尝试窃取其‘诗云’介质散发的偏振引力波频谱，转化为基础理论物理数据（极高风险，有概率提升科学）。",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "resource",
+            "value": -100
+          },
+          {
+            "type": "resource",
+            "target": "army",
+            "value": 100
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liucixin_altar_of_truth",
+    "title": "【终极之问：真理之坛的生死叩问】",
+    "triggerCondition": {
+      "epoch": "CRISIS,DETERRENCE",
+      "probability": 0.07,
+      "reqTech": null
+    },
+    "dialogQueue": [
+      {
+        "speakerName": "排险者",
+        "avatarUrl": "default",
+        "content": "我是星际排险者。我监测到你们的物理学探求已经触及了真空衰变的边缘。我可以回答你们关于宇宙大统一方程的终极问题，但获取真理的代价是：知道答案者，将在下一秒化为齑粉。"
+      },
+      {
+        "speakerName": "丁仪",
+        "avatarUrl": "default",
+        "content": "朝闻道，夕死可矣！执政官，请批准我等科学家登坛！在终极真理面前，生命不过是一粒微不足道的沙尘！"
+      }
+    ],
+    "choices": [
+      {
+        "label": "批准丁仪等顶级物理学家登坛，以宝贵的生命换取宇宙基础常数的飞跃（大幅提升军事科研，但人口名声受损）。",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "army",
+            "value": 200
+          },
+          {
+            "type": "resource",
+            "target": "population",
+            "value": -10
+          },
+          {
+            "type": "resource",
+            "target": "prestige",
+            "value": -5
+          }
+        ]
+      },
+      {
+        "label": "拒绝这一残酷的终极交易，坚持人类应当靠自己的双手在时间长河中寻找真理（大幅提升社会凝聚力与文化）。",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": 150
+          },
+          {
+            "type": "resource",
+            "target": "prestige",
+            "value": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liucixin_cryogenic_art",
+    "title": "【宇宙美学：海洋冰雕星环工程】",
+    "triggerCondition": {
+      "epoch": "CRISIS,DETERRENCE,BROADCAST",
+      "probability": 0.08,
+      "reqTech": null
+    },
+    "dialogQueue": [
+      {
+        "speakerName": "低温艺术家",
+        "avatarUrl": "default",
+        "content": "地球的水资源非常适合做微观晶体雕塑。我已经将你们的太平洋和太西洋全部抽取并冰冻成了绕地星环。这是一次免费赠予你们的宇宙冰雕展。请欣赏这伟大的大艺术！"
+      },
+      {
+        "speakerName": "艾AA",
+        "avatarUrl": "default",
+        "content": "天啊！海水全结冰飘在天上了，阳光被星环折射成了七彩虹光！虽然生态环境遭到了毁灭打击，但这绝对是宇宙中最壮丽的奇观！我们该怎么办？"
+      }
+    ],
+    "choices": [
+      {
+        "label": "动员全体公民以大型地表激光和万家灯火配合冰雕折射，共同见证宇宙级美学盛宴（大幅提升文化与向心力，但消耗经济）。",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": 250
+          },
+          {
+            "type": "resource",
+            "target": "economy",
+            "value": -200
+          }
+        ]
+      },
+      {
+        "label": "部署强微波融化阵列，不惜一切代价收回珍贵的水资源（挽救生态与人口，但惹恼艺术家导致声誉下降）。",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "population",
+            "value": 50
+          },
+          {
+            "type": "resource",
+            "target": "prestige",
+            "value": -10
+          }
+        ]
+      }
+    ]
   }
 ]

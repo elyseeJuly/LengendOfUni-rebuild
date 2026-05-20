@@ -73,6 +73,7 @@ Standards and definitions of tests.
 *   [TEST_20260517_HEADLESS_AUTOPLAY_STANDARD.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/TEST_20260517_HEADLESS_AUTOPLAY_STANDARD.md) — *Autoplay headless bot simulation instructions*
 *   [TEST_20260517_SUITE_FULL_COVERAGE.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/TEST_20260517_SUITE_FULL_COVERAGE.md) — *Full coverage test suite harness*
 *   [TEST_20260518_SUPPLEMENT_CASES.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/TEST_20260518_SUPPLEMENT_CASES.md) — *Supplementary playtest cases*
+*   [TEST_20260520_FRAMEWORK_ANALYSIS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/TEST_20260520_FRAMEWORK_ANALYSIS.md) — *Vitest vs alternative testing frameworks analysis report*
 
 ### 4.4 Development Histories & Chronicles (`HIST_`)
 Archived logs and historical progression tracking.
@@ -84,6 +85,7 @@ Archived logs and historical progression tracking.
 *   [HIST_20260518_DEVELOPMENT_MAIN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260518_DEVELOPMENT_MAIN.md) — *Master chronological dev history*
 *   [HIST_20260518_DEVELOPMENT_V5.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260518_DEVELOPMENT_V5.md) — *Development log V5*
 *   [HIST_20260518_DEVELOPMENT_V6.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260518_DEVELOPMENT_V6.md) — *Development log V6*
+*   [HIST_20260520_DEVELOPMENT_V7.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260520_DEVELOPMENT_V7.md) — *Development log V7*
 
 ### 4.5 Active Execution & Tasks (`EXEC_`)
 Active development logs, blueprints, and task runners.
@@ -91,6 +93,7 @@ Active development logs, blueprints, and task runners.
 *   [EXEC_20260514_TASK.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_TASK.md) — *Active task/checklist log*
 *   [EXEC_20260514_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_WALKTHROUGH.md) — *Walkthrough for daily verification*
 *   [EXEC_20260514_WALKTHROUGH_FINAL.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_WALKTHROUGH_FINAL.md) — *Walkthrough for grand finale and event audits*
+*   [EXEC_20260520_EVENT_SYSTEM_OVERHAUL_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260520_EVENT_SYSTEM_OVERHAUL_WALKTHROUGH.md) — *Walkthrough for event system and Liu Cixin narrative integration*
 
 ---
 

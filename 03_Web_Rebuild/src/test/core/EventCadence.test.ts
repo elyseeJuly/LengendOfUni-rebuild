@@ -145,8 +145,8 @@ describe('EventCadence - 事件预算常量', () => {
     expect(EVENT_BUDGET.maxEventsPerTurn).toBe(1);
   });
 
-  it('任意事件后间隔 2 回合', () => {
-    expect(EVENT_BUDGET.minGapAfterAnyEvent).toBe(2);
+  it('任意事件后间隔 3 回合', () => {
+    expect(EVENT_BUDGET.minGapAfterAnyEvent).toBe(3);
   });
 
   it('ambient 全局冷却 4 回合', () => {

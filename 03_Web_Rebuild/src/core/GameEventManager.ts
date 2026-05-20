@@ -645,6 +645,32 @@ export class GameEventManager {
     return triggered;
   }
 
+  private isEventCharactersUnlocked(e: GameEvent): boolean {
+    const game = GameInstance.get();
+    if (!game) return true;
+
+    const available = game.personManager.availablePersons;
+
+    // These core story characters must be locked until officially unlocked in events.json
+    const coreStoryPersons = [
+      "伊文斯", "林云", "罗辑", "泰勒", "雷迪亚兹", "希恩斯",
+      "章北海", "庄颜", "程心", "维德", "艾AA", "云天明", "智子", "关一帆"
+    ];
+
+    if (e.dialogNodes) {
+      for (const node of e.dialogNodes) {
+        const speaker = node.speakerName;
+        if (speaker && coreStoryPersons.includes(speaker)) {
+          if (!available.has(speaker)) {
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
+  }
+
   public checkRandomEvents(): GameEvent | null {
     const game = GameInstance.get();
     const currentEpoch = game.epoch;
@@ -655,6 +681,9 @@ export class GameEventManager {
 
     for (const e of this.randomEvents) {
       if (!isEventEligible(e, game, this.lastLaneTriggeredYear, this.randomEventTriggerCounts, this.lastAnyEventYear)) continue;
+
+      // Enforce: Wallfacer/Story characters must be unlocked before their random events can trigger
+      if (!this.isEventCharactersUnlocked(e)) continue;
 
       const prob = (e.cadenceMeta?.probability) ?? 0.02;
 
