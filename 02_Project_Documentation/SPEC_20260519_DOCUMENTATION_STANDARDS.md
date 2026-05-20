@@ -57,6 +57,7 @@ Documents defining features, architectures, and design directives.
 *   [SPEC_20260519_ENDING_ART_REQUIREMENTS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260519_ENDING_ART_REQUIREMENTS.md) — *Cinematic end-game art requirements*
 *   [SPEC_20260519_GRAND_FINALE_SYSTEM.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260519_GRAND_FINALE_SYSTEM.md) — *Grand finale ending cinematic engine specifications*
 *   [SPEC_20260519_DOCUMENTATION_STANDARDS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260519_DOCUMENTATION_STANDARDS.md) — ***[THIS FILE] Naming conventions & standards***
+*   [SPEC_20260520_GLOBAL_DEVELOPMENT_STANDARDS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260520_GLOBAL_DEVELOPMENT_STANDARDS.md) — *Global development, archiving, & naming specification rules*
 
 ### 4.2 Audits & Analyses (`AUDIT_`)
 Diagnostic reviews and balance reports.
