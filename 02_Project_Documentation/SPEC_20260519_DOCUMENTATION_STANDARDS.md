@@ -68,6 +68,7 @@ Diagnostic reviews and balance reports.
 *   [AUDIT_20260518_CODE_QUALITY.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260518_CODE_QUALITY.md) — *Static code analysis*
 *   [AUDIT_20260518_STRATEGY_CURVE.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260518_STRATEGY_CURVE.md) — *Difficulty and strategy curve analysis*
 *   [AUDIT_20260520_RANDOM_EVENTS_CANON_ANALYSIS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260520_RANDOM_EVENTS_CANON_ANALYSIS.md) — *Canonical analysis of pure random events and infinite triggers audit*
+*   [AUDIT_20260525_FULL_NARRATIVE_PHYSICS_AUDIT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260525_FULL_NARRATIVE_PHYSICS_AUDIT.md) — *Full narrative/physics/balance deep audit with optimization proposals for AI handoff*
 
 ### 4.3 Testing Standards & Coverage (`TEST_`)
 Standards and definitions of tests.
