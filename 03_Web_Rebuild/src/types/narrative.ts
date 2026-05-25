@@ -14,8 +14,10 @@ export interface EventCadenceMeta {
 
 export interface DialogNode {
   speakerName: string;
+  speakerTitle?: string;
   avatarUrl?: string;
   content: string;
+  isCG?: boolean;
 }
 
 export interface EventEffectDef {

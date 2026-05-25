@@ -34,7 +34,11 @@ export class GameEventManager {
     let name = bmpName.toLowerCase();
     name = name.replace("/images/", "").replace("character_", "").replace("unified_", "");
     name = name.replace(".png", "").replace(".bmp", "");
-    name = name.split("_")[0];
+    
+    // Do not split by '_' if it's an event or cg image
+    if (!name.startsWith("event_") && !name.startsWith("cg_") && name.includes("_")) {
+      name = name.split("_")[0];
+    }
 
     const mapping: Record<string, string> = {
       "dashi": "unified_dashi_1778921331273.png",
@@ -50,27 +54,32 @@ export class GameEventManager {
       "weide": "unified_wade_1778921437022.png",
       "tianming": "unified_tianming_1778921470963.png",
       "yuntianming": "unified_tianming_1778921470963.png",
-      "wangmiao": "character_wangmiao_1778724166873.png",
-      "hines": "character_hines_1778724207245.png",
-      "xieenshi": "character_hines_1778724207245.png",
-      "reydiaz": "character_reydiaz_1778724231986.png",
-      "leidiyaizi": "character_reydiaz_1778724231986.png",
-      "tyler": "character_tyler_1778724253558.png",
-      "taile": "character_tyler_1778724253558.png",
-      "aa": "character_aiaa_1778724300313.png",
-      "aiaa": "character_aiaa_1778724300313.png",
-      "guanyifan": "character_guanyifan_1778724448368.png",
-      "linyun": "character_linyun_1778724276166.png",
-      "dingyi": "character_dingyi_1778724123469.png",
-      "evans": "character_evans_1778724472738.png",
-      "yiwensi": "character_evans_1778724472738.png",
-      "yangdong": "character_yangdong_1778724413422.png",
+      
+      // New Unified Characters
+      "wangmiao": "unified_wangmiao_1779691527760.png",
+      "hines": "unified_hines_1779691718751.png",
+      "xieenshi": "unified_hines_1779691718751.png",
+      "reydiaz": "unified_reydiaz_1779691732536.png",
+      "leidiyaizi": "unified_reydiaz_1779691732536.png",
+      "tyler": "unified_tyler_1779691745991.png",
+      "taile": "unified_tyler_1779691745991.png",
+      "aa": "unified_aiaa_1779691888124.png",
+      "aiaa": "unified_aiaa_1779691888124.png",
+      "guanyifan": "unified_guanyifan_1779691901857.png",
+      "linyun": "unified_linyun_1779691542667.png",
+      "dingyi": "unified_dingyi_1779691512032.png",
+      "evans": "unified_evans_1779691557999.png",
+      "yiwensi": "unified_evans_1779691557999.png",
+      "yangdong": "unified_yangdong_1779691583143.png",
+      "changweisi": "unified_changweisi_1779691759159.png",
+      "dongfang": "unified_dongfang_1779691773663.png",
+      "shenyuan": "unified_shenyuan_1779691919176.png",
+
+      // Remaining legacy fallbacks
       "huahua": "character_huahua_1778818926539.png",
       "yiyi": "character_yiyi_1778724524669.png",
-      "shenyuan": "character_shenyuan_1778726061895.png",
       "hawking": "character_hawking_1778726088806.png",
       "huoking": "character_hawking_1778726088806.png",
-      "changweisi": "character_changweisi_1778724189193.png",
       "zhuangyan": "character_zhuangyan_1778724322851.png",
       "shuiwa": "character_shuiwa_1778726120500.png",
       "leizhicheng": "character_leizhicheng_1778818873520.png",
@@ -87,9 +96,16 @@ export class GameEventManager {
       "sayi": "character_say_1779341254257.png"
     };
 
+    // Override CG mappings
+    if (name.startsWith("event_crisis_start")) return getImageUrl("cg_crisis_start.png");
+    if (name.startsWith("event_guzheng")) return getImageUrl("cg_guzheng.png");
+    if (name.startsWith("event_moon_crisis")) return getImageUrl("cg_moon_crisis.png");
+    if (name.startsWith("event_wandering_earth")) return getImageUrl("cg_wandering_earth.png");
+    if (name.startsWith("event_dimensional_strike") || name === "dimensional_threat_alert") return getImageUrl("cg_dimensional_strike.png");
+
     if (mapping[name]) return getImageUrl(mapping[name]);
 
-    if (bmpName.startsWith("/images/") || bmpName.startsWith("character_") || bmpName.startsWith("unified_") || bmpName.endsWith(".png")) {
+    if (bmpName.startsWith("/images/") || bmpName.startsWith("character_") || bmpName.startsWith("unified_") || bmpName.startsWith("event_") || bmpName.startsWith("cg_") || bmpName.endsWith(".png")) {
       const fileName = bmpName.startsWith("/images/") ? bmpName.replace("/images/", "") : bmpName;
       return getImageUrl(fileName);
     }
@@ -410,6 +426,7 @@ export class GameEventManager {
         title: "维度打击警报",
         tip: "深空探测器发现异常空间曲率波动——这可能意味着二向箔攻击正在逼近。",
         dialogQueue: [
+          { speakerName: "系统警告", content: "深空探测器发现异常空间曲率波动——这可能意味着二向箔攻击正在逼近。", avatarUrl: this.mapAvatar("event_dimensional_strike") },
           { speakerName: "林云", content: "空间曲率读数异常，长官。这不是自然现象。", avatarUrl: this.mapAvatar("linyun") },
           { speakerName: "关一帆", content: "这就是传说中的降维打击...我们必须离开这个星系。", avatarUrl: this.mapAvatar("guanyifan") }
         ],
@@ -578,11 +595,16 @@ export class GameEventManager {
       let dialogNodes: DialogNode[] = [];
 
       if (data.dialogQueue) {
-        dialogNodes = data.dialogQueue.map((node: any) => ({
-          speakerName: node.speakerName,
-          content: node.content,
-          avatarUrl: this.mapAvatar(node.avatarUrl, node.speakerName)
-        }));
+        dialogNodes = data.dialogQueue.map((node: any) => {
+          const mappedUrl = this.mapAvatar(node.avatarUrl, node.speakerName);
+          return {
+            speakerName: node.speakerName,
+            speakerTitle: node.speakerTitle,
+            content: node.content,
+            avatarUrl: mappedUrl,
+            isCG: mappedUrl.includes('cg_') || !!node.isCG
+          };
+        });
       } else {
         const talkCount = data.talkcount || 1;
         for (let i = 0; i < talkCount; i++) {
@@ -591,10 +613,12 @@ export class GameEventManager {
           const pic = data[`talk${i}_pic`];
 
           if (speaker && content) {
+            const mappedUrl = this.mapAvatar(pic, speaker);
             dialogNodes.push({
               speakerName: speaker,
               content: content,
-              avatarUrl: this.mapAvatar(pic, speaker)
+              avatarUrl: mappedUrl,
+              isCG: mappedUrl.includes('cg_')
             });
           }
         }

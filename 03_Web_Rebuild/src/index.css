@@ -176,6 +176,16 @@
   animation: ink-spread 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+@keyframes pan-zoom {
+  0% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.05) translate(-1%, -1%); }
+  100% { transform: scale(1) translate(0, 0); }
+}
+
+.animate-\\[pan-zoom_30s_linear_infinite\\] {
+  animation: pan-zoom 30s linear infinite;
+}
+
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
