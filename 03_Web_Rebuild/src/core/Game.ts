@@ -424,22 +424,43 @@ export class Game {
     effects.forEach(eff => {
       if (eff.type === 'resource') {
         const val = Number(eff.value);
-        switch (eff.target) {
-          case 'military':
-            const fleetsToAdd = Math.max(0, val);
-            for (let i = 0; i < fleetsToAdd; i++) {
-              const fleet = createFleet(`第${this.earthCivi.fleets.length + 1}舰队`, "地球", 4, 4, 0);
-              fleet.weapons.push({ weaponName: "恒星级战舰", currentBuild: 50 });
-              this.earthCivi.fleets.push(fleet);
-            }
-            break;
-          case 'economy': this.earthCivi.economy = Math.max(0, this.earthCivi.economy + val); break;
-          case 'population': this.earthCivi.population = Math.max(0, this.earthCivi.population + val); break;
-          case 'culture': this.earthCivi.culture = Math.max(0, this.earthCivi.culture + val); break;
-          case 'prestige': this.earthCivi.deterrenceValue = Math.max(0, this.earthCivi.deterrenceValue + val); break;
-          case 'treachery': this.earthCivi.treachery = Math.min(100, Math.max(0, this.earthCivi.treachery + val)); break;
-          case 'resource': this.earthCivi.resource = Math.max(0, this.earthCivi.resource + val); break;
-          case 'army': this.earthCivi.army = Math.max(0, this.earthCivi.army + val); break;
+        if (val < 0) {
+          switch (eff.target) {
+            case 'military':
+              // Negative military effect destroys fleets or reduces army
+              const fleetsToDestroy = Math.min(this.earthCivi.fleets.length, Math.floor(Math.abs(val) / 50));
+              for (let i = 0; i < fleetsToDestroy; i++) {
+                this.earthCivi.fleets.pop();
+              }
+              const dropArmy = Math.min(this.earthCivi.army * 0.5, Math.abs(val));
+              this.earthCivi.army -= dropArmy;
+              break;
+            case 'economy': this.earthCivi.economy -= Math.min(this.earthCivi.economy * 0.5, Math.abs(val)); break;
+            case 'population': this.earthCivi.population -= Math.min(this.earthCivi.population * 0.5, Math.abs(val)); break;
+            case 'culture': this.earthCivi.culture -= Math.min(this.earthCivi.culture * 0.5, Math.abs(val)); break;
+            case 'prestige': this.earthCivi.deterrenceValue -= Math.min(this.earthCivi.deterrenceValue * 0.5, Math.abs(val)); break;
+            case 'treachery': this.earthCivi.treachery = Math.max(0, this.earthCivi.treachery - Math.abs(val)); break;
+            case 'resource': this.earthCivi.resource -= Math.min(this.earthCivi.resource * 0.5, Math.abs(val)); break;
+            case 'army': this.earthCivi.army -= Math.min(this.earthCivi.army * 0.5, Math.abs(val)); break;
+          }
+        } else {
+          switch (eff.target) {
+            case 'military':
+              const fleetsToAdd = Math.max(0, val);
+              for (let i = 0; i < fleetsToAdd; i++) {
+                const fleet = createFleet(`第${this.earthCivi.fleets.length + 1}舰队`, "地球", 4, 4, 0);
+                fleet.weapons.push({ weaponName: "恒星级战舰", currentBuild: 50 });
+                this.earthCivi.fleets.push(fleet);
+              }
+              break;
+            case 'economy': this.earthCivi.economy += val; break;
+            case 'population': this.earthCivi.population += val; break;
+            case 'culture': this.earthCivi.culture += val; break;
+            case 'prestige': this.earthCivi.deterrenceValue += val; break;
+            case 'treachery': this.earthCivi.treachery = Math.min(100, this.earthCivi.treachery + val); break;
+            case 'resource': this.earthCivi.resource += val; break;
+            case 'army': this.earthCivi.army += val; break;
+          }
         }
       } else if (eff.type === 'flag') {
         this.addFlag(eff.target);
@@ -544,98 +565,7 @@ export class Game {
     return [0, 70, 200, 500, 1000][level] || 0;
   }
 
-  public triggerCharacterUnlockPopup(name: string): void {
-    const introData: Record<string, { title: string; content: string; avatar: string }> = {
-      "伊文斯": {
-        title: "【重要人物登场】麦克·伊文斯 — 降临派的深海孤影",
-        content: "麦克·伊文斯正式登场。他是降临派领袖，审判日号建造者。他带着对人类文明的极度绝望，在深海与三体文明建立了直接联系。他的誓言将在深渊中回荡：“我们不知道你们是人类的敌人，但我们确信，人类是自己的敌人。”",
-        avatar: "character_evans_1778724472738.png"
-      },
-      "林云": {
-        title: "【重要人物登场】林云 — 宏原子的执念者",
-        content: "林云正式登场。她是天才武器科学家。她对球状闪电和宏原子的痴迷，将开启人类防御未知力量的危险探索。她的眼中闪烁着冷酷而狂热的求知欲：“如果毁灭可以换取真理，我将毫不犹豫地按下按钮。”",
-        avatar: "character_linyun_1778724276166.png"
-      },
-      "罗辑": {
-        title: "【重要人物登场】罗辑 — 漫漫长夜的执剑人",
-        content: "面壁者罗辑正式登场。他是社会学学者。他在愕然中被推上面壁者的历史舞台，手握星空咒语的秘密，成为三体文明唯一的真正对手。他在雪地中站立，面对冷酷的宇宙，将用长达半个世纪 of 对视，为人类挣得唯一的生存缝隙。",
-        avatar: "unified_luoji_1778921262534.png"
-      },
-      "泰勒": {
-        title: "【重要人物登场】弗雷德里克·泰勒 — 幽灵舰队的筑梦人",
-        content: "面壁者弗雷德里克·泰勒正式登场。他是前美国国防部长。他的目光穿透生死，试图以量子化舰队的无形幽灵，给入侵者致命一击。他的悲剧在于：为了战胜恶魔，他必须先将自己的士兵变成无法死去的幽灵。",
-        avatar: "character_tyler_1778724253558.png"
-      },
-      "雷迪亚兹": {
-        title: "【重要人物登场】曼努埃尔·雷迪亚兹 — 太阳系的焚墓者",
-        content: "面壁者曼努埃尔·雷迪亚兹正式登场。他是委内瑞拉总统。他坚信毁灭的力量，企图用水星核爆的终极核威慑，逼迫三体人妥协。他的字典里没有退缩，只有与整个星系玉石俱焚的狂野绝决。",
-        avatar: "character_reydiaz_1778724231986.png"
-      },
-      "希恩斯": {
-        title: "【重要人物登场】比尔·希恩斯 — 思想迷宫的潜行者",
-        content: "面壁者比尔·希恩斯正式登场。他是诺贝尔奖得主，脑科学家。他试图用思想钢印烙印必胜信念，却暗中播撒了逃亡主义的火种。他要在人类的脑细胞深处，建起一座不屈服于智子的思想壁垒。",
-        avatar: "character_hines_1778724207245.png"
-      },
-      "章北海": {
-        title: "【重要人物登场】章北海 — 驶向深空的孤勇旗舰",
-        content: "章北海正式登场。他是太空军政委。他是最坚定的胜利主义者，也是隐藏最深的逃亡者。他的航向，永远指向星辰大海的彼岸。当他的战舰“自然选择”号逆天起航时，人类才明白他长达百年的深沉谋划：“没关系的，都一样。”",
-        avatar: "unified_beihai_1778921366897.png"
-      },
-      "庄颜": {
-        title: "【重要人物登场】庄颜 — 宇宙寒冬中的温柔火种",
-        content: "庄颜正式登场。她是罗辑的画中人。她的纯真与美丽是罗辑冰冷宇宙中唯一的温度，也是计划中最温柔的秘密。她是黑暗森林大戏中最柔软的背景，让冰冷的战略博弈多了一丝人性的脉搏。",
-        avatar: "character_zhuangyan_1778724322851.png"
-      },
-      "程心": {
-        title: "【重要人物登场】程心 — 星际之爱的圣母与深渊",
-        content: "程心正式登场。她是执剑人候选人，星环集团继承人。她的爱超越了星系，包容了万物，却也在冷酷的宇宙博弈中，两次将太阳系推入万劫不复的深渊。她是人类人性的化身，却不是宇宙法则的适者。",
-        avatar: "unified_chengxin_1778921400346.png"
-      },
-      "维德": {
-        title: "【重要人物登场】托马斯·维德 — 不折手段的野兽之爪",
-        content: "托马斯·维德正式登场。他是星环集团实际掌舵人，PIA首任局长。他终身践行着唯一的冷酷信念：“失去人性，失去很多；失去兽性，失去一切。”他的口号将震醒浑浑噩噩的人类：“前进！前进！不择手段地前进！”",
-        avatar: "unified_wade_1778921437022.png"
-      },
-      "艾AA": {
-        title: "【重要人物登场】艾AA — 绿洲星空的末日之花",
-        content: "艾AA正式登场。她是程心的商业合伙人，精明而忠诚的太空城企业家。她用超凡的活力与卓越 of 商业头脑，在冰冷的末日中维系着最后一丝生的希望与温存。她将陪同程心，见证宇宙最后的一抹落日余晖。",
-        avatar: "character_aiaa_1778724300313.png"
-      },
-      "云天明": {
-        title: "【重要人物登场】云天明 — 飘过星海的童话破译者",
-        content: "云天明正式登场。他是阶梯计划献身者。他的大脑在孤独的深空中流浪，被三体舰队捕获并重塑。在长达数个世纪的孤寂中，他用深邃隐晦的三个童话故事，为人类文明破译并传递了最后的宇宙生路。",
-        avatar: "unified_tianming_1778921470963.png"
-      },
-      "智子": {
-        title: "【重要人物登场】智子 — 和服之刃与神明意志",
-        content: "智子正式登场。她是三体文明的使者与传声筒。她以日本和服女性的优雅姿态行走于人世，泡茶、插花，美丽柔弱的外表下，隐藏着冷酷至极的超维计算。当威慑破裂，她将在茶道室里，冷漠地宣判人类的流放。",
-        avatar: "unified_sophon_1778921509458.png"
-      },
-      "关一帆": {
-        title: "【重要人物登场】关一帆 — 墓地星海的守望员",
-        content: "关一帆正式登场。她是万物之海探索者，引力号星舰航天员。他在高维碎块的二维化边界上游走，见证了宇宙星系维度跌落的宏大与苍凉。他是最后的星舰人类之一，也是人类文明余晖的终极守望者。",
-        avatar: "character_guanyifan_1778724448368.png"
-      }
-    };
 
-    const info = introData[name];
-    if (info) {
-      const payload: GameEventPayload = {
-        id: `unlock_${name}_${Date.now()}`,
-        title: info.title,
-        dialogQueue: [{
-          speakerName: name,
-          content: info.content,
-          avatarUrl: `${import.meta.env.BASE_URL || "/"}images/${info.avatar}`
-        }],
-        choices: [{
-          label: "向前进，不择手段地前进！",
-          action: () => {}
-        }]
-      };
-      this.eventQueue.push(payload);
-    }
-  }
 }
 
 // 全局单例管理器

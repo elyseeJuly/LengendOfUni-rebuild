@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GameInstance } from '../core/Game';
-import { Terminal, Shield, Bell, Users, ChevronRight } from 'lucide-react';
+import { Terminal, Shield, Bell, Users, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 
 export const AnnouncementBoard: React.FC = () => {
   const [messages, setMessages] = useState<string[]>([]);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const updateMessages = () => {
@@ -68,16 +69,25 @@ export const AnnouncementBoard: React.FC = () => {
             PDC 战略防御指挥部 · 战术情报公告板
           </span>
         </div>
-        <div className="text-[10px] font-mono text-cyan-500/60 uppercase tracking-widest flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-          STATUS: ACTIVE MONITORING
+        <div className="flex items-center gap-3">
+          <div className="text-[10px] font-mono text-cyan-500/60 uppercase tracking-widest flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+            STATUS: ACTIVE MONITORING
+          </div>
+          <button 
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-cyan-500 hover:text-cyan-300 transition-colors p-1 rounded hover:bg-cyan-900/30 cursor-pointer pointer-events-auto"
+            title={isExpanded ? "收起" : "展开"}
+          >
+            {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
         </div>
       </div>
 
       {/* Announcement List Body */}
       <div 
         ref={containerRef}
-        className="flex-1 overflow-y-auto space-y-1.5 pr-2 max-h-24 scrollbar-thin scrollbar-thumb-cyan-500/30 scrollbar-track-transparent"
+        className={`flex-1 overflow-y-auto space-y-1.5 pr-2 transition-all duration-300 ${isExpanded ? 'max-h-64' : 'max-h-24'} scrollbar-thin scrollbar-thumb-cyan-500/30 scrollbar-track-transparent pointer-events-auto`}
       >
         {messages.length === 0 ? (
           <div className="flex items-center gap-2 text-cyan-400/40 text-xs font-mono py-1.5 pl-1 italic">

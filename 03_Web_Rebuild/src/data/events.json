@@ -19,8 +19,14 @@
     "talk0_talker": "史强",
     "talk0_content": "古筝行动非常成功！我们拿到了伊文斯在审判日号上的三体通讯记录。",
     "effects": [
-      { "type": "unlock_person", "target": "伊文斯" },
-      { "type": "unlock_person", "target": "林云" }
+      {
+        "type": "unlock_person",
+        "target": "伊文斯"
+      },
+      {
+        "type": "unlock_person",
+        "target": "林云"
+      }
     ]
   },
   {
@@ -33,10 +39,22 @@
     "talk0_talker": "智子",
     "talk0_content": "你们是虫子！基础科学的枷锁已经锁死！但是，人类的面壁计划也正式启动了。",
     "effects": [
-      { "type": "unlock_person", "target": "罗辑" },
-      { "type": "unlock_person", "target": "泰勒" },
-      { "type": "unlock_person", "target": "雷迪亚兹" },
-      { "type": "unlock_person", "target": "希恩斯" }
+      {
+        "type": "unlock_person",
+        "target": "罗辑"
+      },
+      {
+        "type": "unlock_person",
+        "target": "泰勒"
+      },
+      {
+        "type": "unlock_person",
+        "target": "雷迪亚兹"
+      },
+      {
+        "type": "unlock_person",
+        "target": "希恩斯"
+      }
     ]
   },
   {
@@ -49,8 +67,14 @@
     "talk0_talker": "联合政府",
     "talk0_content": "太空军正式启航，增援未来计划实施。",
     "effects": [
-      { "type": "unlock_person", "target": "章北海" },
-      { "type": "unlock_person", "target": "庄颜" }
+      {
+        "type": "unlock_person",
+        "target": "章北海"
+      },
+      {
+        "type": "unlock_person",
+        "target": "庄颜"
+      }
     ]
   },
   {
@@ -71,7 +95,10 @@
     "talkcount": 1,
     "talk0_pic": "event_wandering_earth_1778921665842.png",
     "talk0_talker": "联合政府",
-    "talk0_content": "太阳系即将毁灭。如果我们掌握了重核聚变行星发动机，我们将开启流浪地球计划！"
+    "talk0_content": "太阳系即将毁灭。如果我们掌握了重核聚变行星发动机，我们将开启流浪地球计划！",
+    "triggerCondition": {
+      "loreDomain": "liu_cixin_crossover"
+    }
   },
   {
     "name": 200,
@@ -83,9 +110,18 @@
     "talk0_talker": "程心",
     "talk0_content": "威慑纪元到来了。星环集团正在崛起，新一代的执剑人交接工作即将开始。",
     "effects": [
-      { "type": "unlock_person", "target": "程心" },
-      { "type": "unlock_person", "target": "维德" },
-      { "type": "unlock_person", "target": "艾AA" }
+      {
+        "type": "unlock_person",
+        "target": "程心"
+      },
+      {
+        "type": "unlock_person",
+        "target": "维德"
+      },
+      {
+        "type": "unlock_person",
+        "target": "艾AA"
+      }
     ]
   },
   {
@@ -98,9 +134,18 @@
     "talk0_talker": "云天明",
     "talk0_content": "我在远方为你们讲述了三个童话，希望能帮助人类度过广播纪元的难关。",
     "effects": [
-      { "type": "unlock_person", "target": "云天明" },
-      { "type": "unlock_person", "target": "智子" },
-      { "type": "unlock_person", "target": "关一帆" }
+      {
+        "type": "unlock_person",
+        "target": "云天明"
+      },
+      {
+        "type": "unlock_person",
+        "target": "智子"
+      },
+      {
+        "type": "unlock_person",
+        "target": "关一帆"
+      }
     ]
   }
 ]

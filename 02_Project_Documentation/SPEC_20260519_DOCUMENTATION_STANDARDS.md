@@ -98,6 +98,8 @@ Active development logs, blueprints, and task runners.
 *   [EXEC_20260514_WALKTHROUGH_FINAL.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_WALKTHROUGH_FINAL.md) — *Walkthrough for grand finale and event audits*
 *   [EXEC_20260520_EVENT_SYSTEM_OVERHAUL_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260520_EVENT_SYSTEM_OVERHAUL_WALKTHROUGH.md) — *Walkthrough for event system and Liu Cixin narrative integration*
 *   [EXEC_20260520_TACTICAL_BULLETIN_BOARD_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260520_TACTICAL_BULLETIN_BOARD_WALKTHROUGH.md) — *Walkthrough for vertical strategic bulletin board implementation*
+*   [EXEC_20260525_FIX_AUDIT_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260525_FIX_AUDIT_PLAN.md) — *Execution plan for fixing narrative, numerical balance, and star map physics issues*
+*   [EXEC_20260525_FIX_AUDIT_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260525_FIX_AUDIT_WALKTHROUGH.md) — *Walkthrough of the implemented narrative, physics, and UI/UX corrections*
 
 ---
 

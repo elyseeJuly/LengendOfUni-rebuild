@@ -60,8 +60,8 @@
     },
     "dialogQueue": [
       {
-        "speakerName": "艾伦·艾德文",
-        "avatarUrl": "character_aiaa_1778724300313.png",
+        "speakerName": "雷迪亚兹",
+        "avatarUrl": "/images/character_reydiaz_1778724231986.png",
         "content": "这是我计划的一部分。通过对全球资源的非线性调度，我们可以避开智子的视线。"
       },
       {
@@ -91,8 +91,8 @@
         "content": "执政官，我们打开了不该打开的东西。真空衰变泡一旦扩张，整个太阳系将在0.3秒内归于虚无。唯一的办法是立刻将所有能量转投入约束场，但代价是实验数据全毁，整个轨道实验室也必须被抛弃。"
       },
       {
-        "speakerName": "安全官 维德",
-        "avatarUrl": "weide",
+        "speakerName": "常伟思",
+        "avatarUrl": "/images/character_changweisi_1778724189193.png",
         "content": "还有别的路。我们可以尝试用反向脉冲强行湮灭那东西。成功的概率不足15%，但一旦成功，我们将掌握宇宙底层法则。不敢冒险的人，不配存活。"
       }
     ],
@@ -141,7 +141,7 @@
       {
         "speakerName": "系统警告",
         "avatarUrl": "default",
-        "content": "东京三号发动机推力矢量异常偏离0.7度。控制矩阵检测到未经授权的底层指令注入。源头追踪中……已锁定，是ETO潜伏单元“青色”的量子病毒。"
+        "content": "东京三号发动机推力矢量异常偏离0.7度。控制矩阵检测到未经授权的底层指令注入。源头追踪中……已锁定，是极端破坏派潜伏单元“青色”的量子病毒。"
       },
       {
         "speakerName": "PDC安全局 局长",
@@ -166,7 +166,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -35000
+            "value": -35
           },
           {
             "type": "resource",
@@ -307,7 +307,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -45000
+            "value": -45
           },
           {
             "type": "resource",
@@ -327,7 +327,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -75000
+            "value": -75
           },
           {
             "type": "resource",
@@ -352,7 +352,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -15000
+            "value": -15
           }
         ]
       }
@@ -448,7 +448,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -8000
+            "value": -8
           },
           {
             "type": "resource",
@@ -526,7 +526,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -3000
+            "value": -3
           },
           {
             "type": "resource",
@@ -564,7 +564,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -2000
+            "value": -2
           },
           {
             "type": "resource",
@@ -622,7 +622,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -5000
+            "value": -5
           },
           {
             "type": "resource",
@@ -637,7 +637,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": 30000
+            "value": 30
           },
           {
             "type": "resource",
@@ -796,7 +796,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -2400
+            "value": -3
           },
           {
             "type": "flag",
@@ -811,7 +811,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -15000
+            "value": -15
           },
           {
             "type": "resource",
@@ -854,7 +854,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -40000
+            "value": -40
           },
           {
             "type": "resource",
@@ -963,8 +963,8 @@
         "content": "它没有回应任何问候，也未表现出攻击行为。只是以优雅的抛物线轨迹掠过奥尔特云，如同在巡视自己的牧场。"
       },
       {
-        "speakerName": "安全顾问 维德",
-        "avatarUrl": "weide",
+        "speakerName": "常伟思",
+        "avatarUrl": "/images/character_changweisi_1778724189193.png",
         "content": "它在测量我们，在丈量猎物的体型。开动你们那些被恐惧冻住的脑子想一想，当猎人开始测量，扣动扳机还需要多久？"
       }
     ],
@@ -1021,8 +1021,8 @@
         "content": "第五区循环水库检出高浓度神经毒剂前体。波及人口约十二万。目前未收到任何组织宣称负责。"
       },
       {
-        "speakerName": "安全局长 维德",
-        "avatarUrl": "weide",
+        "speakerName": "常伟思",
+        "avatarUrl": "/images/character_changweisi_1778724189193.png",
         "content": "这不是意外。毒剂配方需要专业化学知识。我怀疑是ETO的潜伏破坏，旨在制造恐慌瘫痪我们的配给系统。必须立刻全城搜捕。"
       }
     ],
@@ -1096,7 +1096,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -2000
+            "value": -2
           },
           {
             "type": "resource",
@@ -1270,7 +1270,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -2500
+            "value": -3
           },
           {
             "type": "resource",
@@ -1285,7 +1285,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -1500
+            "value": -2
           },
           {
             "type": "flag",
@@ -1391,7 +1391,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -7200
+            "value": -8
           },
           {
             "type": "resource",
@@ -1492,7 +1492,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -10000
+            "value": -10
           }
         ]
       },
@@ -1651,7 +1651,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -12000
+            "value": -12
           },
           {
             "type": "resource",
@@ -1709,7 +1709,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -35000
+            "value": -35
           },
           {
             "type": "resource",
@@ -1929,8 +1929,8 @@
         "content": "有人潜入零号数据中心，用物理手段破坏了存储配给名单和基因档案的服务器。现在全城无法核实身份，配给系统陷入混乱。"
       },
       {
-        "speakerName": "安全局长 维德",
-        "avatarUrl": "weide",
+        "speakerName": "常伟思",
+        "avatarUrl": "/images/character_changweisi_1778724189193.png",
         "content": "这是ETO典型的斩首行动。没有身份验证，我们甚至无法区分谁是破坏者。必须紧急恢复数据，同时进行全城生物特征大排查。"
       }
     ],
@@ -2050,8 +2050,8 @@
         "content": "关押在北极永冻监狱的三名ETO破壁人使用未知的量子纠缠装置突破了安全系统，现已失踪。他们掌握大量地球防御部署细节。"
       },
       {
-        "speakerName": "维德",
-        "avatarUrl": "weide",
+        "speakerName": "常伟思",
+        "avatarUrl": "/images/character_changweisi_1778724189193.png",
         "content": "他们极可能逃往三体舰队的方向。如果让他们与三体取得联系，我们的威慑将出现致命破绽。必须立即发射轨道截击器，摧毁所有未经授权的飞行器。"
       }
     ],
@@ -2279,7 +2279,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -30000
+            "value": -30
           },
           {
             "type": "resource",
@@ -2299,7 +2299,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -12000
+            "value": -12
           },
           {
             "type": "flag",
@@ -2365,7 +2365,7 @@
   },
   {
     "id": "tech_terraforming_bacteria_escape",
-    "title": "【生态灾灾难：改造菌株泄露】",
+    "title": "【生态灾难：改造菌株泄露】",
     "triggerCondition": {
       "epoch": "WANDERING",
       "probability": 0.06,
@@ -2395,7 +2395,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -6000
+            "value": -6
           }
         ]
       },
@@ -2559,7 +2559,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -2000
+            "value": -2
           },
           {
             "type": "resource",
@@ -2574,7 +2574,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -2000
+            "value": -2
           },
           {
             "type": "resource",
@@ -2594,7 +2594,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -2000
+            "value": -2
           },
           {
             "type": "resource",
@@ -2768,7 +2768,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -12000
+            "value": -12
           },
           {
             "type": "resource",
@@ -2806,7 +2806,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -20000
+            "value": -20
           },
           {
             "type": "resource",
@@ -3840,7 +3840,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": 10000
+            "value": 10
           },
           {
             "type": "resource",
@@ -3860,7 +3860,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -3000
+            "value": -3
           }
         ]
       }
@@ -4448,7 +4448,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -1500
+            "value": -2
           },
           {
             "type": "flag",
@@ -4814,7 +4814,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -3000
+            "value": -3
           },
           {
             "type": "resource",
@@ -5223,7 +5223,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -2000
+            "value": -2
           },
           {
             "type": "flag",
@@ -5526,7 +5526,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -5000
+            "value": -5
           },
           {
             "type": "resource",
@@ -5642,7 +5642,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -3000
+            "value": -3
           }
         ]
       },
@@ -5652,7 +5652,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": 5000
+            "value": 5
           },
           {
             "type": "resource",
@@ -5695,7 +5695,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -200000
+            "value": -200
           },
           {
             "type": "resource",
@@ -5985,7 +5985,7 @@
     "id": "beihai_fleet_defection",
     "title": "【绝密警报：自然选择号擅自逃离】",
     "triggerCondition": {
-      "epoch": "DETERRENCE",
+      "epoch": "CRISIS",
       "probability": 0.04,
       "reqTech": "深空舰队建制"
     },
@@ -6159,7 +6159,7 @@
     "id": "chengxin_ladder_project",
     "title": "【阶梯计划：云天明的献身】",
     "triggerCondition": {
-      "epoch": "CRISIS",
+      "epoch": "DETERRENCE",
       "probability": 0.05,
       "reqTech": "核聚变推进"
     },
@@ -6583,7 +6583,7 @@
     "id": "tianming_fairy_tale_decode",
     "title": "【情报：云天明的三个童话破译】",
     "triggerCondition": {
-      "epoch": "WANDERING",
+      "epoch": "BROADCAST",
       "probability": 0.05,
       "reqTech": "智子通讯"
     },
@@ -6823,7 +6823,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -5000
+            "value": -5
           },
           {
             "type": "flag",
@@ -6838,7 +6838,7 @@
     "id": "guan_yifan_4d_encounter",
     "title": "【奇遇：关一帆跌入四维碎块】",
     "triggerCondition": {
-      "epoch": "WANDERING",
+      "epoch": "BROADCAST,BUNKER,GALAXY",
       "probability": 0.03,
       "reqTech": "高维理论实验室"
     },
@@ -6934,7 +6934,7 @@
     "id": "lin_yun_quantum_suicide",
     "title": "【林云的执着：量子态攻击的代价】",
     "triggerCondition": {
-      "epoch": "DETERRENCE",
+      "epoch": "CRISIS",
       "probability": 0.05,
       "reqTech": "球状闪电理论"
     },
@@ -7020,7 +7020,7 @@
           {
             "type": "resource",
             "target": "population",
-            "value": -2000
+            "value": -2
           }
         ]
       },
@@ -7104,7 +7104,7 @@
         "content": "我们在深空发现一支完全由宏原子构成的无形舰队，它们保持着战术编队，似乎在等待指令。据数据库核对，这正是泰勒生前秘密建造的。"
       },
       {
-        "speakerName": "泰勒 (遗言录像)",
+        "speakerName": "泰勒(历史绝密录像)",
         "avatarUrl": "tyler",
         "content": "当你看到这段录像，说明我已经不存在了。这支幽灵舰队是我留给人类的最后礼物。激活它，它将如海市蜃楼般诱骗三体人，为真舰队创造战机。"
       }
@@ -7311,8 +7311,8 @@
         "content": "我的一生是个错误。我点燃了火，却控制不了它。现在，我愿意把我对三体通讯协议的所有破解成果交给你们。这是我能做的唯一补偿。"
       },
       {
-        "speakerName": "维德",
-        "avatarUrl": "weide",
+        "speakerName": "常伟思",
+        "avatarUrl": "/images/character_changweisi_1778724189193.png",
         "content": "接受她的数据，但不要相信她的忏悔。她永远是那个按下按钮的人。"
       }
     ],
@@ -7353,7 +7353,7 @@
     "id": "guan_yifan_dimensional_fold",
     "title": "【绝境：关一帆被困二维化边界】",
     "triggerCondition": {
-      "epoch": "WANDERING",
+      "epoch": "BROADCAST,BUNKER,GALAXY",
       "probability": 0.03,
       "reqTech": "高维理论实验室"
     },
@@ -7532,8 +7532,8 @@
         "content": "不可思议！一个自称‘李白’的量子神级文明降临太阳系。他宣称要写出所有可能的中国古典诗词，并准备将整个太阳系的物质（包括地球）转化为量子存储介质！"
       },
       {
-        "speakerName": "伊文斯",
-        "avatarUrl": "default",
+        "speakerName": "人类文化学者",
+        "avatarUrl": "/images/npc_civilian.png",
         "content": "执政官，这就是‘大艺术’的终极形态！在神级文明眼中，生存与毁灭都不如一首完美的诗作重要。我们必须用文化与他对话！"
       }
     ],
@@ -7632,7 +7632,7 @@
     "id": "liucixin_cryogenic_art",
     "title": "【宇宙美学：海洋冰雕星环工程】",
     "triggerCondition": {
-      "epoch": "CRISIS,DETERRENCE,BROADCAST",
+      "epoch": "DETERRENCE,BROADCAST",
       "probability": 0.08,
       "reqTech": null
     },
@@ -7676,6 +7676,407 @@
             "type": "resource",
             "target": "prestige",
             "value": -10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "galaxy_zeroer_broadcast",
+    "title": "【终极通讯：归零者广播】",
+    "dialogQueue": [
+      {
+        "speakerName": "深空通讯官",
+        "content": "统帅，我们在宇宙微波背景辐射中捕捉到了极其强烈的规律波动，覆盖所有频段..."
+      },
+      {
+        "speakerName": "归零者(广播)",
+        "content": "我们呼吁所有宇宙文明，归还小宇宙质量，重启时间线。大宇宙正在死去。"
+      }
+    ],
+    "triggerCondition": {
+      "epoch": "GALAXY",
+      "weight": 10,
+      "probability": 0.05,
+      "lane": "major",
+      "cooldownYears": 20
+    },
+    "choices": [
+      {
+        "label": "保持沉默，拒绝响应",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "prestige",
+            "value": 10
+          }
+        ]
+      },
+      {
+        "label": "发送象征性回应坐标",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "prestige",
+            "value": 50
+          },
+          {
+            "type": "resource",
+            "target": "treachery",
+            "value": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "galaxy_2d_wave_approaching",
+    "title": "【警告：二维化波前逼近】",
+    "dialogQueue": [
+      {
+        "speakerName": "引力波天线AI",
+        "content": "警告！后方星域探测到空间维度跌落波前，太阳系残骸的二维化区域正在向我们的舰队航线蔓延！"
+      },
+      {
+        "speakerName": "首席科学家",
+        "content": "我们必须加速，一旦被波及，我们将变成一幅画。"
+      }
+    ],
+    "triggerCondition": {
+      "epoch": "GALAXY",
+      "weight": 5,
+      "probability": 0.04,
+      "lane": "crisis",
+      "cooldownYears": 15
+    },
+    "choices": [
+      {
+        "label": "超载引擎加速逃离",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "economy",
+            "value": -50
+          },
+          {
+            "type": "resource",
+            "target": "population",
+            "value": -10
+          }
+        ]
+      },
+      {
+        "label": "维持航速，听天由命",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "population",
+            "value": -30
+          },
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": -10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "galaxy_proxima_habitability",
+    "title": "【殖民地报告：比邻星b的潮汐锁定】",
+    "dialogQueue": [
+      {
+        "speakerName": "殖民地总督",
+        "content": "比邻星b被母星潮汐锁定，向阳面是熔岩地狱，背阴面是绝对零度。我们只能在晨昏圈的狭窄地带建立城市。"
+      },
+      {
+        "speakerName": "社会学家",
+        "content": "空间极度拥挤，居民情绪正在失控。"
+      }
+    ],
+    "triggerCondition": {
+      "epoch": "GALAXY",
+      "weight": 5,
+      "probability": 0.05,
+      "lane": "ambient",
+      "cooldownYears": 10
+    },
+    "choices": [
+      {
+        "label": "实施严格的人口配给与空间管制",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "treachery",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "economy",
+            "value": 10
+          }
+        ]
+      },
+      {
+        "label": "投资地下城扩展工程",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "economy",
+            "value": -30
+          },
+          {
+            "type": "resource",
+            "target": "population",
+            "value": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "galaxy_curvature_engine_fuel",
+    "title": "【危机：曲率驱动燃料告罄】",
+    "dialogQueue": [
+      {
+        "speakerName": "舰队总工",
+        "content": "长时间的光速航行已经耗尽了我们的反物质储备。如果找不到补给点，我们将永远在星际荒漠中漂流。"
+      }
+    ],
+    "triggerCondition": {
+      "epoch": "GALAXY",
+      "weight": 5,
+      "probability": 0.05,
+      "lane": "crisis",
+      "cooldownYears": 15
+    },
+    "choices": [
+      {
+        "label": "捕获沿途的流浪行星进行开采",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "economy",
+            "value": 10
+          },
+          {
+            "type": "resource",
+            "target": "military",
+            "value": -10
+          }
+        ]
+      },
+      {
+        "label": "强制部分乘员进入深度冬眠节约能量",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": -10
+          },
+          {
+            "type": "resource",
+            "target": "economy",
+            "value": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "galaxy_micro_universe_door",
+    "title": "【奇迹：小宇宙门控信号】",
+    "dialogQueue": [
+      {
+        "speakerName": "深空探测员",
+        "content": "报告！我们在前方虚空中检测到了一个引力异常点，这与理论模型中的小宇宙入口完美吻合！"
+      },
+      {
+        "speakerName": "历史学者",
+        "content": "这会是云天明留给程心的647号小宇宙吗？"
+      }
+    ],
+    "triggerCondition": {
+      "epoch": "GALAXY",
+      "weight": 3,
+      "probability": 0.02,
+      "lane": "major",
+      "cooldownYears": 50
+    },
+    "choices": [
+      {
+        "label": "发射探测器尝试对接",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": 30
+          },
+          {
+            "type": "resource",
+            "target": "economy",
+            "value": -20
+          }
+        ]
+      },
+      {
+        "label": "危险太大，记录坐标后离开",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "prestige",
+            "value": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "galaxy_time_dilation_reunion",
+    "title": "【黑域岁月：舰队重逢】",
+    "dialogQueue": [
+      {
+        "speakerName": "通讯官",
+        "content": "我们遇到了另一支逃逸编队！等等...他们的时间戳比我们晚了三个世纪。他们经历了强烈的黑域时间膨胀！"
+      },
+      {
+        "speakerName": "社会学家",
+        "content": "这导致了严重的文化断代，他们甚至不认同我们的星舰政府。"
+      }
+    ],
+    "triggerCondition": {
+      "epoch": "GALAXY",
+      "weight": 4,
+      "probability": 0.05,
+      "lane": "major",
+      "cooldownYears": 20
+    },
+    "choices": [
+      {
+        "label": "强行并入统辖，派驻军队",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "military",
+            "value": -20
+          },
+          {
+            "type": "resource",
+            "target": "treachery",
+            "value": 10
+          }
+        ]
+      },
+      {
+        "label": "允许他们建立自治区",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": 20
+          },
+          {
+            "type": "resource",
+            "target": "prestige",
+            "value": -10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "galaxy_dark_matter_life",
+    "title": "【发现：暗物质海中的宏电子】",
+    "dialogQueue": [
+      {
+        "speakerName": "物理学家",
+        "content": "在这片星云中，我们观测到了活跃的暗物质凝聚态。它们表现出了类似生命的行为——这和历史记载中林云发现的宏电子非常相似！"
+      }
+    ],
+    "triggerCondition": {
+      "epoch": "GALAXY",
+      "weight": 5,
+      "probability": 0.05,
+      "lane": "ambient",
+      "cooldownYears": 15
+    },
+    "choices": [
+      {
+        "label": "尝试捕捉并研究",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "economy",
+            "value": 40
+          },
+          {
+            "type": "resource",
+            "target": "population",
+            "value": -5
+          }
+        ]
+      },
+      {
+        "label": "保持距离，避免干扰",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "galaxy_heat_death_omen",
+    "title": "【终极恐惧：宇宙坍缩预兆】",
+    "dialogQueue": [
+      {
+        "speakerName": "天文台长",
+        "content": "最新观测表明，宇宙大尺度结构中的质量正在加速流失。也许大坍缩永远不会到来，宇宙将走向寂静的热寂。"
+      },
+      {
+        "speakerName": "民意代表",
+        "content": "这个消息让整艘星舰陷入了存在主义危机。"
+      }
+    ],
+    "triggerCondition": {
+      "epoch": "GALAXY",
+      "weight": 5,
+      "probability": 0.04,
+      "lane": "ambient",
+      "cooldownYears": 25
+    },
+    "choices": [
+      {
+        "label": "隐瞒观测数据",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "treachery",
+            "value": 15
+          },
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": -20
+          }
+        ]
+      },
+      {
+        "label": "公布真相，倡导及时行乐",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "economy",
+            "value": -40
+          },
+          {
+            "type": "resource",
+            "target": "culture",
+            "value": 30
           }
         ]
       }

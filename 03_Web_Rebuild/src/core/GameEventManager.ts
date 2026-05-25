@@ -533,16 +533,12 @@ export class GameEventManager {
       targetStr = targetEpoch;
     }
 
-    if (targetStr === currentEpoch) return true;
-
-    // WANDERING corresponds to late-game eras: BROADCAST, BUNKER, or GALAXY
-    if (targetStr === "WANDERING") {
-      return currentEpoch === "BROADCAST" || currentEpoch === "BUNKER" || currentEpoch === "GALAXY";
-    }
-
-    // SHELTER corresponds to the Bunker Era (BUNKER)
-    if (targetStr === "SHELTER") {
-      return currentEpoch === "BUNKER";
+    const targets = targetStr.split(",").map(s => s.trim());
+    
+    for (const t of targets) {
+      if (t === currentEpoch) return true;
+      if (t === "WANDERING" && (currentEpoch === "BROADCAST" || currentEpoch === "BUNKER" || currentEpoch === "GALAXY")) return true;
+      if (t === "SHELTER" && currentEpoch === "BUNKER") return true;
     }
 
     return false;
@@ -637,9 +633,16 @@ export class GameEventManager {
   }
 
   public checkEvents(currentYear: number): GameEvent[] {
+    const game = GameInstance.get();
     const triggered: GameEvent[] = [];
     this.events.forEach(e => {
       if (!e.hasTriggered && e.inYear === currentYear) {
+        // Enforce loreMode for fixed events if they have a loreDomain defined
+        if (e.cadenceMeta && e.cadenceMeta.loreDomain) {
+          if (game && game.loreMode === 'strict_three_body' && e.cadenceMeta.loreDomain !== 'three_body_canon') {
+            return; // Skip this event
+          }
+        }
         e.hasTriggered = true;
         triggered.push(e);
       }
@@ -662,9 +665,14 @@ export class GameEventManager {
     if (e.dialogNodes) {
       for (const node of e.dialogNodes) {
         const speaker = node.speakerName;
-        if (speaker && coreStoryPersons.includes(speaker)) {
-          if (!available.has(speaker)) {
-            return false;
+        if (speaker) {
+          // Check if speaker contains any core person name (e.g., "安全官 维德" contains "维德")
+          for (const corePerson of coreStoryPersons) {
+            if (speaker.includes(corePerson)) {
+              if (!available.has(corePerson)) {
+                return false;
+              }
+            }
           }
         }
       }

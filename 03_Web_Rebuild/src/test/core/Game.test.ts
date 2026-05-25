@@ -227,9 +227,9 @@ describe('Game Core Extended', () => {
       expect(game.earthCivi.economy).toBe(150);
     });
 
-    it('resource类型 负值不影响为负', () => {
+    it('resource类型 负值钳制最大扣减50%', () => {
       game.applyNewEffects([{ type: 'resource', target: 'economy', value: -200 }]);
-      expect(game.earthCivi.economy).toBe(0);
+      expect(game.earthCivi.economy).toBe(50);
     });
 
     it('resource类型 population target', () => {

@@ -19,6 +19,9 @@ export interface Star {
   buildingProgress: Record<string, { currentBuild: number; totalBuild: number; buildPerRound: number }> | null;
 
   departmentName: string | null;
+
+  Distance?: number;
+  starType?: string;
 }
 
 export function createEmptyStar(index: number): Star {

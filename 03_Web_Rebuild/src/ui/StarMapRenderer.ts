@@ -20,8 +20,10 @@ export class StarMapRenderer {
   private renderStars: RenderStar[] = [];
   private animationId: number = 0;
   
-  private hoveredStar: RenderStar | null = null;
-  private selectedStar: RenderStar | null = null;
+  public hoveredStar: RenderStar | null = null;
+  public selectedStar: RenderStar | null = null;
+
+  public renderStarMap: Map<number, RenderStar> = new Map();
 
   public zoomLevel: number = 1.0;
   public panX: number = 0;
@@ -134,21 +136,15 @@ export class StarMapRenderer {
           // 限制最小速度
           if (speed < 0.0005) speed = 0.0005;
         }
-      } else if (s.index <= 100) { // 50 light-years
-        orbitRadius = 500 + Math.random() * 500;
-        radius = 4 + Math.random() * 4;
-        speed = 0.0005;
-      } else if (s.index <= 200) { // 10000 light-years
-        orbitRadius = 1500 + Math.random() * 1000;
-        radius = 3 + Math.random() * 3;
+      } else if (s.index > 10) { // Extra-solar based on Distance
+        const distLy = s.Distance || (s.index * 2);
+        // Map real light-years to a logarithmic visual distance
+        orbitRadius = Math.log(distLy + 1) * 300 + 400; 
+        radius = 4 + Math.random() * 2;
         speed = 0.0001;
-      } else { // Galaxy
-        orbitRadius = 3000 + Math.random() * 2000;
-        radius = 2 + Math.random() * 2;
-        speed = 0.00005;
       }
 
-      this.renderStars.push({
+      const renderStar = {
         star: s,
         x: cx,
         y: cy,
@@ -157,7 +153,10 @@ export class StarMapRenderer {
         angle,
         speed,
         parentIndex
-      });
+      };
+
+      this.renderStars.push(renderStar);
+      this.renderStarMap.set(s.index, renderStar);
     });
   }
 
@@ -331,8 +330,8 @@ export class StarMapRenderer {
 
     game.earthCivi.fleets.forEach(fleet => {
       if (fleet.eta > 0) {
-        const srcStar = this.renderStars.find(s => s.star.index === fleet.sourceStarIndex);
-        const dstStar = this.renderStars.find(s => s.star.index === fleet.targetStarIndex);
+        const srcStar = this.renderStarMap.get(fleet.sourceStarIndex);
+        const dstStar = this.renderStarMap.get(fleet.targetStarIndex);
 
         if (srcStar && dstStar) {
           // 连线

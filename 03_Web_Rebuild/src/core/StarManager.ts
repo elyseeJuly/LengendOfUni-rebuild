@@ -11,13 +11,15 @@ export class StarManager {
     this.init();
   }
 
-  public init(): void {
+    public init(): void {
     starsData.forEach((data: any) => {
       const star = createEmptyStar(data.Index);
       star.name = data.Name;
       star.isPlanet = data.IsPlanet === 1;
       star.totalResource = data.Resource || 0;
       star.currentResource = star.totalResource;
+      if (data.Distance) star.Distance = data.Distance;
+      if (data.starType) star.starType = data.starType;
       
       // Random generation bounds mapping logic goes here if needed
       
