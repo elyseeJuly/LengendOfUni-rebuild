@@ -88,7 +88,7 @@ export const RightInspector: React.FC = () => {
       fleet.weapons.push({ weaponName: "恒星级战舰", currentBuild: 10 });
       fleet.weapons.push({ weaponName: "恒星级战舰", currentBuild: 10 });
       fleet.weapons.push({ weaponName: "恒星级战舰", currentBuild: 10 });
-      fleet.leaderName = "章北海";
+      fleet.leaderName = null;
       earth.fleets.push(fleet);
       game.addHistory(`在 ${star.name} 开始建造恒星级战舰编队（3艘，消耗 100 经济），舰队已就绪等待出击。`);
       forceUpdate(n => n + 1);
@@ -99,7 +99,7 @@ export const RightInspector: React.FC = () => {
   };
   const handleDispatchFleet = () => {
     const fleet = createFleet("地球第一舰队", "地球", star.index, STAR_INDEX.MARS, 3);
-    fleet.leaderName = "章北海";
+    fleet.leaderName = null;
     fleet.weapons.push({ weaponName: "恒星级战舰", currentBuild: 10 });
     earth.fleets.push(fleet);
     game.addHistory(`【出征】组建 ${fleet.name} 离开 ${star.name}，目标火星，预计 3 回合后抵达。`);
@@ -297,9 +297,30 @@ export const RightInspector: React.FC = () => {
                           <Anchor size={12} className="text-[var(--color-primary)]" />
                           <span className="text-[11px] font-bold truncate max-w-[140px]">{fleet.name}</span>
                         </div>
-                        <span className="text-[9px] text-[var(--text-secondary)]">
-                          {fleet.leaderName || '未指派'}
-                        </span>
+                        <select
+                          value={fleet.leaderName || ''}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            if (val) {
+                              const p = game.personManager.getPerson(val);
+                              if (p) {
+                                fleet.leaderName = val;
+                                forceUpdate(n => n + 1);
+                              }
+                            } else {
+                              fleet.leaderName = null;
+                              forceUpdate(n => n + 1);
+                            }
+                          }}
+                          className="bg-transparent border-none text-[9px] text-[var(--text-secondary)] outline-none cursor-pointer hover:text-white"
+                        >
+                          <option value="">未指派</option>
+                          {Array.from(game.personManager.availablePersons).map(name => {
+                            const p = game.personManager.getPerson(name);
+                            if (p && p.army > 0) return <option key={name} value={name}>{name}</option>;
+                            return null;
+                          })}
+                        </select>
                       </div>
                       {fleet.weapons.map((wp, wi) => {
                         const proto = (weaponsData as any[]).find((w: any) => w.name === wp.weaponName);

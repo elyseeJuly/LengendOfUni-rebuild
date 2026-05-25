@@ -490,10 +490,17 @@ export class Game {
         const epochNames = ["危机纪元", "威慑纪元", "广播纪元", "掩体纪元", "银河纪元"];
         const epName = epochNames[this.epoch] || "未知纪元";
         if (intro) {
-          this.tickerMessages.push(`👥 [战略人事公报] ${epName} ${this.year} 年 - 【重要人物正式入列】${eff.target} (${intro.role})。设定：“${intro.content}”`);
+          this.tickerMessages.push(`👥 [战略人事公报] ${epName} ${this.year} 年 - 【重要人物正式入列】${eff.target} (${intro.role})。“${intro.content}”`);
         } else {
           this.tickerMessages.push(`👥 [战略人事公报] ${epName} ${this.year} 年 - 【人员加入】重要人物 ${eff.target} 正式加入统帅部。`);
         }
+        
+        // Auto-assign wallfacers to the Wallfacer Project when they are unlocked
+        if (["罗辑", "泰勒", "雷迪亚兹", "希恩斯"].includes(eff.target)) {
+          this.earthCivi.wallfacers.add(eff.target);
+          this.addHistory(`【系统提醒】面壁者 ${eff.target} 已自动列入宇宙社会学-面壁计划执行名单。`);
+        }
+        
         window.dispatchEvent(new CustomEvent('ticker-message-added'));
       } else if (eff.type === 'event_effect') {
         this.applyEventEffect(eff.value as EventEffect);
@@ -582,6 +589,7 @@ export class GameInstance {
   public static reset(): void {
     localStorage.removeItem("LegendOfUni_Save");
     this.instance = new Game();
+    setTimeout(() => window.dispatchEvent(new CustomEvent('open-tutorial')), 500);
   }
 
   public static saveGame(): void {

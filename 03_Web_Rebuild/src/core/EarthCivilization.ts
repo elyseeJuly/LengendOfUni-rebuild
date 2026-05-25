@@ -71,7 +71,6 @@ export class EarthCivilization extends Civilization {
   public runARound(): void {
     const game = GameInstance.get();
 
-    this.autoAssignMinisters(game);
     this.allocateWorkers();
 
     this.processMining(game);

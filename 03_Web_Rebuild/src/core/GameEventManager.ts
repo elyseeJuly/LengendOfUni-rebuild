@@ -200,8 +200,7 @@ export class GameEventManager {
         choices: [
           { label: "全力支持面壁计划", effects: [{ type: "flag", target: "wallfacer_project", value: 1 }, { type: "resource", target: "culture", value: 20 }] },
           { label: "谨慎观望", effects: [{ type: "flag", target: "wallfacer_cautious", value: 1 }, { type: "resource", target: "military", value: 2 }] }
-        ],
-        cooldownYears: 10
+        ]
       },
       {
         id: "deterrence_establishment",
@@ -229,8 +228,7 @@ export class GameEventManager {
         choices: [
           { label: "加速研发量子计算机", effects: [{ type: "flag", target: "quantum_focus", value: 1 }, { type: "resource", target: "economy", value: -20 }] },
           { label: "放弃基础物理，主攻应用技术", effects: [{ type: "flag", target: "applied_tech_focus", value: 1 }, { type: "resource", target: "economy", value: 30 }] }
-        ],
-        cooldownYears: 5
+        ]
       },
       {
         id: "wandering_earth_decision",
@@ -244,8 +242,7 @@ export class GameEventManager {
         choices: [
           { label: "启动流浪地球计划", effects: [{ type: "flag", target: "wandering_chosen", value: 1 }, { type: "resource", target: "economy", value: -100 }, { type: "resource", target: "prestige", value: 30 }] },
           { label: "转向数字方舟方案", effects: [{ type: "flag", target: "digital_ark_chosen", value: 1 }, { type: "resource", target: "culture", value: 50 }] }
-        ],
-        cooldownYears: 40
+        ]
       },
       {
         id: "alien_first_contact",
@@ -259,8 +256,7 @@ export class GameEventManager {
         choices: [
           { label: "保持静默", effects: [{ type: "flag", target: "silent_contact", value: 1 }, { type: "resource", target: "prestige", value: 10 }] },
           { label: "发送友好信号", effects: [{ type: "flag", target: "friendly_broadcast", value: 1 }, { type: "resource", target: "culture", value: -20 }] }
-        ],
-        cooldownYears: 30
+        ]
       },
       {
         id: "rebellion_crisis",
@@ -288,8 +284,7 @@ export class GameEventManager {
         condition: { minYear: 30, reqTech: "550W量子计算机", reqNotFlag: "sophon_countermeasure_activated" },
         choices: [
           { label: "秘密启动面壁会议室", effects: [{ type: "flag", target: "sophon_countermeasure_activated", value: 1 }, { type: "flag", target: "sophon_broken", value: 1 }, { type: "resource", target: "prestige", value: 40 }] }
-        ],
-        cooldownYears: 5
+        ]
       },
       {
         id: "resource_crisis",
@@ -408,8 +403,7 @@ export class GameEventManager {
         choices: [
           { label: "全面推行掩体计划", effects: [{ type: "flag", target: "bunker_project_active", value: 1 }, { type: "resource", target: "economy", value: -80 }, { type: "resource", target: "military", value: 5 }] },
           { label: "掩体与光速飞船并行", effects: [{ type: "flag", target: "dual_strategy", value: 1 }, { type: "resource", target: "economy", value: -120 }, { type: "resource", target: "prestige", value: 20 }] }
-        ],
-        cooldownYears: 20
+        ]
       },
       {
         id: "dimensional_threat_alert",
@@ -423,8 +417,7 @@ export class GameEventManager {
         choices: [
           { label: "启动紧急撤离预案", effects: [{ type: "flag", target: "dimensional_alert_seen", value: 1 }, { type: "resource", target: "economy", value: -60 }, { type: "resource", target: "prestige", value: 15 }] },
           { label: "加强掩体防御工事", effects: [{ type: "flag", target: "dimensional_alert_seen", value: 1 }, { type: "resource", target: "military", value: 8 }, { type: "resource", target: "prestige", value: -10 }] }
-        ],
-        cooldownYears: 30
+        ]
       },
       {
         id: "galaxy_era_exodus",
@@ -438,8 +431,7 @@ export class GameEventManager {
         choices: [
           { label: "向银河系深处进发", effects: [{ type: "flag", target: "galaxy_exodus_seen", value: 1 }, { type: "resource", target: "prestige", value: 50 }, { type: "resource", target: "culture", value: 30 }] },
           { label: "先稳固现有殖民地", effects: [{ type: "flag", target: "galaxy_exodus_seen", value: 1 }, { type: "resource", target: "economy", value: 40 }, { type: "resource", target: "resource", value: 60 }] }
-        ],
-        cooldownYears: 35
+        ]
       },
       {
         id: "alien_civilization_diplomacy",
@@ -453,8 +445,7 @@ export class GameEventManager {
         choices: [
           { label: "建立外交关系", effects: [{ type: "flag", target: "alien_diplomacy_seen", value: 1 }, { type: "flag", target: "alien_alliance", value: 1 }, { type: "resource", target: "prestige", value: 60 }, { type: "resource", target: "culture", value: 40 }] },
           { label: "保持距离，暗中观察", effects: [{ type: "flag", target: "alien_diplomacy_seen", value: 1 }, { type: "resource", target: "military", value: 5 }, { type: "resource", target: "prestige", value: 15 }] }
-        ],
-        cooldownYears: 40
+        ]
       },
       {
         id: "reunion_homeworld",
@@ -468,8 +459,7 @@ export class GameEventManager {
         choices: [
           { label: "全速返回太阳系", effects: [{ type: "flag", target: "return_to_home", value: 1 }, { type: "resource", target: "prestige", value: 80 }, { type: "resource", target: "culture", value: 50 }] },
           { label: "派遣探测器先行侦察", effects: [{ type: "flag", target: "cautious_return", value: 1 }, { type: "resource", target: "prestige", value: 30 }, { type: "resource", target: "military", value: 5 }] }
-        ],
-        cooldownYears: 40
+        ]
       },
       {
         id: "inner_conflict_resolution",
