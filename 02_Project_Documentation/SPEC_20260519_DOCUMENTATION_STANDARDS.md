@@ -61,12 +61,15 @@ Documents defining features, architectures, and design directives.
 
 ### 4.2 Audits & Analyses (`AUDIT_`)
 Diagnostic reviews and balance reports.
+*   [AUDIT_20260512_BUGFIXES.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260512_BUGFIXES.md) — *Legacy audit of game bugs and numerical limits*
 *   [AUDIT_20260514_BUGFIX_V2.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260514_BUGFIX_V2.md) — *Audit of game bugs and numerical limits*
 *   [AUDIT_20260514_NARRATIVE_SYSTEM.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260514_NARRATIVE_SYSTEM.md) — *Narrative pacing and choice balance review*
 *   [AUDIT_20260515_STRATEGY_OPTIMIZATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260515_STRATEGY_OPTIMIZATION.md) — *Strategy curve pacing reports*
 *   [AUDIT_20260517_GAME_OPTIMIZATION_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260517_GAME_OPTIMIZATION_PLAN.md) — *10-turn Autoplay data + multi-level optimization plan*
 *   [AUDIT_20260518_CODE_QUALITY.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260518_CODE_QUALITY.md) — *Static code analysis*
 *   [AUDIT_20260518_STRATEGY_CURVE.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260518_STRATEGY_CURVE.md) — *Difficulty and strategy curve analysis*
+*   [AUDIT_20260519_CODE_AUDIT_REPORT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260519_CODE_AUDIT_REPORT.md) — *Vitest code audit and optimization report*
+*   [AUDIT_20260519_OPTIMIZATION_NOTES.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260519_OPTIMIZATION_NOTES.md) — *Core engine optimization notes*
 *   [AUDIT_20260520_RANDOM_EVENTS_CANON_ANALYSIS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260520_RANDOM_EVENTS_CANON_ANALYSIS.md) — *Canonical analysis of pure random events and infinite triggers audit*
 *   [AUDIT_20260525_FULL_NARRATIVE_PHYSICS_AUDIT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260525_FULL_NARRATIVE_PHYSICS_AUDIT.md) — *Full narrative/physics/balance deep audit with optimization proposals for AI handoff*
 
@@ -76,11 +79,13 @@ Standards and definitions of tests.
 *   [TEST_20260517_HEADLESS_AUTOPLAY_STANDARD.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/TEST_20260517_HEADLESS_AUTOPLAY_STANDARD.md) — *Autoplay headless bot simulation instructions*
 *   [TEST_20260517_SUITE_FULL_COVERAGE.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/TEST_20260517_SUITE_FULL_COVERAGE.md) — *Full coverage test suite harness*
 *   [TEST_20260518_SUPPLEMENT_CASES.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/TEST_20260518_SUPPLEMENT_CASES.md) — *Supplementary playtest cases*
+*   [TEST_20260519_VITEST_REPORT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/TEST_20260519_VITEST_REPORT.md) — *Vitest and @testing-library report with suggestions*
 *   [TEST_20260520_FRAMEWORK_ANALYSIS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/TEST_20260520_FRAMEWORK_ANALYSIS.md) — *Vitest vs alternative testing frameworks analysis report*
 
 ### 4.4 Development Histories & Chronicles (`HIST_`)
 Archived logs and historical progression tracking.
 *   [HIST_20260514_DEV_LOG.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260514_DEV_LOG.md) — *Consolidated development/git logs*
+*   [HIST_20260514_NARRATIVE_SYSTEM_M8.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260514_NARRATIVE_SYSTEM_M8.md) — *Narrative engine special development history (Stage M8)*
 *   [HIST_20260514_README_HISTORY.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260514_README_HISTORY.md) — *README.md modification history*
 *   [HIST_20260515_DEVELOPMENT_V2.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260515_DEVELOPMENT_V2.md) — *Development log V2*
 *   [HIST_20260517_DEVELOPMENT_V3.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260517_DEVELOPMENT_V3.md) — *Development log V3*
@@ -88,6 +93,7 @@ Archived logs and historical progression tracking.
 *   [HIST_20260518_DEVELOPMENT_MAIN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260518_DEVELOPMENT_MAIN.md) — *Master chronological dev history*
 *   [HIST_20260518_DEVELOPMENT_V5.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260518_DEVELOPMENT_V5.md) — *Development log V5*
 *   [HIST_20260518_DEVELOPMENT_V6.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260518_DEVELOPMENT_V6.md) — *Development log V6*
+*   [HIST_20260519_DEVELOPMENT_LOG_M0_M9.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260519_DEVELOPMENT_LOG_M0_M9.md) — *Web Rebuild full dev chronologies M0-M9*
 *   [HIST_20260520_DEVELOPMENT_V7.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260520_DEVELOPMENT_V7.md) — *Development log V7*
 
 ### 4.5 Active Execution & Tasks (`EXEC_`)
