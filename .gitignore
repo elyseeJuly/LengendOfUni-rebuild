@@ -28,6 +28,7 @@ Win32/
 # Web Rebuild files
 03_Web_Rebuild/node_modules/
 03_Web_Rebuild/dist/
+03_Web_Rebuild/coverage/
 
 # OS files
 .DS_Store
