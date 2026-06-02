@@ -67,16 +67,17 @@ describe('EarthCivilization', () => {
   });
 
   it('allocateWorkers 分配工人', () => {
+    game.earthCivi.population = 100;
     game.earthCivi.miningRatio = 30;
     game.earthCivi.factoryRatio = 30;
     game.earthCivi.cultureRatio = 30;
     game.earthCivi.idleWorkers = 90;
     (game.earthCivi as any).allocateWorkers();
 
-    expect(game.earthCivi.miningWorkers).toBe(30);
-    expect(game.earthCivi.factoryWorkers).toBe(30);
-    expect(game.earthCivi.cultureWorkers).toBe(30);
-    expect(game.earthCivi.idleWorkers).toBe(0);
+    expect(game.earthCivi.miningWorkers).toBe(33);
+    expect(game.earthCivi.factoryWorkers).toBe(33);
+    expect(game.earthCivi.cultureWorkers).toBe(33);
+    expect(game.earthCivi.idleWorkers).toBe(1);
   });
 
   it('sanitizeResources 人口为0时触发游戏结束', () => {

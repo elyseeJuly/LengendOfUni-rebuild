@@ -188,7 +188,7 @@ export class EarthCivilization extends Civilization {
   }
 
   private allocateWorkers(): void {
-    const total = this.idleWorkers;
+    const total = this.population;
     const totalRatio = this.miningRatio + this.factoryRatio + this.cultureRatio;
     const denom = totalRatio > 0 ? totalRatio : 1;
     this.miningWorkers = Math.floor(total * this.miningRatio / denom);
@@ -448,8 +448,12 @@ export class EarthCivilization extends Civilization {
             tempDef.soldierCount = 100;
             const win = CombatEngine.resolveFleetVsBarback(fleet, tempDef);
             if (win) {
+              const oldOwner = targetStar.belongToCivi;
               targetStar.belongToCivi = this.name;
               this.starIndices.add(fleet.targetStarIndex);
+              if (oldOwner && oldOwner !== "无" && game.alienCiviManager) {
+                game.alienCiviManager.loseStar(oldOwner, fleet.targetStarIndex);
+              }
               game.addHistory(`【胜利】成功占领星系 ${targetStar.name}！`);
             } else {
               this.fleets.splice(i, 1);

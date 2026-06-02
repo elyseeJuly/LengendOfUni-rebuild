@@ -78,6 +78,8 @@ export class CombatEngine {
       atkHp -= Math.floor(defPower * defDice);
     }
 
+    if (atkPower === 0 && defPower === 0) return false;
+    if (atkHp <= 0) return false;
     return defHp <= 0;
   }
 

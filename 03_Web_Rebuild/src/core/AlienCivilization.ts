@@ -201,7 +201,8 @@ export class AlienCiviManager {
         personality,
         data.starsys || 1
       );
-      alien.starIndices.add(1000 + this.aliens.size);
+      const homeStarIndex = 999 - this.aliens.size;
+      alien.starIndices.add(homeStarIndex);
       alien.population = data.res || 500;
       alien.resource = data.res || 1000;
       this.aliens.set(alien.name, alien);
@@ -215,6 +216,17 @@ export class AlienCiviManager {
       }
     }
     return this.aliens.size > 0;
+  }
+
+  public loseStar(civiName: string, starIndex: number): void {
+    const alien = this.aliens.get(civiName);
+    if (alien) {
+      alien.starIndices.delete(starIndex);
+      const game = GameInstance.get();
+      if (alien.isDieOut() && game) {
+        game.addHistory(`【胜利】外星文明 ${civiName} 被彻底消灭！`);
+      }
+    }
   }
 
   public setRngProvider(provider: RngProvider): void {

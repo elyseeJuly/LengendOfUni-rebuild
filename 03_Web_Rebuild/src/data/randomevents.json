@@ -76,8 +76,7 @@
     "title": "【最高警报：真空衰变泡形成】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.03,
-      "reqTech": "超高能粒子对撞机"
+      "probability": 0.03
     },
     "dialogQueue": [
       {
@@ -134,8 +133,7 @@
     "title": "【红色警报：行星发动机控制节点被篡改】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -202,8 +200,7 @@
     "title": "【绝密：未知文明广播截获】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.02,
-      "reqTech": "深空监听阵列"
+      "probability": 0.02
     },
     "dialogQueue": [
       {
@@ -285,8 +282,7 @@
     "title": "【生存抉择：地下城氧气配给崩溃】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -363,8 +359,7 @@
     "title": "【故障：反物质磁阱失超】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": "反物质应用工程"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -421,8 +416,7 @@
     "title": "【紧急事态：第七区食物配给暴动】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.1,
-      "reqTech": null
+      "probability": 0.1
     },
     "dialogQueue": [
       {
@@ -479,8 +473,7 @@
     "title": "【停工报告：第12矿业殖民地全面罢工】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.08,
-      "reqTech": null
+      "probability": 0.08
     },
     "dialogQueue": [
       {
@@ -542,8 +535,7 @@
     "title": "【极端事件：“降临派”集体自决】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": null
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -595,8 +587,7 @@
     "title": "【边界冲突：难民潮冲破隔离墙】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -658,8 +649,7 @@
     "title": "【发现：四维空间碎块捕获】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.01,
-      "reqTech": "高维理论实验室"
+      "probability": 0.01
     },
     "dialogQueue": [
       {
@@ -711,8 +701,7 @@
     "title": "【异常：智子盲区急剧扩张】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.03,
-      "reqTech": "量子通讯中枢"
+      "probability": 0.03
     },
     "dialogQueue": [
       {
@@ -764,8 +753,7 @@
     "title": "【终极抉择：诱饵舰队计划】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.05,
-      "reqTech": "深空舰队建制"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -832,8 +820,7 @@
     "title": "【大低谷记忆：最后的种子库】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": null
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -890,8 +877,7 @@
     "title": "【深空讯号：不，要，回，答】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.005,
-      "reqTech": null
+      "probability": 0.005
     },
     "dialogQueue": [
       {
@@ -948,8 +934,7 @@
     "title": "【目击报告：疑似“水滴”造访太阳系外围】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.008,
-      "reqTech": "深空监测网"
+      "probability": 0.008
     },
     "dialogQueue": [
       {
@@ -1011,8 +996,7 @@
     "title": "【污染警报：第五区水源投毒】",
     "triggerCondition": {
       "epoch": "CRISIS,DETERRENCE",
-      "probability": 0.09,
-      "reqTech": null
+      "probability": 0.09
     },
     "dialogQueue": [
       {
@@ -1069,8 +1053,7 @@
     "title": "【内部报告：地下黑市操控配给价格】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.08,
-      "reqTech": null
+      "probability": 0.08
     },
     "dialogQueue": [
       {
@@ -1132,8 +1115,7 @@
     "title": "【蔓延的恐慌：儿童失踪案】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -1190,8 +1172,7 @@
     "title": "【感官饥渴：娱乐匮乏引发暴乱】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.1,
-      "reqTech": null
+      "probability": 0.1
     },
     "dialogQueue": [
       {
@@ -1243,8 +1224,7 @@
     "title": "【新型电子毒品泛滥】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -1301,8 +1281,7 @@
     "title": "【引力异常：强互作用材料失稳】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": "强互作用力应用"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -1354,8 +1333,7 @@
     "title": "【冷冻休眠舱集体故障】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.07,
-      "reqTech": "人体冷冻技术"
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -1407,8 +1385,7 @@
     "title": "【实验事故：量子纠缠引发时间感知错乱】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.04,
-      "reqTech": "量子通讯中枢"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -1465,8 +1442,7 @@
     "title": "【基因库污染：是否清除改良作物】",
     "triggerCondition": {
       "epoch": "CRISIS,DETERRENCE",
-      "probability": 0.06,
-      "reqTech": "基因改良工程"
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -1518,8 +1494,7 @@
     "title": "【伦理边界：创伤记忆清除技术】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.06,
-      "reqTech": "神经接口技术"
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -1576,8 +1551,7 @@
     "title": "【乱世重典：是否恢复公开处刑】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.08,
-      "reqTech": null
+      "probability": 0.08
     },
     "dialogQueue": [
       {
@@ -1629,8 +1603,7 @@
     "title": "【电报：火星殖民地爆发X病原体】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.04,
-      "reqTech": "行星际航行"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -1687,8 +1660,7 @@
     "title": "【终极电车：两个宜居行星，一次选择】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.02,
-      "reqTech": "深空探测阵列"
+      "probability": 0.02
     },
     "dialogQueue": [
       {
@@ -1745,8 +1717,7 @@
     "title": "【监听日志：波江座方向出现文明衰减谐波】",
     "triggerCondition": {
       "epoch": "DETERRENCE,BROADCAST,BUNKER",
-      "probability": 0.01,
-      "reqTech": "深空监听阵列"
+      "probability": 0.01
     },
     "dialogQueue": [
       {
@@ -1808,8 +1779,7 @@
     "title": "【异常：来自猎户旋臂边缘的重复性广播】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.012,
-      "reqTech": "深空监听阵列"
+      "probability": 0.012
     },
     "dialogQueue": [
       {
@@ -1861,8 +1831,7 @@
     "title": "【新信仰蔓延：发动机崇拜运动】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -1919,8 +1888,7 @@
     "title": "【网络攻击：核心数据库被物理入侵】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -1982,8 +1950,7 @@
     "title": "【内部清洗：疑似三体组织渗透政府】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.05,
-      "reqTech": null
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -2040,8 +2007,7 @@
     "title": "【越狱事件：ETO骨干破壁人逃脱】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": null
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -2098,8 +2064,7 @@
     "title": "【灯光熄灭：大范围停电引发静坐抗议】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.09,
-      "reqTech": null
+      "probability": 0.09
     },
     "dialogQueue": [
       {
@@ -2151,8 +2116,7 @@
     "title": "【失控：生物计算机产生蜂巢意识】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": "生物计算工程"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -2209,8 +2173,7 @@
     "title": "【空间破裂：零点能提取事故】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.04,
-      "reqTech": "零点能理论"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -2257,8 +2220,7 @@
     "title": "【重力反转：人工重力装置失效】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.06,
-      "reqTech": "人工重力技术"
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -2315,8 +2277,7 @@
     "title": "【黑科技：脑电波审讯仪投入使用】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.05,
-      "reqTech": "神经接口技术"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -2368,8 +2329,7 @@
     "title": "【生态灾难：改造菌株泄露】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.06,
-      "reqTech": "生态改造技术"
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -2421,8 +2381,7 @@
     "title": "【智子封锁下的文明抉择】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -2474,8 +2433,7 @@
     "title": "【举报人：揭露军方生物武器计划】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.05,
-      "reqTech": null
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -2532,8 +2490,7 @@
     "title": "【冬眠权争夺：谁进入方舟】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.05,
-      "reqTech": "人体冷冻技术"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -2610,8 +2567,7 @@
     "title": "【幽灵航迹：柯伊伯带外的神秘编队】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.008,
-      "reqTech": "深空监测网"
+      "probability": 0.008
     },
     "dialogQueue": [
       {
@@ -2673,8 +2629,7 @@
     "title": "【漂流瓶：异星文明时间囊】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.01,
-      "reqTech": null
+      "probability": 0.01
     },
     "dialogQueue": [
       {
@@ -2731,8 +2686,7 @@
     "title": "【人口炸弹：老龄潮冲击养老体系】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.08,
-      "reqTech": null
+      "probability": 0.08
     },
     "dialogQueue": [
       {
@@ -2784,8 +2738,7 @@
     "title": "【天灾与人祸：冰震导致地下城开裂】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.09,
-      "reqTech": null
+      "probability": 0.09
     },
     "dialogQueue": [
       {
@@ -2842,8 +2795,7 @@
     "title": "【无人应战：战斗无人机操作员集体抗命】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.05,
-      "reqTech": null
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -2895,8 +2847,7 @@
     "title": "【地表回归运动：他们要回家】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -3001,8 +2952,7 @@
     "title": "【禁忌：灵能武器实验成功】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.03,
-      "reqTech": "量子意识理论"
+      "probability": 0.03
     },
     "dialogQueue": [
       {
@@ -3064,8 +3014,7 @@
     "title": "【背叛：网络战AI反噬】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": "强人工智能网络"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -3122,8 +3071,7 @@
     "title": "【生物灾难：朊病毒泄漏事件】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.05,
-      "reqTech": "蛋白质工程"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -3180,8 +3128,7 @@
     "title": "【太阳危机：异常日冕物质抛射】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.05,
-      "reqTech": "恒星观测阵列"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -3238,8 +3185,7 @@
     "title": "【征兵极限：征召十六岁少年】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -3301,8 +3247,7 @@
     "title": "【外交危机：出卖盟友殖民地换取安全】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.04,
-      "reqTech": null
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -3364,8 +3309,7 @@
     "title": "【基因净化计划：剔除缺陷基因】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.06,
-      "reqTech": "基因改良工程"
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -3422,8 +3366,7 @@
     "title": "【天文异象：比邻星异常变暗】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.01,
-      "reqTech": null
+      "probability": 0.01
     },
     "dialogQueue": [
       {
@@ -3475,8 +3418,7 @@
     "title": "【因果异常：收到来自未来地球的信号】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.005,
-      "reqTech": "量子时间实验"
+      "probability": 0.005
     },
     "dialogQueue": [
       {
@@ -3533,8 +3475,7 @@
     "title": "【发现：被遗弃的外星探测器】",
     "triggerCondition": {
       "epoch": "CRISIS,DETERRENCE",
-      "probability": 0.02,
-      "reqTech": "深空打捞技术"
+      "probability": 0.02
     },
     "dialogQueue": [
       {
@@ -3586,8 +3527,7 @@
     "title": "【禁忌：地下器官黑市繁荣】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.08,
-      "reqTech": null
+      "probability": 0.08
     },
     "dialogQueue": [
       {
@@ -3644,8 +3584,7 @@
     "title": "【静默：自动管理系统拒绝服务】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": "人工智能"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -3702,8 +3641,7 @@
     "title": "【劫持：跨大陆重力列车被控】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -3760,8 +3698,7 @@
     "title": "【知识真空：教师集体辞职】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -3813,8 +3750,7 @@
     "title": "【辐射移民潮】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.09,
-      "reqTech": null
+      "probability": 0.09
     },
     "dialogQueue": [
       {
@@ -3871,8 +3807,7 @@
     "title": "【机遇：反物质雷暴收集】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.04,
-      "reqTech": "反物质应用工程"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -3924,8 +3859,7 @@
     "title": "【伦理边界：时间感知囚禁实验】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.04,
-      "reqTech": "神经接口技术"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -3982,8 +3916,7 @@
     "title": "【伪科学还是突破：水有记忆】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -4035,8 +3968,7 @@
     "title": "【失控：自复制采矿机暴走】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.05,
-      "reqTech": "纳米技术"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -4088,8 +4020,7 @@
     "title": "【秘密谈判：交换三体俘虏】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.04,
-      "reqTech": null
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -4151,8 +4082,7 @@
     "title": "【巨星陨落：首席科学家自杀】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": null
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -4257,8 +4187,7 @@
     "title": "【匿名警告：立刻停止广播】",
     "triggerCondition": {
       "epoch": "BROADCAST,BUNKER",
-      "probability": 0.008,
-      "reqTech": null
+      "probability": 0.008
     },
     "dialogQueue": [
       {
@@ -4310,8 +4239,7 @@
     "title": "【发现：天鹅座戴森群结构】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.01,
-      "reqTech": "深空观测阵列"
+      "probability": 0.01
     },
     "dialogQueue": [
       {
@@ -4358,8 +4286,7 @@
     "title": "【垂死恒星的最后讯息】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.012,
-      "reqTech": "深空监听阵列"
+      "probability": 0.012
     },
     "dialogQueue": [
       {
@@ -4411,8 +4338,7 @@
     "title": "【精神崩溃：“安乐亭”排起长队】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.08,
-      "reqTech": null
+      "probability": 0.08
     },
     "dialogQueue": [
       {
@@ -4464,8 +4390,7 @@
     "title": "【能源黑市：盗取发动机燃料网】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -4517,8 +4442,7 @@
     "title": "【信息饥渴：新闻封锁引发冲击波】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -4570,8 +4494,7 @@
     "title": "【街头小军：孤儿帮派割据】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -4623,8 +4546,7 @@
     "title": "【系统漏洞：假配给卡泛滥】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.09,
-      "reqTech": null
+      "probability": 0.09
     },
     "dialogQueue": [
       {
@@ -4671,8 +4593,7 @@
     "title": "【冬眠舱谋杀：连环杀人案】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.05,
-      "reqTech": "人体冷冻技术"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -4724,8 +4645,7 @@
     "title": "【抢水塔：垂直城区的绝望攀登】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.08,
-      "reqTech": null
+      "probability": 0.08
     },
     "dialogQueue": [
       {
@@ -4777,8 +4697,7 @@
     "title": "【民间私刑：自发清洗“不洁者”】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -4830,8 +4749,7 @@
     "title": "【信仰之火：发动机自焚事件】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -4883,8 +4801,7 @@
     "title": "【倒退：童工合法化提案】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -4941,8 +4858,7 @@
     "title": "【陷阱：时间膨胀雷区】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.03,
-      "reqTech": "引力控制技术"
+      "probability": 0.03
     },
     "dialogQueue": [
       {
@@ -5042,8 +4958,7 @@
     "title": "【灰蛊警报：纳米机器人失联】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.05,
-      "reqTech": "纳米技术"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -5090,8 +5005,7 @@
     "title": "【获得：暗物质凝聚态意外生成】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.03,
-      "reqTech": "高能物理实验室"
+      "probability": 0.03
     },
     "dialogQueue": [
       {
@@ -5138,8 +5052,7 @@
     "title": "【禁忌：记忆遗传技术突破】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.04,
-      "reqTech": "基因改良工程"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -5186,8 +5099,7 @@
     "title": "【真空泄漏：等离子窗集体失压】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.06,
-      "reqTech": "等离子物理"
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -5239,8 +5151,7 @@
     "title": "【意外：灵能抑制场发生器】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": "量子意识理论"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -5287,8 +5198,7 @@
     "title": "【外来物：寄生在真空能上的未知结构】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.03,
-      "reqTech": "零点能理论"
+      "probability": 0.03
     },
     "dialogQueue": [
       {
@@ -5335,8 +5245,7 @@
     "title": "【全民皆兵：征兵令扩展至所有适龄者】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -5393,8 +5302,7 @@
     "title": "【交易：赦免叛徒换取三体情报】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.05,
-      "reqTech": null
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -5446,8 +5354,7 @@
     "title": "【历史性投票：AI是否应获得公民权】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.06,
-      "reqTech": "强人工智能网络"
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -5499,8 +5406,7 @@
     "title": "【分裂：抛下月球基地？】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.05,
-      "reqTech": "行星推进技术"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -5557,8 +5463,7 @@
     "title": "【生存与伦理：有偿器官捐献合法化】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -5615,8 +5520,7 @@
     "title": "【极寒抉择：凿沉难民船】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -5673,8 +5577,7 @@
     "title": "【清洗：对叛军控制区使用战术核弹】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": null
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -5731,8 +5634,7 @@
     "title": "【最后的蛋白质：绝种还是生存】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -5789,8 +5691,7 @@
     "title": "【失踪：游牧恒星被抹除】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.01,
-      "reqTech": "深空观测阵列"
+      "probability": 0.01
     },
     "dialogQueue": [
       {
@@ -5837,8 +5738,7 @@
     "title": "【宇宙涂鸦：银河悬臂上的雕刻】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.015,
-      "reqTech": "深空观测阵列"
+      "probability": 0.015
     },
     "dialogQueue": [
       {
@@ -5885,8 +5785,7 @@
     "title": "【漂流瓶：来自流浪行星的问候】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.012,
-      "reqTech": "深空监听阵列"
+      "probability": 0.012
     },
     "dialogQueue": [
       {
@@ -5938,8 +5837,7 @@
     "title": "【回声：人类广播被完美复制发回】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.015,
-      "reqTech": "深空监听阵列"
+      "probability": 0.015
     },
     "dialogQueue": [
       {
@@ -5986,8 +5884,7 @@
     "title": "【绝密警报：自然选择号擅自逃离】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": "深空舰队建制"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -6044,8 +5941,7 @@
     "title": "【真相泄露：思想钢印部队名单曝光】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": "脑科学"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -6102,8 +5998,7 @@
     "title": "【历史时刻：执剑人交接仪式】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -6213,8 +6108,7 @@
     "title": "【突击行动：大史带队端掉ETO据点】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -6266,8 +6160,7 @@
     "title": "【深夜酒馆：大史的人生哲学】",
     "triggerCondition": {
       "epoch": "CRISIS,DETERRENCE",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -6314,8 +6207,7 @@
     "title": "【内讧：ETO降临派与拯救派血拼】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": null
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -6367,8 +6259,7 @@
     "title": "【绝密档案：红岸基地的最后录音】",
     "triggerCondition": {
       "epoch": "ANY",
-      "probability": 0.04,
-      "reqTech": null
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -6420,8 +6311,7 @@
     "title": "【面壁者希恩斯：思想钢印大规模部署】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.05,
-      "reqTech": "脑科学"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -6473,8 +6363,7 @@
     "title": "【面壁者雷迪亚兹：水星核爆计划】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": "恒星际航行"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -6531,8 +6420,7 @@
     "title": "【面壁者泰勒：宏原子舰队突袭】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": "量子物理"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -6584,8 +6472,7 @@
     "title": "【情报：云天明的三个童话破译】",
     "triggerCondition": {
       "epoch": "BROADCAST",
-      "probability": 0.05,
-      "reqTech": "智子通讯"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -6632,8 +6519,7 @@
     "title": "【深空追踪：阶梯计划飞行器偏航】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.04,
-      "reqTech": null
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -6685,8 +6571,7 @@
     "title": "【工程突破：汪淼提出纳米太空电梯】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.06,
-      "reqTech": "纳米技术"
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -6733,8 +6618,7 @@
     "title": "【心灵余震：汪淼再次看见倒计时】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": null
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -6781,8 +6665,7 @@
     "title": "【经济危机：艾AA的太空城集团濒临破产】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -6839,8 +6722,7 @@
     "title": "【奇遇：关一帆跌入四维碎块】",
     "triggerCondition": {
       "epoch": "BROADCAST,BUNKER,GALAXY",
-      "probability": 0.03,
-      "reqTech": "高维理论实验室"
+      "probability": 0.03
     },
     "dialogQueue": [
       {
@@ -6887,8 +6769,7 @@
     "title": "【林云：球状闪电武器化提案】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.06,
-      "reqTech": "球状闪电理论"
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -6935,8 +6816,7 @@
     "title": "【林云的执着：量子态攻击的代价】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": "球状闪电理论"
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -6993,8 +6873,7 @@
     "title": "【面壁者希恩斯：思想钢印内爆】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.04,
-      "reqTech": "脑科学"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -7041,8 +6920,7 @@
     "title": "【绝境：雷迪亚兹面临母国审判】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.05,
-      "reqTech": null
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -7094,8 +6972,7 @@
     "title": "【幽灵舰队：泰勒的遗产】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.04,
-      "reqTech": "宏原子物理学"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -7142,8 +7019,7 @@
     "title": "【迟来的重逢：阶梯计划探测器回音】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.04,
-      "reqTech": "智子通讯"
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -7195,8 +7071,7 @@
     "title": "【大史的套路：假ETO钓鱼行动】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -7243,8 +7118,7 @@
     "title": "【章北海的终点：为地球挡下致命一击】",
     "triggerCondition": {
       "epoch": "DETERRENCE",
-      "probability": 0.03,
-      "reqTech": "深空舰队建制"
+      "probability": 0.03
     },
     "dialogQueue": [
       {
@@ -7301,8 +7175,7 @@
     "title": "【救赎：叶文洁的交待】",
     "triggerCondition": {
       "epoch": "CRISIS",
-      "probability": 0.04,
-      "reqTech": null
+      "probability": 0.04
     },
     "dialogQueue": [
       {
@@ -7354,8 +7227,7 @@
     "title": "【绝境：关一帆被困二维化边界】",
     "triggerCondition": {
       "epoch": "BROADCAST,BUNKER,GALAXY",
-      "probability": 0.03,
-      "reqTech": "高维理论实验室"
+      "probability": 0.03
     },
     "dialogQueue": [
       {
@@ -7407,8 +7279,7 @@
     "title": "【丑闻：艾AA的太空娱乐城涉黄赌毒】",
     "triggerCondition": {
       "epoch": "WANDERING",
-      "probability": 0.05,
-      "reqTech": null
+      "probability": 0.05
     },
     "dialogQueue": [
       {
@@ -7460,8 +7331,7 @@
     "title": "【惊掠：巨型吞食者飞船逼近】",
     "triggerCondition": {
       "epoch": "CRISIS,DETERRENCE",
-      "probability": 0.08,
-      "reqTech": null
+      "probability": 0.08
     },
     "dialogQueue": [
       {
@@ -7522,8 +7392,7 @@
     "title": "【奇观：恒星级李白诗云工程】",
     "triggerCondition": {
       "epoch": "DETERRENCE,BROADCAST",
-      "probability": 0.06,
-      "reqTech": null
+      "probability": 0.06
     },
     "dialogQueue": [
       {
@@ -7575,8 +7444,7 @@
     "title": "【终极之问：真理之坛的生死叩问】",
     "triggerCondition": {
       "epoch": "CRISIS,DETERRENCE",
-      "probability": 0.07,
-      "reqTech": null
+      "probability": 0.07
     },
     "dialogQueue": [
       {
@@ -7633,8 +7501,7 @@
     "title": "【宇宙美学：海洋冰雕星环工程】",
     "triggerCondition": {
       "epoch": "DETERRENCE,BROADCAST",
-      "probability": 0.08,
-      "reqTech": null
+      "probability": 0.08
     },
     "dialogQueue": [
       {

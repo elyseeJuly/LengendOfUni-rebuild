@@ -672,12 +672,7 @@ export class GameInstance {
     }
 
     if (inst.earthCivi?.departments) {
-      const deptProto = Object.getPrototypeOf(new Map());
-      for (const dept of inst.earthCivi.departments.values()) {
-        if (typeof dept === 'object' && dept !== null) {
-          safeSP(dept, deptProto);
-        }
-      }
+      // Departments are standard objects, do not cast to Map.prototype
     }
 
     if (inst.starManager?.stars) {

@@ -13,6 +13,7 @@ import { GameEventPayload } from './types/narrative';
 import { EndGameScreen } from './components/EndGameScreen';
 import { AnnouncementBoard } from './components/AnnouncementBoard';
 import { FleetModal } from './components/FleetModal';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 export const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -109,10 +110,13 @@ export const App: React.FC = () => {
   }, [activeView]);
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[var(--bg-main)] text-[var(--text-primary)] transition-colors duration-300 font-base overflow-hidden">
-      {currentEvent && (
-        <StoryModal
-          event={currentEvent}
+    <ErrorBoundary>
+      <div className="flex flex-col h-screen overflow-hidden bg-white text-gray-900 dark:bg-[#0b0c10] dark:text-[#c5c6c7] transition-colors duration-300 font-sans selection:bg-cyan-900 selection:text-white">
+        
+        {/* Story Modal - Rendered globally */}
+        {currentEvent && (
+          <StoryModal
+            event={currentEvent}
           onClose={() => {
             GameInstance.get().currentEvent = null;
             GameInstance.get().processNextEvent();
@@ -191,8 +195,8 @@ export const App: React.FC = () => {
         <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_70%,_rgba(13,71,161,0.05)_0%,_transparent_50%)]"></div>
       </div>
     </div>
+    </ErrorBoundary>
   );
 };
 
 export default App;
-
