@@ -53,6 +53,9 @@ describe('EarthCivilization', () => {
 
   it('runARound 推进文明回合', () => {
     game.runARound();
+    if (game.currentEvent) {
+      game.applyEventEffect(0);
+    }
     expect(game.year).toBe(1);
     expect(game.earthCivi.population).toBeGreaterThanOrEqual(65);
   });

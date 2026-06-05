@@ -87,9 +87,11 @@ export class Game {
     return this.epoch;
   }
 
-  public addHistory(log: string): void {
+  public addHistory(log: string, overrideYear?: number, overrideEpoch?: EpochType): void {
     const epochNames = ["危机纪元", "威慑纪元", "广播纪元", "掩体纪元", "银河纪元"];
-    const prefix = `${epochNames[this.epoch]} ${this.year} 年 - `;
+    const targetEpoch = overrideEpoch !== undefined ? overrideEpoch : this.epoch;
+    const targetYear = overrideYear !== undefined ? overrideYear : this.year;
+    const prefix = `${epochNames[targetEpoch]} ${targetYear} 年 - `;
     this.historyLogs.push(prefix + log);
     console.log("[History]", prefix + log);
   }
@@ -214,8 +216,15 @@ export class Game {
         const text = e.dialogNodes && e.dialogNodes.length > 0 ? e.dialogNodes[0].content : e.tip;
         this.addHistory(`[大事记] ${e.name}: ${text}`);
         this.tickerMessages.push(`${e.name}: ${text}`);
+
+        // Log ticker event to the chronicle timeline
+        this.playerTimeline.push({
+          year: this.year,
+          event: `重大发现：${e.name} —— ${text}`
+        });
+
         if (e.effects) this.applyNewEffects(e.effects);
-        this.applyEventEffect(e.effect);
+        this.applyEventEffect(e.effect, false);
       });
       if (tickerEvents.length > 0) {
         window.dispatchEvent(new CustomEvent('ticker-message-added'));
@@ -226,16 +235,19 @@ export class Game {
         this.addHistory(`触发抉择事件: ${e.name}`);
         console.log("[Narrative] Triggered Choice:", e.name);
 
+        const eventYear = this.year;
+        const eventEpoch = this.epoch;
+
         const choices = e.choices && e.choices.length > 0
           ? e.choices.map(c => ({
               label: c.label,
               action: () => {
                 // Log choice to timeline and history
                 this.playerTimeline.push({
-                  year: this.year,
+                  year: eventYear,
                   event: `在「${e.name}」事件中做出选择：${c.label}`
                 });
-                this.addHistory(`[抉择结果] ${e.name} -> 选择了「${c.label}」`);
+                this.addHistory(`[抉择结果] ${e.name} -> 选择了「${c.label}」`, eventYear, eventEpoch);
 
                 if (c.action) {
                   c.action();
@@ -251,10 +263,10 @@ export class Game {
               action: () => {
                 // Log confirmation of major historical milestone to timeline
                 this.playerTimeline.push({
-                  year: this.year,
+                  year: eventYear,
                   event: `确认了重大历史事件「${e.name}」`
                 });
-                this.addHistory(`[确认事件] ${e.name}`);
+                this.addHistory(`[确认事件] ${e.name}`, eventYear, eventEpoch);
 
                 if (e.effects) this.applyNewEffects(e.effects);
                 this.applyEventEffect(e.effect);
@@ -273,13 +285,16 @@ export class Game {
         this.eventQueue.push(payload);
       });
 
-      this.year++;
-
-      this.updateEpoch();
-      this.checkVictoryConditions();
-
-      this.processNextEvent();
-      this.addHistory(`回合推进完成：${this.year - 1} -> ${this.year} (存活异星文明: ${this.alienCiviManager.aliens.size}, 待处理事件: ${this.eventQueue.length})`);
+      if (interactiveEvents.length === 0) {
+        this.year++;
+        this.updateEpoch();
+        this.checkVictoryConditions();
+        this.processNextEvent();
+        this.addHistory(`回合推进完成：${this.year - 1} -> ${this.year} (存活异星文明: ${this.alienCiviManager.aliens.size}, 待处理事件: ${this.eventQueue.length})`);
+      } else {
+        this.processNextEvent();
+        this.addHistory(`已触发交互事件，年份推进暂缓 (存活异星文明: ${this.alienCiviManager.aliens.size}, 待处理事件: ${this.eventQueue.length})`);
+      }
     } catch (err: any) {
       console.error("Critical error in runARound:", err);
       this.addHistory(`【核心崩溃】结算失败! 错误详情: ${err?.message || "未知错误"}`);
@@ -425,7 +440,7 @@ export class Game {
     }
   }
 
-  public applyEventEffect(effect: EventEffect): void {
+  public applyEventEffect(effect: EventEffect, isInteractive: boolean = true): void {
     switch (effect) {
       case EventEffect.ADDECONEMY: this.earthCivi.economy = Math.max(0, this.earthCivi.economy + 50); break;
       case EventEffect.ADDCULTURE: this.earthCivi.culture = Math.max(0, this.earthCivi.culture + 30); break;
@@ -456,9 +471,17 @@ export class Game {
         break;
     }
     this.currentEvent = null;
-    window.dispatchEvent(new CustomEvent('game-event-triggered'));
-    this.processNextEvent();
-    window.dispatchEvent(new CustomEvent('game-turn-complete'));
+    if (isInteractive) {
+      window.dispatchEvent(new CustomEvent('game-event-triggered'));
+      this.processNextEvent();
+      if (this.eventQueue.length === 0 && !this.currentEvent) {
+        this.year++;
+        this.updateEpoch();
+        this.checkVictoryConditions();
+        this.addHistory(`回合推进完成：${this.year - 1} -> ${this.year} (存活异星文明: ${this.alienCiviManager.aliens.size}, 待处理事件: ${this.eventQueue.length})`);
+        window.dispatchEvent(new CustomEvent('game-turn-complete'));
+      }
+    }
   }
 
   private clampEffectValue(target: string, rawValue: number): number {
@@ -557,7 +580,7 @@ export class Game {
         
         window.dispatchEvent(new CustomEvent('ticker-message-added'));
       } else if (eff.type === 'event_effect') {
-        this.applyEventEffect(eff.value as EventEffect);
+        this.applyEventEffect(eff.value as EventEffect, false);
       } else if (eff.type === 'diplomacy') {
         const alien = this.alienCiviManager.aliens.get(eff.target);
         if (alien) {

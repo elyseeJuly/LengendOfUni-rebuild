@@ -84,56 +84,79 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
         
         {/* === MODE: FULL-SCREEN CG === */}
         {currentNode.isCG && currentNode.avatarUrl && (
-          <>
-            {/* Full-width Background Image with Parallax Zoom */}
-            <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 flex flex-col justify-between z-10 bg-black">
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
               <img 
                 src={currentNode.avatarUrl} 
                 alt="CG"
-                className="w-full h-full object-cover opacity-90 animate-[pan-zoom_30s_linear_infinite]"
+                className="w-full h-full object-cover opacity-80 animate-[pan-zoom_30s_linear_infinite]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-              <div className="paper-texture" />
+              <div className="absolute inset-0 bg-black/10" />
             </div>
 
-            {/* Letterbox UI Content (Bottom) */}
-            <div className="relative z-10 flex flex-col justify-end w-full p-8 md:p-12 min-h-[500px]">
-              <div className="mb-6">
-                <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter italic drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-                  {currentNode.speakerName}
-                </h3>
-                {currentNode.speakerTitle && (
-                  <p className="text-sm tracking-[0.3em] text-[var(--color-primary)] font-bold uppercase mt-2 drop-shadow-md">
-                    {currentNode.speakerTitle}
+            {/* Cinematic Top Letterbox Bar */}
+            <div className="relative z-10 w-full h-12 bg-black/85 border-b border-white/5 flex items-center justify-between px-6 backdrop-blur-sm">
+              <span className="text-[10px] md:text-xs font-mono font-bold tracking-[0.3em] text-white/50 uppercase">
+                CRITICAL RECORDING // 核心纪元记录
+              </span>
+              <span className="text-[10px] md:text-xs font-bold text-[var(--color-primary)] tracking-wider">
+                {event.title.trim().replace(/^【|】$/g, '')}
+              </span>
+            </div>
+
+            {/* Middle Empty Viewport (keeps CG visible and clear) */}
+            <div className="flex-1 pointer-events-none" />
+
+            {/* Cinematic Bottom Letterbox Bar */}
+            <div className="relative z-10 w-full bg-black/90 border-t border-white/5 flex flex-col justify-center items-center px-6 py-4 md:py-6 backdrop-blur-md">
+              <div className="w-full max-w-2xl text-center space-y-2">
+                {/* Speaker Info */}
+                <div className="flex flex-col items-center">
+                  <span className="text-xs md:text-sm text-[var(--color-primary)] font-bold tracking-[0.25em] uppercase font-mono">
+                    {currentNode.speakerName}
+                  </span>
+                  {currentNode.speakerTitle && (
+                    <span className="text-[9px] md:text-[10px] tracking-[0.2em] text-white/40 font-semibold mt-0.5">
+                      {currentNode.speakerTitle}
+                    </span>
+                  )}
+                </div>
+
+                {/* Subtitle Text */}
+                <div className="min-h-[48px] flex items-center justify-center">
+                  <p className="text-sm md:text-base leading-relaxed text-white/90 font-sans tracking-wide">
+                    {displayedText}
+                    {isTyping && <span className="inline-block w-1.5 h-4 ml-1 bg-[var(--color-primary)] animate-pulse" />}
                   </p>
-                )}
-              </div>
-              <div className="relative bg-black/60 backdrop-blur-md border border-[var(--color-primary)]/30 p-6 md:p-8">
-                <p className="text-xl md:text-2xl leading-relaxed font-light text-white/95 font-sans min-h-[100px] tracking-wide">
-                  {displayedText}
-                  {isTyping && <span className="inline-block w-2 h-6 ml-1 bg-[var(--color-primary)] animate-pulse" />}
-                </p>
-                
-                {/* Actions */}
-                <div className="mt-8 flex justify-end">
+                </div>
+
+                {/* Choices / Proceed Action */}
+                <div className="pt-2 flex justify-center w-full">
                   {!showChoices ? (
-                    <button onClick={handleNext} className="text-[var(--color-primary)] font-black uppercase tracking-[0.2em] text-sm hover:text-white transition-colors flex items-center gap-2">
-                      {isTyping ? "Bypass Sync" : "Proceed"} <ChevronRight size={20} />
+                    <button 
+                      onClick={handleNext} 
+                      className="px-6 py-2 border border-white/20 hover:border-[var(--color-primary)] text-white hover:text-[var(--color-primary)] font-bold uppercase tracking-[0.2em] text-xs transition-all duration-300 flex items-center gap-1.5 bg-white/5 hover:bg-[var(--color-primary)]/5"
+                    >
+                      {isTyping ? "Skip Sync" : "Proceed"} <ChevronRight size={14} />
                     </button>
                   ) : (
-                    <div className="flex flex-wrap gap-4 justify-end w-full">
+                    <div className="flex flex-wrap gap-3 justify-center w-full">
                       {event.choices && event.choices.length > 0 ? (
                         event.choices.map((choice, idx) => (
                           <button
                             key={idx}
                             onClick={() => { choice.action(); onClose(); }}
-                            className="px-6 py-3 bg-black/50 border border-[var(--color-primary)]/50 hover:bg-[var(--color-primary)]/20 hover:border-[var(--color-primary)] text-white transition-all text-sm font-bold tracking-wider"
+                            className="px-5 py-2 bg-black/60 border border-[var(--color-primary)]/40 hover:bg-[var(--color-primary)] hover:text-black hover:border-[var(--color-primary)] text-white transition-all duration-300 text-xs font-bold tracking-wider"
                           >
                             {choice.label}
                           </button>
                         ))
                       ) : (
-                        <button onClick={onClose} className="px-8 py-3 bg-[var(--color-primary)] text-black font-black uppercase tracking-widest text-sm hover:brightness-110">
+                        <button 
+                          onClick={onClose} 
+                          className="px-8 py-2 bg-[var(--color-primary)] text-black font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all duration-300"
+                        >
                           Acknowledge
                         </button>
                       )}
@@ -142,7 +165,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         )}
 
         {/* === MODE: STANDARD PORTRAIT === */}
