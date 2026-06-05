@@ -564,5 +564,39 @@ describe('Game Core Extended', () => {
       expect(game.historyLogs.some(h => h.includes('[抉择结果] PDC Wallfacer Announcement -> 选择了「Appoint Luo Ji」'))).toBe(true);
       expect(game.historyLogs.some(h => h.includes('Appoint Luo Ji'))).toBe(true);
     });
+
+    it('appointing a weak leader (leadership < 60) triggers a surprise waterdrop attack on handover turn', () => {
+      const weakLeader = {
+        name: 'Cheng Xin',
+        leadership: 35,
+        army: 10,
+        economy: 10,
+        science: 10,
+        art: 10,
+        social: 10,
+        faceFile: ''
+      };
+      game.personManager.persons.set('Cheng Xin', weakLeader as any);
+      game.personManager.availablePersons.add('Cheng Xin');
+
+      // Set star indices to satisfy safety valve (size > 1)
+      game.earthCivi.starIndices.add(3);
+      game.earthCivi.starIndices.add(9);
+
+      // Set swordholder
+      game.earthCivi.setSwordholder('Cheng Xin');
+      expect(game.earthCivi.swordholderHandoverTurn).toBe(true);
+
+      const sanTi = game.alienCiviManager.aliens.get('三体')!;
+      sanTi.setRngProvider({ random: () => 0.5 }); // Mock rng < 0.75
+
+      const beforeFleets = sanTi.fleets.length;
+      game.runARound();
+
+      expect(sanTi.fleets.length).toBeGreaterThan(beforeFleets);
+      expect(sanTi.fleets.some(f => f.name.includes('交接突袭'))).toBe(true);
+      expect(game.playerTimeline.some(t => t.event.includes('交接危机'))).toBe(true);
+      expect(game.earthCivi.swordholderHandoverTurn).toBe(false);
+    });
   });
 });

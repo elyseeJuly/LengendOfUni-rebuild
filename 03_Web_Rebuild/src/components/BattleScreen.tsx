@@ -12,6 +12,7 @@ import {
   Volume2,
   VolumeX
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const BattleScreen: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [battleReport, setBattleReport] = useState<any>(null);
@@ -107,12 +108,21 @@ export const BattleScreen: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     }
   };
 
+  const lastRound = displayedRounds[displayedRounds.length - 1];
+  const isAttackerHit = lastRound && lastRound.defDamage > 0;
+  const isDefenderHit = lastRound && lastRound.atkDamage > 0;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-md p-4 overflow-y-auto">
       {/* Retro sci-fi background scanline */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_4px,3px_100%] opacity-25"></div>
 
-      <div className="w-full max-w-4xl bg-slate-900 border border-cyan-500/30 rounded-lg shadow-[0_0_50px_rgba(6,182,212,0.15)] flex flex-col overflow-hidden relative select-none">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="w-full max-w-4xl bg-slate-900 border border-cyan-500/30 rounded-lg shadow-[0_0_50px_rgba(6,182,212,0.15)] flex flex-col overflow-hidden relative select-none"
+      >
         
         {/* Header Row */}
         <div className="bg-slate-950 border-b border-cyan-500/20 p-4 flex items-center justify-between">
@@ -151,7 +161,16 @@ export const BattleScreen: React.FC<{ onClose: () => void }> = ({ onClose }) => 
           {/* Dueling Parties Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Attacker Panel */}
-            <div className="bg-slate-950/60 border border-red-500/20 p-4 rounded flex flex-col gap-2 shadow-[inset_0_0_15px_rgba(239,68,68,0.05)] relative overflow-hidden">
+            <motion.div 
+              key={`atk_${displayedRounds.length}`}
+              animate={isAttackerHit ? {
+                x: [0, -8, 8, -6, 6, -4, 4, 0],
+                borderColor: ["rgba(239, 68, 68, 0.2)", "rgba(239, 68, 68, 0.9)", "rgba(239, 68, 68, 0.2)"],
+                backgroundColor: ["rgba(2, 6, 23, 0.6)", "rgba(239, 68, 68, 0.15)", "rgba(2, 6, 23, 0.6)"]
+              } : {}}
+              transition={{ duration: 0.4 }}
+              className="bg-slate-950/60 border border-red-500/20 p-4 rounded flex flex-col gap-2 shadow-[inset_0_0_15px_rgba(239,68,68,0.05)] relative overflow-hidden"
+            >
               <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rotate-45 transform translate-x-12 -translate-y-12"></div>
               <div className="text-red-400 font-mono text-[10px] tracking-wider uppercase font-bold">ATTACK FORCES / 攻方</div>
               <div className="text-slate-100 text-lg font-bold truncate">{attackerName}</div>
@@ -165,10 +184,19 @@ export const BattleScreen: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   {Math.max(0, currentRoundIdx === rounds.length ? attackerRemainingHp : Math.max(1, attackerPower - (currentRoundIdx * (attackerPower / (rounds.length + 1)))))}
                 </span>
               </div>
-            </div>
+            </motion.div>
 
             {/* Defender Panel */}
-            <div className="bg-slate-950/60 border border-cyan-500/20 p-4 rounded flex flex-col gap-2 shadow-[inset_0_0_15px_rgba(6,182,212,0.05)] relative overflow-hidden">
+            <motion.div 
+              key={`def_${displayedRounds.length}`}
+              animate={isDefenderHit ? {
+                x: [0, -8, 8, -6, 6, -4, 4, 0],
+                borderColor: ["rgba(6, 182, 212, 0.2)", "rgba(255, 255, 255, 0.9)", "rgba(6, 182, 212, 0.2)"],
+                backgroundColor: ["rgba(2, 6, 23, 0.6)", "rgba(6, 182, 212, 0.15)", "rgba(2, 6, 23, 0.6)"]
+              } : {}}
+              transition={{ duration: 0.4 }}
+              className="bg-slate-950/60 border border-cyan-500/20 p-4 rounded flex flex-col gap-2 shadow-[inset_0_0_15px_rgba(6,182,212,0.05)] relative overflow-hidden"
+            >
               <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 rotate-45 transform translate-x-12 -translate-y-12"></div>
               <div className="text-cyan-400 font-mono text-[10px] tracking-wider uppercase font-bold">DEFEND FORCES / 守方</div>
               <div className="text-slate-100 text-lg font-bold truncate">{defenderName}</div>
@@ -182,7 +210,7 @@ export const BattleScreen: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   {Math.max(0, currentRoundIdx === rounds.length ? defenderRemainingHp : Math.max(1, defenderPower - (currentRoundIdx * (defenderPower / (rounds.length + 1)))))}
                 </span>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Dueling Visual Logs */}
@@ -194,9 +222,12 @@ export const BattleScreen: React.FC<{ onClose: () => void }> = ({ onClose }) => 
               </div>
             ) : (
               displayedRounds.map((rnd, idx) => (
-                <div 
+                <motion.div 
                   key={idx}
-                  className="bg-cyan-950/10 border border-cyan-500/5 p-3 rounded hover:bg-cyan-950/20 transition-all duration-200 flex flex-col gap-1.5 animate-fade-in"
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="bg-cyan-950/10 border border-cyan-500/5 p-3 rounded hover:bg-cyan-950/20 transition-all duration-200 flex flex-col gap-1.5"
                 >
                   <div className="flex items-center justify-between text-[10px] text-cyan-500/60 border-b border-cyan-500/5 pb-1">
                     <span className="font-bold">ENGAGEMENT PHASE {rnd.round}</span>
@@ -213,7 +244,7 @@ export const BattleScreen: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                       {rnd.defDamage > 0 && <span className="text-cyan-400/90 font-bold">守方输出: -{rnd.defDamage}HP</span>}
                     </div>
                   ) : null}
-                </div>
+                </motion.div>
               ))
             )}
             
@@ -269,7 +300,7 @@ export const BattleScreen: React.FC<{ onClose: () => void }> = ({ onClose }) => 
           </div>
           
         </div>
-      </div>
+      </motion.div>
 
       <style>{`
         @keyframes fadeIn {

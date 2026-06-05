@@ -1,0 +1,15 @@
+{
+  "plans": {
+    "泰勒": "量子幽灵舰队",
+    "雷迪亚兹": "水星核爆恒星坠落",
+    "希恩斯": "思想钢印逃亡",
+    "罗辑": "雪地引力波广播"
+  },
+  "baseProgressBoost": 2,
+  "progressFactor": 0.1,
+  "baseBreakChance": 0.2,
+  "treacheryBreakFactor": 200,
+  "randomBreakChance": 0.08,
+  "treacheryBreakChanceFactor": 0.002,
+  "breakDeterrencePenalty": 30
+}

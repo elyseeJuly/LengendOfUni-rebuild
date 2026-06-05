@@ -1,0 +1,7 @@
+[
+  { "epoch": 0, "name": "危机纪元", "minCulture": 0, "maxCulture": 199 },
+  { "epoch": 1, "name": "威慑纪元", "minCulture": 200, "maxCulture": 499 },
+  { "epoch": 2, "name": "广播纪元", "minCulture": 500, "maxCulture": 799 },
+  { "epoch": 3, "name": "掩体纪元", "minCulture": 800, "maxCulture": 1199 },
+  { "epoch": 4, "name": "银河纪元", "minCulture": 1200, "maxCulture": 999999 }
+]

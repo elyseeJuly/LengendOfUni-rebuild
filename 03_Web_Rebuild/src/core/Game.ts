@@ -9,6 +9,7 @@ import { TecTreeManager } from "./TecTreeManager";
 import { TecTree } from "./TecTree";
 import { GameEventPayload, VictoryCondition, FilteredEventPayload } from "../types/narrative";
 import { createGameEvent } from "./GameEvent";
+import epochsData from "../data/epochs.json";
 import { EVENT_BUDGET } from "./EventCadence";
 import { PlanetEngine } from "./PlanetEngine";
 import { DigitalLife } from "./DigitalLife";
@@ -158,6 +159,9 @@ export class Game {
       } catch (e: any) {
         this.addHistory(`[警告] 异星模拟出现异常: ${e.message}`);
       }
+      if (this.earthCivi) {
+        this.earthCivi.swordholderHandoverTurn = false;
+      }
 
       this.addHistory("...正在更新外交冷却");
       for (const alien of this.alienCiviManager.aliens.values()) {
@@ -289,23 +293,19 @@ export class Game {
     const prevEpoch = this.epoch;
     const culture = this.earthCivi?.culture || 0;
 
-    if (culture >= 0 && culture <= 199) {
-      this.epoch = EpochType.CRISIS;
-    } else if (culture >= 200 && culture <= 499) {
-      this.epoch = EpochType.DETERRENCE;
-    } else if (culture >= 500 && culture <= 799) {
-      this.epoch = EpochType.BROADCAST;
-    } else if (culture >= 800 && culture <= 1199) {
-      this.epoch = EpochType.BUNKER;
-    } else if (culture >= 1200) {
-      this.epoch = EpochType.GALAXY;
+    const matched = epochsData.find(e => culture >= e.minCulture && culture <= e.maxCulture);
+    if (matched !== undefined) {
+      this.epoch = matched.epoch;
     }
 
     if (prevEpoch !== this.epoch) {
       const epochNames = ["危机纪元", "威慑纪元", "广播纪元", "掩体纪元", "银河纪元"];
       this.addHistory(`【纪元更替】进入${epochNames[this.epoch]}！`);
       this.playerTimeline.push({ year: this.year, event: `【纪元更替】人类正式进入${epochNames[this.epoch]}` });
-      window.dispatchEvent(new CustomEvent('epoch-changed'));
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('epoch-changed'));
+        window.dispatchEvent(new CustomEvent('play-game-sound', { detail: { type: 'milestone' } }));
+      }
     }
   }
 
@@ -646,10 +646,20 @@ export class GameInstance {
     setTimeout(() => window.dispatchEvent(new CustomEvent('open-tutorial')), 500);
   }
 
+  private static calculateHash(str: string): string {
+    let hash = 5381;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) + hash) + str.charCodeAt(i);
+    }
+    return "chk_" + Math.abs(hash & 0xFFFFFFFF).toString(16);
+  }
+
   public static saveGame(): void {
     if (!this.instance) return;
     this.instance.addHistory("游戏已保存到本地存储。");
-    const saveData = { version: 3, timestamp: Date.now(), data: JSON.stringify(this.instance, this.replacer) };
+    const dataStr = JSON.stringify(this.instance, this.replacer);
+    const signature = this.calculateHash(dataStr);
+    const saveData = { version: 3, timestamp: Date.now(), data: dataStr, signature };
     localStorage.setItem("LegendOfUni_Save", JSON.stringify(saveData));
   }
 
@@ -662,11 +672,18 @@ export class GameInstance {
       try {
         const wrapper = JSON.parse(rawStr);
         if (wrapper && typeof wrapper === 'object' && wrapper.data) {
+          const calculatedSignature = this.calculateHash(wrapper.data);
+          if (wrapper.signature !== calculatedSignature) {
+            throw new SaveDataCorruptedError("Save data hash mismatch! Data has been modified or corrupted.");
+          }
           dataStr = wrapper.data;
         } else {
-          dataStr = rawStr;
+          throw new SaveDataCorruptedError("Legacy save format missing signature.");
         }
-      } catch {
+      } catch (e: any) {
+        if (e instanceof SaveDataCorruptedError) {
+          throw e; // Bubble up signature verification failures
+        }
         dataStr = rawStr;
       }
 
@@ -691,6 +708,9 @@ export class GameInstance {
       window.dispatchEvent(new CustomEvent('game-loaded'));
       return true;
     } catch (e) {
+      if (e instanceof SaveDataCorruptedError) {
+        throw e;
+      }
       console.error("Failed to load game:", e);
       return false;
     }
@@ -807,5 +827,13 @@ export class GameInstance {
       }
     }
     return value;
+  }
+}
+
+export class SaveDataCorruptedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "SaveDataCorruptedError";
+    Object.setPrototypeOf(this, SaveDataCorruptedError.prototype);
   }
 }

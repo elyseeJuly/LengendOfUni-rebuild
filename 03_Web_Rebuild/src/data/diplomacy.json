@@ -1,0 +1,15 @@
+{
+  "relationLevels": {
+    "VERYANGRY": { "value": 0, "name": "极度敌对 (全面交战)" },
+    "ANGRY": { "value": 1, "name": "警惕敌视" },
+    "NORMAL": { "value": 2, "name": "中立温和" },
+    "FRIEND": { "value": 3, "name": "比较友好" },
+    "VERYFRIEND": { "value": 4, "name": "极度友好 (战略同盟)" }
+  },
+  "opportunistRequestRatio": 0.1,
+  "opportunistChance": 0.08,
+  "opportunistAttackChance": 0.25,
+  "hunterAttackChance": 0.18,
+  "hunterEpochDeterrenceChance": 0.3,
+  "cleanerAttackChance": 0.12
+}

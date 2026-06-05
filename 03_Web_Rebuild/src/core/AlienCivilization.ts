@@ -6,6 +6,7 @@ import { CombatEngine } from "./CombatEngine";
 import { createBarback } from "./Barback";
 import aliensData from "../data/aliens.json";
 import type { RngProvider } from "./Game";
+import diplomacyData from "../data/diplomacy.json";
 
 export class AlienCivilization extends Civilization {
   public typeIndex: number;
@@ -44,6 +45,19 @@ export class AlienCivilization extends Civilization {
     if (this.isDieOut()) return;
     const game = GameInstance.get();
 
+    // Handover crisis check
+    if (this.name === "三体" && game.earthCivi.swordholderHandoverTurn) {
+      const shName = game.earthCivi.swordholder;
+      if (shName) {
+        const sh = game.personManager.getPerson(shName);
+        if (sh && sh.leadership < 60) {
+          if (this.rng() < 0.75) {
+            this.launchHandoverWaterdropAttack(game, sh.name);
+          }
+        }
+      }
+    }
+
     if (this.waterdropCooldown > 0) this.waterdropCooldown--;
 
     this.growEconomy();
@@ -60,6 +74,26 @@ export class AlienCivilization extends Civilization {
     }
 
     this.processFleets(game);
+  }
+
+  public launchHandoverWaterdropAttack(game: any, shName: string): void {
+    if (game.earthCivi.starIndices.size <= 1) return; // Safety valve
+    this.waterdropCount++;
+    this.waterdropCooldown = 10;
+
+    const msg = `【交接危机】智子判定新任执剑人「${shName}」威慑度不足，三体「水滴」探测器发起饱和打击！`;
+    game.addHistory(msg);
+    game.playerTimeline.push({
+      year: game.year,
+      event: msg
+    });
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('play-game-sound', { detail: { type: 'alert' } }));
+    }
+
+    const targetIdx = 3;
+    const fleet = createFleet(`「水滴」交接突袭探测器`, this.name, targetIdx, 0, 3, true);
+    this.fleets.push(fleet);
   }
 
   private growEconomy(): void {
@@ -101,9 +135,9 @@ export class AlienCivilization extends Civilization {
   }
 
   private hunterBehavior(game: any, deterrenceRate: number): void {
-    if (!game.earthCivi.isDieOut() && deterrenceRate < 90 && this.rng() < 0.18) {
+    if (!game.earthCivi.isDieOut() && deterrenceRate < 90 && this.rng() < diplomacyData.hunterAttackChance) {
       if (game.epoch === EpochType.DETERRENCE || game.epoch === EpochType.BROADCAST) {
-        if (this.rng() < 0.3) return;
+        if (this.rng() < diplomacyData.hunterEpochDeterrenceChance) return;
       }
       if (this.attackCooldown === 0) {
         this.attackCooldown = 5 + Math.floor(this.rng() * 6);
@@ -119,7 +153,7 @@ export class AlienCivilization extends Civilization {
   }
 
   private cleanerBehavior(game: any, deterrenceRate: number): void {
-    if (!game.earthCivi.isDieOut() && deterrenceRate < 70 && this.rng() < 0.12) {
+    if (!game.earthCivi.isDieOut() && deterrenceRate < 70 && this.rng() < diplomacyData.cleanerAttackChance) {
       if (this.attackCooldown === 0) {
         this.attackCooldown = 3 + Math.floor(this.rng() * 4);
         game.addHistory(`【侦测】探测到 ${this.name} 具有清理倾向！舰队正在接近。`);
@@ -153,13 +187,13 @@ export class AlienCivilization extends Civilization {
   }
 
   private opportunistBehavior(game: any, deterrenceRate: number): void {
-    if (this.friendshipType >= FriendshipType.FRIEND && this.rng() < 0.08) {
-      const received = Math.min(100, Math.floor(game.earthCivi.economy * 0.1));
+    if (this.friendshipType >= FriendshipType.FRIEND && this.rng() < diplomacyData.opportunistChance) {
+      const received = Math.min(100, Math.floor(game.earthCivi.economy * diplomacyData.opportunistRequestRatio));
       game.earthCivi.economy -= received;
       game.addHistory(`${this.name} 以友好名义索取了 ${received} 经济援助。`);
       return;
     }
-    if (deterrenceRate < 50 && this.rng() < 0.25) {
+    if (deterrenceRate < 50 && this.rng() < diplomacyData.opportunistAttackChance) {
       this.launchFleetAttack(game, 3);
     }
   }

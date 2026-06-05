@@ -74,6 +74,66 @@ export const BgmPlayer: React.FC<BgmPlayerProps> = ({ isGameOver }) => {
     return () => window.removeEventListener('bgm-settings-changed', handleExternalSettings);
   }, [isPlaying, isGameOver]);
 
+  // Listen to custom alert sound events
+  useEffect(() => {
+    const handleAlertSound = (e: Event) => {
+      if (isMuted || !isPlaying || isGameOver || typeof window === 'undefined') return;
+      try {
+        const customEvent = e as CustomEvent;
+        const type = customEvent.detail?.type || 'beep';
+        const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        
+        if (type === 'alert') {
+          // Play a high-pitched siren beep
+          const osc1 = audioCtx.createOscillator();
+          const osc2 = audioCtx.createOscillator();
+          const gainNode = audioCtx.createGain();
+          
+          osc1.connect(gainNode);
+          osc2.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          
+          osc1.type = 'sawtooth';
+          osc1.frequency.setValueAtTime(800, audioCtx.currentTime);
+          osc1.frequency.linearRampToValueAtTime(1200, audioCtx.currentTime + 0.3);
+          osc1.frequency.linearRampToValueAtTime(800, audioCtx.currentTime + 0.6);
+          
+          osc2.type = 'sine';
+          osc2.frequency.setValueAtTime(400, audioCtx.currentTime);
+          osc2.frequency.linearRampToValueAtTime(600, audioCtx.currentTime + 0.6);
+          
+          gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+          
+          osc1.start();
+          osc2.start();
+          osc1.stop(audioCtx.currentTime + 0.6);
+          osc2.stop(audioCtx.currentTime + 0.6);
+        } else if (type === 'milestone') {
+          // Play a friendly victory chord
+          const notes = [261.63, 329.63, 392.00, 523.25]; // C Major Chord
+          notes.forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.08);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime + i * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.08 + 0.5);
+            osc.start(audioCtx.currentTime + i * 0.08);
+            osc.stop(audioCtx.currentTime + i * 0.08 + 0.5);
+          });
+        }
+      } catch (err) {
+        // Fallback
+      }
+    };
+    
+    window.addEventListener('play-game-sound', handleAlertSound);
+    return () => window.removeEventListener('play-game-sound', handleAlertSound);
+  }, [isMuted, isPlaying, isGameOver]);
+
   // Handle Play / Pause trigger
   useEffect(() => {
     if (!audioRef.current || !isAvailable) return;

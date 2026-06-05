@@ -149,7 +149,7 @@ export class WallfacerPanel {
           if (earth.swordholder) {
             game.personManager.availablePersons.add(earth.swordholder);
           }
-          earth.swordholder = name;
+          earth.setSwordholder(name);
           game.personManager.availablePersons.delete(name);
           this.render();
         });

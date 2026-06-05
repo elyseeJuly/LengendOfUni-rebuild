@@ -6,6 +6,7 @@ import { CombatEngine } from "./CombatEngine";
 import { createBarback } from "./Barback";
 import type { RngProvider } from "./Game";
 import { STAR_INDEX } from "../config/starIndices";
+import wallfacersData from "../data/wallfacers.json";
 
 const MAX_ECONOMY = 999999;
 const MAX_POPULATION_MULTIPLIER = 3;
@@ -17,7 +18,17 @@ export class EarthCivilization extends Civilization {
   public wallfacers: Set<string> = new Set();
   public wallfacerPlans: Record<string, { planName: string; progress: number; isBroken: boolean }> = {};
   public swordholder: string | null = null;
+  public swordholderHandoverTurn: boolean = false;
   public departments: Map<DepartmentType, Department> = new Map();
+
+  public setSwordholder(name: string | null): void {
+    if (this.swordholder !== name) {
+      this.swordholder = name;
+      if (name !== null) {
+        this.swordholderHandoverTurn = true;
+      }
+    }
+  }
 
   public miningWorkers: number = 0;
   public factoryWorkers: number = 0;
@@ -91,18 +102,13 @@ export class EarthCivilization extends Civilization {
 
         // Progress secret plan!
         if (!this.wallfacerPlans[wName]) {
-          const planNames: Record<string, string> = {
-            "泰勒": "量子幽灵舰队",
-            "雷迪亚兹": "水星核爆恒星坠落",
-            "希恩斯": "思想钢印逃亡",
-            "罗辑": "雪地引力波广播"
-          };
+          const planNames: Record<string, string> = wallfacersData.plans;
           this.wallfacerPlans[wName] = { planName: planNames[wName] || "面壁秘密工程", progress: 0, isBroken: false };
         }
 
         const plan = this.wallfacerPlans[wName];
         if (!plan.isBroken && plan.progress < 100) {
-          const boost = Math.floor((p.leadership + p.science) * 0.1) + 2;
+          const boost = Math.floor((p.leadership + p.science) * wallfacersData.progressFactor) + wallfacersData.baseProgressBoost;
           plan.progress = Math.min(100, plan.progress + boost);
           game.addHistory(`【面壁计划】面壁者 ${wName} 的秘密计划「${plan.planName}」进度推进至 ${plan.progress}%。`);
 
@@ -117,15 +123,15 @@ export class EarthCivilization extends Civilization {
 
     // Wallbreaker & Defection logic
     const activeWallfacers = Array.from(this.wallfacers);
-    if (activeWallfacers.length > 0 && game.rngChance(0.08 + this.treachery * 0.002)) {
+    if (activeWallfacers.length > 0 && game.rngChance(wallfacersData.randomBreakChance + this.treachery * wallfacersData.treacheryBreakChanceFactor)) {
       const targetWallfacer = activeWallfacers[Math.floor(game.rng() * activeWallfacers.length)];
       const plan = this.wallfacerPlans[targetWallfacer];
       if (plan && !plan.isBroken && plan.progress < 100) {
-        const breakChance = 0.2 + (this.treachery / 200);
+        const breakChance = wallfacersData.baseBreakChance + (this.treachery / wallfacersData.treacheryBreakFactor);
         if (game.rngChance(breakChance)) {
           plan.isBroken = true;
           this.wallfacers.delete(targetWallfacer);
-          this.deterrenceValue = Math.max(0, this.deterrenceValue - 30);
+          this.deterrenceValue = Math.max(0, this.deterrenceValue - wallfacersData.breakDeterrencePenalty);
           
           game.addHistory(`【破壁人降临】三体智子与破壁人正式识破了面壁者 ${targetWallfacer} 的「${plan.planName}」计划！该计划宣告破产，${targetWallfacer} 承受巨大心理打击退场。`);
           game.tickerMessages.push(`👥 [战略公报] 面壁者 ${targetWallfacer} 被破壁！其秘密计划「${plan.planName}」已被识破并宣告失败。`);
