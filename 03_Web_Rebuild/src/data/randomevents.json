@@ -16,7 +16,7 @@
     "dialogQueue": [
       {
         "speakerName": "丁仪",
-        "avatarUrl": "character_dingyi_1778724123469.png",
+        "avatarUrl": "dingyi",
         "content": "我们在高能物理实验中发现了一个有趣的现象，虽然智子封锁了宏观规律，但微观层面的扰动给了我们新的启发！"
       }
     ]
@@ -38,7 +38,7 @@
     "dialogQueue": [
       {
         "speakerName": "伊文斯",
-        "avatarUrl": "character_evans_1778724472738.png",
+        "avatarUrl": "evans",
         "content": "主不在乎你们的法律。这些资源本就属于主，我们只是将其归还。"
       }
     ]

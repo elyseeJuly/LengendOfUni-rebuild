@@ -202,8 +202,8 @@ export class Game {
         triggeredEvents.push(fevGameEvent);
       }
 
-      const tickerEvents = triggeredEvents.filter(e => !e.choices || e.choices.length === 0);
-      const interactiveEvents = triggeredEvents.filter(e => e.choices && e.choices.length > 0);
+      const tickerEvents = triggeredEvents.filter(e => (!e.choices || e.choices.length === 0) && (!e.dialogNodes || e.dialogNodes.length === 0));
+      const interactiveEvents = triggeredEvents.filter(e => (e.choices && e.choices.length > 0) || (e.dialogNodes && e.dialogNodes.length > 0));
 
       // Process non-blocking scrolling ticker events immediately
       tickerEvents.forEach(e => {
@@ -222,6 +222,41 @@ export class Game {
         this.addHistory(`触发抉择事件: ${e.name}`);
         console.log("[Narrative] Triggered Choice:", e.name);
 
+        const choices = e.choices && e.choices.length > 0
+          ? e.choices.map(c => ({
+              label: c.label,
+              action: () => {
+                // Log choice to timeline and history
+                this.playerTimeline.push({
+                  year: this.year,
+                  event: `在「${e.name}」事件中做出选择：${c.label}`
+                });
+                this.addHistory(`[抉择结果] ${e.name} -> 选择了「${c.label}」`);
+
+                if (c.action) {
+                  c.action();
+                } else {
+                  if (c.effects) this.applyNewEffects(c.effects);
+                  if ((c as any).flags) (c as any).flags.forEach((f: string) => this.addFlag(f));
+                }
+                this.applyEventEffect(e.effect);
+              }
+            }))
+          : [{
+              label: "确认",
+              action: () => {
+                // Log confirmation of major historical milestone to timeline
+                this.playerTimeline.push({
+                  year: this.year,
+                  event: `确认了重大历史事件「${e.name}」`
+                });
+                this.addHistory(`[确认事件] ${e.name}`);
+
+                if (e.effects) this.applyNewEffects(e.effects);
+                this.applyEventEffect(e.effect);
+              }
+            }];
+
         const payload: GameEventPayload = {
           id: e.id || `event_${this.year}_${e.name}`,
           title: e.name,
@@ -229,14 +264,7 @@ export class Game {
             speakerName: "系统",
             content: e.tip
           }],
-          choices: e.choices!.map(c => ({
-            label: c.label,
-            action: () => {
-              if (c.effects) this.applyNewEffects(c.effects);
-              if ((c as any).flags) (c as any).flags.forEach((f: string) => this.addFlag(f));
-              this.applyEventEffect(e.effect);
-            }
-          }))
+          choices
         };
         this.eventQueue.push(payload);
       });

@@ -505,4 +505,64 @@ describe('Game Core Extended', () => {
       expect(game.historyLogs.length).toBeGreaterThan(before);
     });
   });
+
+  describe('Event System and Timeline Logging Bugs', () => {
+    it('should route events with dialogNodes to the popup eventQueue even if they have no choices', () => {
+      const milestoneEvent = {
+        name: 'Guzheng Action',
+        type: 0,
+        inYear: 0,
+        tip: 'Cut the ship',
+        effect: 0,
+        hasTriggered: false,
+        dialogNodes: [{ speakerName: 'Da Shi', content: 'Guzheng action completed' }],
+        choices: undefined
+      };
+      
+      game.eventManager.events = [milestoneEvent as any];
+      
+      game.runARound();
+      
+      // The event should be pushed to the eventQueue since dialogNodes.length > 0
+      expect(game.currentEvent).not.toBeNull();
+      const payload = game.currentEvent!;
+      expect(payload.title).toBe('Guzheng Action');
+      expect(payload.choices!.length).toBe(1); // Default confirm choice
+      expect(payload.choices![0].label).toBe('确认');
+      
+      // Running choice action should add confirmation to playerTimeline and historyLogs
+      payload.choices![0].action();
+      
+      expect(game.playerTimeline.some(t => t.event.includes('确认了重大历史事件「Guzheng Action」'))).toBe(true);
+      expect(game.historyLogs.some(h => h.includes('[确认事件] Guzheng Action'))).toBe(true);
+    });
+
+    it('should log choice selection to playerTimeline when choice action is run', () => {
+      const choiceEvent = {
+        name: 'PDC Wallfacer Announcement',
+        type: 0,
+        inYear: 0,
+        tip: 'Choose a wallfacer',
+        effect: 0,
+        hasTriggered: false,
+        dialogNodes: [{ speakerName: 'Sayi', content: 'We announce wallfacers' }],
+        choices: [{ label: 'Appoint Luo Ji', effects: [] }]
+      };
+      
+      game.eventManager.events = [choiceEvent as any];
+      game.runARound();
+      
+      expect(game.currentEvent).not.toBeNull();
+      const payload = game.currentEvent!;
+      expect(payload.choices!.length).toBe(1);
+      expect(payload.choices![0].label).toBe('Appoint Luo Ji');
+      
+      // Run the action
+      payload.choices![0].action();
+      
+      expect(game.playerTimeline.some(t => t.event.includes('在「PDC Wallfacer Announcement」事件中做出选择：Appoint Luo Ji'))).toBe(true);
+      expect(game.historyLogs.some(h => h.includes('[抉择结果] PDC Wallfacer Announcement -> 选择了「Appoint Luo Ji」'))).toBe(true);
+      expect(game.historyLogs.some(h => h.includes('Appoint Luo Ji'))).toBe(true);
+    });
+  });
 });

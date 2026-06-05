@@ -56,7 +56,7 @@
   },
   {
     "name": "伊依",
-    "faceFile": "character_yiyi_1778724524669.png",
+    "faceFile": "unified_yiyi_1780649999542.png",
     "army": 10,
     "economy": 20,
     "leadership": 20,
@@ -78,7 +78,7 @@
   },
   {
     "name": "霍金",
-    "faceFile": "character_hawking_1778726088806.png",
+    "faceFile": "unified_hawking_1780649926625.png",
     "army": 5,
     "economy": 20,
     "leadership": 30,
@@ -133,7 +133,7 @@
   },
   {
     "name": "华华",
-    "faceFile": "character_huahua_1778818926539.png",
+    "faceFile": "unified_huahua_1780649946315.png",
     "army": 15,
     "economy": 20,
     "leadership": 25,
@@ -210,7 +210,7 @@
   },
   {
     "name": "严井",
-    "faceFile": "character_yanjing_1778819395854.png",
+    "faceFile": "unified_yanjing_1780649978771.png",
     "army": 40,
     "economy": 40,
     "leadership": 50,

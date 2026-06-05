@@ -78,15 +78,15 @@ export class GameEventManager {
       "shenyuan": "unified_shenyuan_1779691919176.png",
 
       // Remaining legacy fallbacks
-      "huahua": "character_huahua_1778818926539.png",
-      "yiyi": "character_yiyi_1778724524669.png",
-      "hawking": "character_hawking_1778726088806.png",
-      "huoking": "character_hawking_1778726088806.png",
+      "huahua": "unified_huahua_1780649946315.png",
+      "yiyi": "unified_yiyi_1780649999542.png",
+      "hawking": "unified_hawking_1780649926625.png",
+      "huoking": "unified_hawking_1780649926625.png",
       "zhuangyan": "unified_zhuangyan_1779712921189.png",
       "shuiwa": "unified_shuiwa_1779712987486.png",
       "leizhicheng": "unified_leizhicheng_1779713006589.png",
       "yangweining": "unified_yangweining_1779713020653.png",
-      "yanjing": "character_yanjing_1778819395854.png",
+      "yanjing": "unified_yanjing_1780649978771.png",
       "baibing": "unified_baibing_1779713036549.png",
       "miaofuquan": "unified_miaofuquan_1779713095135.png",
       "huatang": "unified_huatang_1779713110568.png",
@@ -94,8 +94,8 @@ export class GameEventManager {
       "liucixin": "unified_liucixin_1779712937103.png",
       "keiko": "unified_keiko_1779713141458.png",
       "shanshanhuizi": "unified_keiko_1779713141458.png",
-      "say": "character_say_1779341254257.png",
-      "sayi": "character_say_1779341254257.png"
+      "say": "unified_say_1780649885202.png",
+      "sayi": "unified_say_1780649885202.png"
     };
 
     // Override CG mappings
