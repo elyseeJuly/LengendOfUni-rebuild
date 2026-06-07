@@ -19,29 +19,40 @@
 ---
 
 ## 二、 核心历史节点 CG (Epic Concept Art)
-用于游戏内触发的重大历史事件（如古筝行动、水滴打击等），使用 `Letterbox` 银幕遮幅UI，因此画幅必须是宽幅 (`--ar 21:9`)。
+用于游戏内触发的重大历史事件，使用 `Letterbox` 银幕遮幅UI，因此画幅必须是宽幅 (`--ar 21:9`)。
 
 **基础公式**:
 > Epic sci-fi concept art, [场景描述]. Massive scale, macro vs micro. Minimalist composition, large blocks of color, expressive digital brushstrokes. Volumetric fog, cinematic lighting. Masterpiece, Craig Mullins style. --ar 21:9 --style raw --v 6.0
 
-### 1. 智子展开 / 危机纪元开启
+### 1. 智子展开 / 危机纪元开启 (cg_crisis_start.png)
 > Epic sci-fi concept art, a colossal glowing geometric eye unfolding in the sky, covering the entire heavens above a dark modern city. Casting an eerie cyan light. Massive scale, macro vs micro. Tiny silhouettes of humans on rooftops looking up in absolute awe and despair. Minimalist composition, large blocks of color, expressive digital brushstrokes. Volumetric fog, cinematic lighting. Masterpiece, Craig Mullins style, dark and oppressive atmosphere. --ar 21:9 --style raw
 
-### 2. 古筝行动
+### 2. 古筝行动 (cg_guzheng.png)
 > Epic sci-fi concept art, a massive rusty oil tanker ship being sliced into perfectly parallel horizontal pieces by invisible strings, the hull sliding apart smoothly on the Panama Canal. Dense jungle environment, early morning mist. Tiny military helicopters hovering in the distance. Minimalist composition, expressive digital brushstrokes, dramatic tension, quiet destruction. Muted dark green and gray palette with subtle sparks of orange friction. Masterpiece, Craig Mullins style. --ar 21:9 --style raw
 
-### 3. 水滴摧毁舰队 / 末日战役
-> Epic sci-fi concept art, a perfectly smooth, teardrop-shaped silver chrome object smashing effortlessly through a massive human space battleship in deep space. Absolute destruction, silent vacuum, debris flying, blinding explosions of orange and blue plasma. Massive scale, stark contrast between the flawless alien droplet and the burning complex human wreckage. Minimalist composition, expressive digital brushstrokes, stark cinematic lighting. Masterpiece, Craig Mullins style. --ar 21:9 --style raw
+### 3. 月球危机 (cg_moon_crisis.png)
+> Epic sci-fi concept art, the moon breaking apart in Earth's orbit, massive rocky fragments with glowing orange cracks falling toward a dark Earth. Earth's surface covered with giant glowing cyan planetary defense antenna grids emitting holographic scan lines into the sky. Massive scale, cosmic disaster, dramatic contrast between dark space and warm debris fire. Masterpiece, Craig Mullins style. --ar 21:9 --style raw
 
-### 4. 掩体计划 / 木星城
-> Epic sci-fi concept art, a sprawling dark metallic space megacity clinging to the shadow side of Jupiter. The gargantuan swirling atmosphere and the Great Red Spot of Jupiter fills the entire background, glowing ominously. Massive scale megastructure, tiny glowing blue engine trails of spacecrafts. Minimalist composition, expressive digital brushstrokes. Dark, atmospheric, cosmic isolation, cinematic lighting. Masterpiece, Craig Mullins style. --ar 21:9 --style raw
+### 4. 流浪地球 (cg_wandering_earth.png)
+> Epic sci-fi concept art, giant planetary engines built along the horizon of a snow-covered Earth, firing colossal columns of intense blue-white plasma thrust into the deep black space void. Massive megastructures, dramatic scale, cold white ground contrasted with brilliant warm and blue engine fires. Volumetric fog. Masterpiece, Craig Mullins style. --ar 21:9 --style raw
 
-### 5. 二向箔打击 / 太阳系二维化
+### 5. 二向箔打击 / 太阳系二维化 (cg_dimensional_strike.png)
 > Epic sci-fi concept art, a glowing, infinitely thin white rectangular slip of paper pulling entire planets and stars into a flattened 2D painting. Absolute cosmic horror. Swirling vortex of light and matter being violently flattened into two dimensions. Massive scale, extreme perspective. Minimalist composition, expressive digital brushstrokes, stark black background with blinding white and gold light. Masterpiece, Craig Mullins style. --ar 21:9 --style raw
 
 ---
 
-## 三、 大结局 CG (Epic Concept Art)
+## 三、 其他重大条件/剧情事件 CG (Epic Concept Art)
+这些事件并非固定在特定年份触发，而是根据玩家的选择或发展状况触发。
+
+### 1. 水滴摧毁舰队 / 末日战役
+> Epic sci-fi concept art, a perfectly smooth, teardrop-shaped silver chrome object smashing effortlessly through a massive human space battleship in deep space. Absolute destruction, silent vacuum, debris flying, blinding explosions of orange and blue plasma. Massive scale, stark contrast between the flawless alien droplet and the burning complex human wreckage. Minimalist composition, expressive digital brushstrokes, stark cinematic lighting. Masterpiece, Craig Mullins style. --ar 21:9 --style raw
+
+### 2. 掩体计划 / 木星城
+> Epic sci-fi concept art, a sprawling dark metallic space megacity clinging to the shadow side of Jupiter. The gargantuan swirling atmosphere and the Great Red Spot of Jupiter fills the entire background, glowing ominously. Massive scale megastructure, tiny glowing blue engine trails of spacecrafts. Minimalist composition, expressive digital brushstrokes. Dark, atmospheric, cosmic isolation, cinematic lighting. Masterpiece, Craig Mullins style. --ar 21:9 --style raw
+
+---
+
+## 四、 大结局 CG (Epic Concept Art)
 《LegendOfUni》共有 9 种结局，每种结局在结束流程中会展示一张专属的全景 CG。风格与核心历史节点保持一致。
 生成后重命名为 `ending_[名字].png`，放入 `03_Web_Rebuild/public/images/` 即可。
 

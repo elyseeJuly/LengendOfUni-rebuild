@@ -17,10 +17,16 @@ interface Props {
 export const EndingCinematic: React.FC<Props> = ({ config, onComplete }) => {
   const [showEpilogue, setShowEpilogue] = useState(false);
   const [displayedEpilogue, setDisplayedEpilogue] = useState('');
+  const [imgSrc, setImgSrc] = useState(config.sceneImage);
   const [imageError, setImageError] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const typeRef = useRef(0);
   const animRef = useRef<number>(0);
+
+  useEffect(() => {
+    setImgSrc(config.sceneImage);
+    setImageError(false);
+  }, [config.sceneImage]);
 
   // Show epilogue after delay
   useEffect(() => {
@@ -237,10 +243,16 @@ export const EndingCinematic: React.FC<Props> = ({ config, onComplete }) => {
         <div className="w-full aspect-[21/9] rounded-sm overflow-hidden mb-8 relative">
           {!imageError ? (
             <img
-              src={config.sceneImage}
+              src={imgSrc}
               alt={config.title}
               className="w-full h-full object-cover opacity-80 transition-opacity duration-1000"
-              onError={() => setImageError(true)}
+              onError={() => {
+                if (imgSrc.includes('ending_')) {
+                  setImgSrc(imgSrc.replace('ending_', 'cg_'));
+                } else {
+                  setImageError(true);
+                }
+              }}
             />
           ) : (
             /* Gradient fallback when scene image not yet available */

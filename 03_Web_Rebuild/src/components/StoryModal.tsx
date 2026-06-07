@@ -13,7 +13,17 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [showChoices, setShowChoices] = useState(false);
+  const [cgSrc, setCgSrc] = useState<string>("");
   const typeIndexRef = useRef(0);
+
+  const currentNode = event.dialogQueue[currentNodeIndex];
+
+  // Sync cgSrc when currentNode changes
+  useEffect(() => {
+    if (currentNode && currentNode.isCG && currentNode.avatarUrl) {
+      setCgSrc(currentNode.avatarUrl);
+    }
+  }, [currentNode]);
 
   // Reset state when a new event arrives
   useEffect(() => {
@@ -23,8 +33,6 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
     setIsTyping(false);
     typeIndexRef.current = 0;
   }, [event.id]);
-
-  const currentNode = event.dialogQueue[currentNodeIndex];
 
   // Typewriter effect
   useEffect(() => {
@@ -88,9 +96,16 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
             {/* Background Image */}
             <div className="absolute inset-0 z-0 overflow-hidden">
               <img 
-                src={currentNode.avatarUrl} 
+                src={cgSrc || currentNode.avatarUrl || ""} 
                 alt="CG"
                 className="w-full h-full object-cover opacity-80 animate-[pan-zoom_30s_linear_infinite]"
+                onError={() => {
+                  if (cgSrc && cgSrc.includes('cg_')) {
+                    setCgSrc(cgSrc.replace('cg_', 'event_'));
+                  } else if (cgSrc && !cgSrc.includes('character_default.png')) {
+                    setCgSrc(getImageUrl('character_default.png'));
+                  }
+                }}
               />
               <div className="absolute inset-0 bg-black/10" />
             </div>
