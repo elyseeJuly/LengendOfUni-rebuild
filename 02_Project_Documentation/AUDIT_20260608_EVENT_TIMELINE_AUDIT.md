@@ -1,7 +1,7 @@
 # 宇宙群英传 (Legend of Uni) — 剧情事件与纪元时间线审计报告
 
 > 版本：Web 重构版 Alpha 3.0  
-> 日期：2026-06-07  
+> 日期：2026-06-08  
 > 目的：对游戏内全部历史事件（events.json）、随机事件（randomevents.json）以及叙事决策逻辑（GameEventManager.ts）进行全面审计与重构。
 
 ---

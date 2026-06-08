@@ -59,6 +59,8 @@ Documents defining features, architectures, and design directives.
 *   [SPEC_20260519_DOCUMENTATION_STANDARDS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260519_DOCUMENTATION_STANDARDS.md) — ***[THIS FILE] Naming conventions & standards***
 *   [SPEC_20260520_GLOBAL_DEVELOPMENT_STANDARDS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260520_GLOBAL_DEVELOPMENT_STANDARDS.md) — *Global development, archiving, & naming specification rules*
 *   [SPEC_20260603_REVISED_ITERATION_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260603_REVISED_ITERATION_PLAN.md) — *Revised iteration development roadmap, AI prompts, and human director operation guidelines*
+*   [SPEC_20260608_SUPPLEMENTARY_CG_PROMPTS_SPEC.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260608_SUPPLEMENTARY_CG_PROMPTS_SPEC.md) — *Midjourney generation prompts and naming requirements spec for supplementary CGs*
+
 
 
 ### 4.2 Audits & Analyses (`AUDIT_`)
@@ -76,6 +78,8 @@ Diagnostic reviews and balance reports.
 *   [AUDIT_20260525_FULL_NARRATIVE_PHYSICS_AUDIT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260525_FULL_NARRATIVE_PHYSICS_AUDIT.md) — *Full narrative/physics/balance deep audit with optimization proposals for AI handoff*
 *   [AUDIT_20260603_GODOT_MIGRATION_FEASIBILITY.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260603_GODOT_MIGRATION_FEASIBILITY.md) — *Feasibility analysis and evaluation on Godot transplantation vs. Web rebuild roadmap*
 *   [AUDIT_20260605_ART_ASSETS_STYLE_AUDIT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260605_ART_ASSETS_STYLE_AUDIT.md) — *Style consistency audit and reconstruction proposals of non-CG art assets*
+*   [AUDIT_20260608_EVENT_TIMELINE_AUDIT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260608_EVENT_TIMELINE_AUDIT.md) — *Narrative pacing, event structure, dynamic triggers, and character lifetimes audit*
+
 
 
 ### 4.3 Testing Standards & Coverage (`TEST_`)
@@ -100,6 +104,8 @@ Archived logs and historical progression tracking.
 *   [HIST_20260518_DEVELOPMENT_V6.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260518_DEVELOPMENT_V6.md) — *Development log V6*
 *   [HIST_20260519_DEVELOPMENT_LOG_M0_M9.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260519_DEVELOPMENT_LOG_M0_M9.md) — *Web Rebuild full dev chronologies M0-M9*
 *   [HIST_20260520_DEVELOPMENT_V7.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260520_DEVELOPMENT_V7.md) — *Development log V7*
+*   [HIST_20260525_ART_UI_UNIFICATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260525_ART_UI_UNIFICATION.md) — *Archived dev history of characters Gongbi Cyberpunk style and letterbox UI*
+
 
 ### 4.5 Active Execution & Tasks (`EXEC_`)
 Active development logs, blueprints, and task runners.
@@ -112,6 +118,9 @@ Active development logs, blueprints, and task runners.
 *   [EXEC_20260525_FIX_AUDIT_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260525_FIX_AUDIT_PLAN.md) — *Execution plan for fixing narrative, numerical balance, and star map physics issues*
 *   [EXEC_20260525_FIX_AUDIT_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260525_FIX_AUDIT_WALKTHROUGH.md) — *Walkthrough of the implemented narrative, physics, and UI/UX corrections*
 *   [EXEC_20260603_CI_BUGFIX_AND_UI_OPTIMIZATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260603_CI_BUGFIX_AND_UI_OPTIMIZATION.md) — *CI pipeline compiling fixes, coverage elevation, and double bracket normalization walkthrough*
+*   [EXEC_20260608_EVENT_AUDIT_IMPLEMENTATION_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260608_EVENT_AUDIT_IMPLEMENTATION_PLAN.md) — *Implementation plan for auditing and overhauling events and timeline*
+*   [EXEC_20260608_EVENT_AUDIT_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260608_EVENT_AUDIT_WALKTHROUGH.md) — *Walkthrough of the completed event/timeline refactoring and verification*
+
 
 ---
 

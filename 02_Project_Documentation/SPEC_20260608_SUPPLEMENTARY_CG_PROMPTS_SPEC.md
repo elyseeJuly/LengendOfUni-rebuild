@@ -1,6 +1,6 @@
 # 《宇宙群英传》 (Legend of Uni) — 剧情事件新增 CG 提示词与命名规范
 
-> 日期：2026-06-07  
+> 日期：2026-06-08  
 > 目的：为游戏内未来需要补充的 5 大核心历史事件全屏 CG 提供 Midjourney 提示词、画面描述、命名规范与存放路径。
 
 为了配合游戏内已实装的 **Letterbox 银幕遮幅电影级渲染模式**，新增的剧情 CG 必须严格遵循以下美术标准：
@@ -38,7 +38,7 @@
 
 ### 3. 执剑人交接 / 威慑中止 (Deterrence Broken)
 - **文件命名**：`cg_deterrence_broken.png`
-- **中文画面描述**：在云雾缭绕的高山之巅，一座巨大的白色引力波广播天线铁塔被撞击并剧烈崩塌，冒出滚滚浓烟与耀眼的黄色电弧。在废墟旁边，一个微小而冰冷的水滴探测器正以极高速度俯冲下坠。画面充满绝望、毁灭与猝不及防的溃败感。
+- **中文画面描述**：在云雾缭绕的高山之巅，一座巨大的白色引力波广播天线铁塔被撞击并剧烈崩塌，冒出滚滚浓烟与耀眼的黄色电弧。在废墟旁边，一个微小而冰冷的水滴探测器正以极高速度冲向地面。画面充满绝望、毁灭与猝不及防的溃败感。
 - **英文 Midjourney 提示词**：
   > Epic sci-fi concept art, a colossal white gravitational broadcasting antenna tower collapsing on a misty mountaintop under a dark sky. A tiny, smooth, metallic teardrop-shaped alien droplet is diving downwards at extreme speed next to it. Sparks of yellow electricity and gray dust erupt from the structure. Cinematic framing, dramatic scale, sense of absolute panic and defeat. Minimalist composition, expressive digital brushstrokes. Masterpiece, Craig Mullins style. --ar 21:9 --style raw --v 6.0
 
