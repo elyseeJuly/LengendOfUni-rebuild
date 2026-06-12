@@ -7,6 +7,7 @@ import { createBarback } from "./Barback";
 import type { RngProvider } from "./Game";
 import { STAR_INDEX } from "../config/starIndices";
 import wallfacersData from "../data/wallfacers.json";
+import { GameEvents } from "./EventBus";
 
 const MAX_ECONOMY = 999999;
 const MAX_POPULATION_MULTIPLIER = 3;
@@ -424,6 +425,7 @@ export class EarthCivilization extends Civilization {
             node.finished = true;
             node.inResearch = false;
             game.addHistory(`科技研发完成: ${node.name}`);
+            game.eventBus.emitToWindow(GameEvents.TECH_COMPLETED, { techName: node.name, treeType });
           }
         }
       }

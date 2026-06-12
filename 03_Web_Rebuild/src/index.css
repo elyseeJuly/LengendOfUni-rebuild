@@ -383,3 +383,65 @@
   background: var(--color-primary-glass);
   border-color: var(--color-primary);
 }
+
+/* ============== High Contrast Mode Overrides ============== */
+body.high-contrast {
+  --bg-space-dark: #000000 !important;
+  --bg-main: #000000 !important;
+  --text-primary: #ffffff !important;
+  --text-secondary: #ffff00 !important;
+  --color-primary: #00ff00 !important;
+  --color-primary-glass: rgba(0, 0, 0, 0.95) !important;
+  --color-primary-glass-hover: rgba(0, 255, 0, 0.3) !important;
+  filter: none !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+body.high-contrast .glass-panel {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: none !important;
+}
+
+body.high-contrast button,
+body.high-contrast input,
+body.high-contrast select {
+  border: 2px solid #ffffff !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+body.high-contrast button:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+body.high-contrast .tech-node {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+}
+
+body.high-contrast .tech-node.finished {
+  border-color: #00ff00 !important;
+  background: #000000 !important;
+}
+
+body.high-contrast .tech-node.finished h4 {
+  color: #00ff00 !important;
+}
+
+body.high-contrast .tech-node.researching {
+  border-color: #ffff00 !important;
+}
+
+body.high-contrast .progress-bar-fill,
+body.high-contrast .h-1.5 > div {
+  background: #00ff00 !important;
+}
+
+body.high-contrast canvas {
+  filter: contrast(200%) brightness(120%) !important;
+}

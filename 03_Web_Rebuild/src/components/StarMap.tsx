@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { StarMapRenderer } from '../ui/StarMapRenderer';
 import { GameInstance } from '../core/Game';
+import { CrisisWarningPanel } from './CrisisWarningPanel';
 
 export const StarMap: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -35,6 +36,7 @@ export const StarMap: React.FC = () => {
 
   return (
     <div className="w-full h-full relative group">
+      <CrisisWarningPanel />
       <canvas 
         ref={canvasRef} 
         className="w-full h-full block cursor-crosshair transition-opacity duration-700"

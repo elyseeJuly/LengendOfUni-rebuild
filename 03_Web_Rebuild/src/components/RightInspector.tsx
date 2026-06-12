@@ -3,6 +3,7 @@ import { Target, ArrowUpCircle, Rocket, Factory, Pickaxe, Building, Gem, Skull, 
 import { GameInstance } from '../core/Game';
 import { Star } from '../core/Star';
 import { STAR_INDEX } from '../config/starIndices';
+import { t } from '../utils/i18n';
 
 export const RightInspector: React.FC = () => {
   const [selectedStar, setSelectedStar] = useState<Star | null>(null);
@@ -14,12 +15,15 @@ export const RightInspector: React.FC = () => {
       setSelectedStar(customEvent.detail);
     };
     const handleTurnComplete = () => forceUpdate(n => n + 1);
+    const handleLangChange = () => forceUpdate(n => n + 1);
 
     window.addEventListener('star-selected', handleStarSelect);
     window.addEventListener('game-turn-complete', handleTurnComplete);
+    window.addEventListener('game-language-changed', handleLangChange);
     return () => {
       window.removeEventListener('star-selected', handleStarSelect);
       window.removeEventListener('game-turn-complete', handleTurnComplete);
+      window.removeEventListener('game-language-changed', handleLangChange);
     };
   }, []);
 
@@ -148,67 +152,98 @@ export const RightInspector: React.FC = () => {
             </section>
 
             <section className="space-y-3">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-primary)]">工人分配与占比调整</h3>
-              <div className="space-y-3 bg-black/10 dark:bg-white/5 p-3 rounded-lg border border-white/5">
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-[var(--text-secondary)]">采矿比例: {earth.miningRatio}%</span>
-                    <span className="font-bold text-cyan-400 font-data">{earth.miningWorkers} 人</span>
+              <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-primary)]">{t('工人分配与占比调整') || '工人分配与占比调整'}</h3>
+              {(() => {
+                let stopeCount = 0;
+                let factoryCount = 0;
+                for (const idx of earth.starIndices) {
+                  const s = game.starManager.getStar(idx);
+                  if (s) {
+                    if (s.hasStope) stopeCount++;
+                    if (s.hasFactory) factoryCount++;
+                  }
+                }
+                const totalPop = earth.population || 1;
+                const actualMiningPct = Math.round((earth.miningWorkers / totalPop) * 100);
+                const actualFactoryPct = Math.round((earth.factoryWorkers / totalPop) * 100);
+                const actualCulturePct = Math.round((earth.cultureWorkers / totalPop) * 100);
+
+                const miningShortage = stopeCount > 0 && earth.miningWorkers < stopeCount * 5;
+                const factoryShortage = factoryCount > 0 && earth.factoryWorkers < factoryCount * 5;
+
+                return (
+                  <div className="space-y-3 bg-black/10 dark:bg-white/5 p-3 rounded-lg border border-white/5">
+                    {/* Mining */}
+                    <div className={`space-y-1 p-1.5 rounded transition-colors ${miningShortage ? 'border border-orange-500/30 bg-orange-500/5' : ''}`}>
+                      <div className="flex justify-between text-xs">
+                        <span className={`${miningShortage ? 'text-orange-400 font-bold' : 'text-[var(--text-secondary)]'}`}>
+                          {t('mining_ratio')}: {earth.miningRatio}% ({t('actual')}: {actualMiningPct}%)
+                          {miningShortage && ` [${t('labor_shortage')}]`}
+                        </span>
+                        <span className={`font-bold font-data ${miningShortage ? 'text-orange-400' : 'text-cyan-400'}`}>{earth.miningWorkers} {t('people')}</span>
+                      </div>
+                      <input 
+                        type="range" 
+                        min="0" 
+                        max="100" 
+                        value={earth.miningRatio} 
+                        onChange={(ev) => {
+                          earth.miningRatio = parseInt(ev.target.value, 10);
+                          earth.allocateWorkers();
+                          forceUpdate(n => n + 1);
+                        }}
+                        className={`w-full h-1 rounded-lg appearance-none cursor-pointer ${miningShortage ? 'bg-orange-950 accent-orange-500' : 'bg-cyan-950 accent-cyan-400'}`}
+                      />
+                    </div>
+                    {/* Factory */}
+                    <div className={`space-y-1 p-1.5 rounded transition-colors ${factoryShortage ? 'border border-orange-500/30 bg-orange-500/5' : ''}`}>
+                      <div className="flex justify-between text-xs">
+                        <span className={`${factoryShortage ? 'text-orange-400 font-bold' : 'text-[var(--text-secondary)]'}`}>
+                          {t('factory_ratio')}: {earth.factoryRatio}% ({t('actual')}: {actualFactoryPct}%)
+                          {factoryShortage && ` [${t('labor_shortage')}]`}
+                        </span>
+                        <span className={`font-bold font-data ${factoryShortage ? 'text-orange-400' : 'text-emerald-400'}`}>{earth.factoryWorkers} {t('people')}</span>
+                      </div>
+                      <input 
+                        type="range" 
+                        min="0" 
+                        max="100" 
+                        value={earth.factoryRatio} 
+                        onChange={(ev) => {
+                          earth.factoryRatio = parseInt(ev.target.value, 10);
+                          earth.allocateWorkers();
+                          forceUpdate(n => n + 1);
+                        }}
+                        className={`w-full h-1 rounded-lg appearance-none cursor-pointer ${factoryShortage ? 'bg-orange-950 accent-orange-500' : 'bg-emerald-950 accent-emerald-400'}`}
+                      />
+                    </div>
+                    {/* Culture */}
+                    <div className="space-y-1 p-1.5 rounded">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[var(--text-secondary)]">{t('culture_ratio')}: {earth.cultureRatio}% ({t('actual')}: {actualCulturePct}%)</span>
+                        <span className="font-bold text-purple-400 font-data">{earth.cultureWorkers} {t('people')}</span>
+                      </div>
+                      <input 
+                        type="range" 
+                        min="0" 
+                        max="100" 
+                        value={earth.cultureRatio} 
+                        onChange={(ev) => {
+                          earth.cultureRatio = parseInt(ev.target.value, 10);
+                          earth.allocateWorkers();
+                          forceUpdate(n => n + 1);
+                        }}
+                        className="w-full h-1 bg-purple-950 rounded-lg appearance-none cursor-pointer accent-purple-400"
+                      />
+                    </div>
+                    {/* Idle workers */}
+                    <div className="flex justify-between text-[10px] pt-1.5 border-t border-white/5 px-1.5">
+                      <span className="text-[var(--text-secondary)]">{t('idle_workers')}</span>
+                      <span className="font-bold text-slate-300 font-data">{earth.idleWorkers} {t('people')}</span>
+                    </div>
                   </div>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="100" 
-                    value={earth.miningRatio} 
-                    onChange={(ev) => {
-                      earth.miningRatio = parseInt(ev.target.value, 10);
-                      earth.allocateWorkers();
-                      forceUpdate(n => n + 1);
-                    }}
-                    className="w-full h-1 bg-cyan-950 rounded-lg appearance-none cursor-pointer accent-cyan-400"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-[var(--text-secondary)]">加工比例: {earth.factoryRatio}%</span>
-                    <span className="font-bold text-emerald-400 font-data">{earth.factoryWorkers} 人</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="100" 
-                    value={earth.factoryRatio} 
-                    onChange={(ev) => {
-                      earth.factoryRatio = parseInt(ev.target.value, 10);
-                      earth.allocateWorkers();
-                      forceUpdate(n => n + 1);
-                    }}
-                    className="w-full h-1 bg-emerald-950 rounded-lg appearance-none cursor-pointer accent-emerald-400"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-[var(--text-secondary)]">文化比例: {earth.cultureRatio}%</span>
-                    <span className="font-bold text-purple-400 font-data">{earth.cultureWorkers} 人</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="100" 
-                    value={earth.cultureRatio} 
-                    onChange={(ev) => {
-                      earth.cultureRatio = parseInt(ev.target.value, 10);
-                      earth.allocateWorkers();
-                      forceUpdate(n => n + 1);
-                    }}
-                    className="w-full h-1 bg-purple-950 rounded-lg appearance-none cursor-pointer accent-purple-400"
-                  />
-                </div>
-                <div className="flex justify-between text-[10px] pt-1.5 border-t border-white/5">
-                  <span className="text-[var(--text-secondary)]">闲置工人</span>
-                  <span className="font-bold text-slate-300 font-data">{earth.idleWorkers} 人</span>
-                </div>
-              </div>
+                );
+              })()}
             </section>
 
             <section className="space-y-3">

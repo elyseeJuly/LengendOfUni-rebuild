@@ -49,8 +49,8 @@ describe('DIContainer', () => {
       createCount++;
       return { id: createCount };
     }, false);
-    const a = container.resolve('nonSingleton');
-    const b = container.resolve('nonSingleton');
+    const a = container.resolve<{ id: number }>('nonSingleton');
+    const b = container.resolve<{ id: number }>('nonSingleton');
     expect(a).not.toBe(b);
     expect(a.id).toBe(1);
     expect(b.id).toBe(2);

@@ -82,7 +82,7 @@ export const FleetModal: React.FC<FleetModalProps> = ({ onClose }) => {
               <div className="text-xs text-cyan-400/60 uppercase tracking-widest mt-0.5">Fleet Command Center</div>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+          <button onClick={onClose} className="fleet-modal-close-btn p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
             <X size={20} />
           </button>
         </div>

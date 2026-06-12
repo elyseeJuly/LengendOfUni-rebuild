@@ -496,7 +496,7 @@ describe('Game Core Extended', () => {
   describe('runARound 流程', () => {
     it('正常推进回合 年份+1', () => {
       game.runARound();
-      if (game.currentEvent) {
+      while (game.currentEvent) {
         game.applyEventEffect(0);
       }
       expect(game.year).toBe(1);
@@ -505,7 +505,7 @@ describe('Game Core Extended', () => {
     it('回合推进后历史日志增加', () => {
       const before = game.historyLogs.length;
       game.runARound();
-      if (game.currentEvent) {
+      while (game.currentEvent) {
         game.applyEventEffect(0);
       }
       expect(game.historyLogs.length).toBeGreaterThan(before);

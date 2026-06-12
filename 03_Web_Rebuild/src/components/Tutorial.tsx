@@ -284,7 +284,7 @@ export const Tutorial: React.FC<{ onComplete: () => void }> = ({ onComplete }) =
         <div className={`bg-gradient-to-br ${CATEGORY_COLORS[current.category] || 'from-blue-500/20 to-cyan-500/20'} backdrop-blur-xl rounded-2xl border ${CATEGORY_BORDER_COLORS[current.category] || 'border-white/10'} p-8 flex flex-col gap-5`}>
           
           {/* Skip button */}
-          <button onClick={handleSkip} className="absolute top-6 right-6 text-white/30 hover:text-white/70 transition-colors z-10">
+          <button onClick={handleSkip} className="tutorial-modal-close-btn absolute top-6 right-6 text-white/30 hover:text-white/70 transition-colors z-10">
             <X size={18} />
           </button>
 

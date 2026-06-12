@@ -11,6 +11,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { FriendshipType } from '../types/enums';
+import { t } from '../utils/i18n';
 
 export const DiplomacyPanel: React.FC = () => {
   const [aliens, setAliens] = useState<any[]>([]);
@@ -129,10 +130,18 @@ export const DiplomacyPanel: React.FC = () => {
                   <span>当前状态:</span>
                   <span className="font-bold text-slate-200">{getFriendshipLabel(activeAlienData.friendship).text}</span>
                 </div>
-                {activeAlienData.cooldown > 0 && (
-                  <div className="flex items-center gap-1.5 text-[10px] text-amber-500 font-bold mt-1.5 uppercase">
-                    <ShieldAlert className="w-3.5 h-3.5 animate-pulse" />
-                    外交冷却中: 需等待 {activeAlienData.cooldown} 回合才可以进行下一步接触
+                 {activeAlienData.cooldown > 0 && (
+                  <div className="mt-2 space-y-1.5 bg-amber-500/5 p-2 rounded border border-amber-500/10">
+                    <div className="flex items-center gap-1.5 text-[10px] text-amber-500 font-bold uppercase">
+                      <ShieldAlert className="w-3.5 h-3.5 animate-pulse" />
+                      {t('cooldown') || '外交冷却中'}: {t('wait_turns', { turns: activeAlienData.cooldown }) || `需等待 ${activeAlienData.cooldown} 回合`}
+                    </div>
+                    <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-amber-500 rounded-full transition-all duration-500" 
+                        style={{ width: `${(activeAlienData.cooldown / 3) * 100}%` }} 
+                      />
+                    </div>
                   </div>
                 )}
               </div>

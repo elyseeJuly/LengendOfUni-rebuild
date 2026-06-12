@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { Users, TrendingUp, Landmark, Shield, AlertTriangle, Settings, Save, SkipForward, Gem, Skull, HelpCircle } from 'lucide-react';
+import { Users, TrendingUp, Landmark, Shield, AlertTriangle, Settings, Save, SkipForward, Gem, Skull, HelpCircle, Contrast } from 'lucide-react';
 import { GameInstance } from '../core/Game';
 import { systemMenuPanel } from '../ui/SystemMenuPanel';
+import { t, setLanguage, getLanguage } from '../utils/i18n';
 import { useFloatingText, FloatingLayer } from './FloatingText';
 import { BgmPlayer } from './BgmPlayer';
 
@@ -34,6 +35,36 @@ const ResourceItem: React.FC<ResourceItemProps> = ({ icon, label, value, colorCl
 export const TopHUD: React.FC = () => {
   const [updateCount, setUpdateCount] = useState(0);
   const prevStatsRef = useRef<any>(null);
+  
+  const [lang, setLangState] = useState(getLanguage());
+  const [highContrast, setHighContrast] = useState(() => localStorage.getItem('high-contrast') === 'true');
+
+  useEffect(() => {
+    if (highContrast) {
+      document.body.classList.add('high-contrast');
+    } else {
+      document.body.classList.remove('high-contrast');
+    }
+    localStorage.setItem('high-contrast', String(highContrast));
+  }, [highContrast]);
+
+  useEffect(() => {
+    const handleLangChange = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setLangState(detail);
+      setUpdateCount(n => n + 1);
+    };
+    const handleContrastChange = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setHighContrast(detail);
+    };
+    window.addEventListener('game-language-changed', handleLangChange);
+    window.addEventListener('high-contrast-changed', handleContrastChange);
+    return () => {
+      window.removeEventListener('game-language-changed', handleLangChange);
+      window.removeEventListener('high-contrast-changed', handleContrastChange);
+    };
+  }, []);
   
   const { addFloater: addPopFloater, floaters: popFloaters } = useFloatingText();
   const { addFloater: addEcoFloater, floaters: ecoFloaters } = useFloatingText();
@@ -83,7 +114,7 @@ export const TopHUD: React.FC = () => {
 
   const handleSave = () => {
     GameInstance.saveGame();
-    alert("游戏存档成功！");
+    alert(t("saving_success") || "游戏存档成功！");
   };
 
   const handleSettings = () => {
@@ -197,13 +228,24 @@ export const TopHUD: React.FC = () => {
       <div className="flex items-center gap-3">
         <BgmPlayer isGameOver={stats.isGameOver} />
         
-        <button onClick={() => window.dispatchEvent(new CustomEvent('open-tutorial'))} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-[var(--text-secondary)]" title="帮助教程">
+        <button onClick={() => setHighContrast(v => !v)} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-[var(--text-secondary)] cursor-pointer" title={t('high_contrast') || "高对比度模式"}>
+          <Contrast size={20} />
+        </button>
+        <button 
+          onClick={() => setLanguage(lang === 'zh' ? 'en' : 'zh')} 
+          className="px-2.5 py-1 hover:bg-black/5 dark:hover:bg-white/5 rounded border border-white/10 text-xs font-bold font-mono text-[var(--text-secondary)] cursor-pointer" 
+          title="切换语言 / Switch Language"
+        >
+          {lang === 'zh' ? 'EN' : '中文'}
+        </button>
+
+        <button onClick={() => window.dispatchEvent(new CustomEvent('open-tutorial'))} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-[var(--text-secondary)] cursor-pointer" title={t('help') || "帮助教程"}>
           <HelpCircle size={20} />
         </button>
-        <button onClick={handleSave} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-[var(--text-secondary)]" title="保存存档">
+        <button onClick={handleSave} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-[var(--text-secondary)] cursor-pointer" title={t('save_game') || "保存存档"}>
           <Save size={20} />
         </button>
-        <button onClick={handleSettings} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-[var(--text-secondary)]" title="系统设置">
+        <button onClick={handleSettings} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-[var(--text-secondary)] cursor-pointer" title={t('settings') || "系统设置"}>
           <Settings size={20} />
         </button>
         <button 
@@ -211,7 +253,7 @@ export const TopHUD: React.FC = () => {
           disabled={GameInstance.get().currentEvent !== null || GameInstance.get().eventQueue.length > 0}
           className={`btn-next-turn flex items-center gap-2 ${(GameInstance.get().currentEvent !== null || GameInstance.get().eventQueue.length > 0) ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
         >
-          <span>{(GameInstance.get().currentEvent !== null || GameInstance.get().eventQueue.length > 0) ? "处理中..." : "下一回合"}</span>
+          <span>{(GameInstance.get().currentEvent !== null || GameInstance.get().eventQueue.length > 0) ? (t('processing') || "处理中...") : (t('next_turn') || "下一回合")}</span>
           <SkipForward size={18} />
         </button>
       </div>

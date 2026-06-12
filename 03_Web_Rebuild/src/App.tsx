@@ -17,6 +17,7 @@ import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { BattleScreen } from './components/BattleScreen';
 import { DiplomacyPanel } from './components/DiplomacyPanel';
 import { AtmosphereProvider } from './components/AtmosphereProvider';
+import { TechUnlockModal } from './components/TechUnlockModal';
 
 export const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -30,8 +31,9 @@ export const App: React.FC = () => {
   const [showTutorial, setShowTutorial] = useState(() => !localStorage.getItem('game-tutorial-seen'));
   const [showFleetModal, setShowFleetModal] = useState(false);
   const [showBattleScreen, setShowBattleScreen] = useState(false);
+  const [unlockedTech, setUnlockedTech] = useState<{ name: string; treeType: string } | null>(null);
 
-  const atmosphereEngineRef = useRef<{ current: any }>({ current: null });
+  const atmosphereEngineRef = useRef<any>(null);
 
   // Apply dark mode class to html element
   useEffect(() => {
@@ -53,17 +55,25 @@ export const App: React.FC = () => {
     const handleOpenTutorial = () => setShowTutorial(true);
     const handleOpenFleetModal = () => setShowFleetModal(true);
     const handleBattleTriggered = () => setShowBattleScreen(true);
+    const handleTechCompleted = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail && detail.techName) {
+        setUnlockedTech({ name: detail.techName, treeType: detail.treeType });
+      }
+    };
     
     window.addEventListener('theme-change', handleThemeChange);
     window.addEventListener('open-tutorial', handleOpenTutorial);
     window.addEventListener('open-fleet-modal', handleOpenFleetModal);
     window.addEventListener('battle-triggered', handleBattleTriggered);
+    window.addEventListener('game:tech:completed', handleTechCompleted);
     
     return () => {
       window.removeEventListener('theme-change', handleThemeChange);
       window.removeEventListener('open-tutorial', handleOpenTutorial);
       window.removeEventListener('open-fleet-modal', handleOpenFleetModal);
       window.removeEventListener('battle-triggered', handleBattleTriggered);
+      window.removeEventListener('game:tech:completed', handleTechCompleted);
     };
   }, []);
 
@@ -122,6 +132,94 @@ export const App: React.FC = () => {
     }
   }, [activeView]);
 
+  // Keyboard Shortcuts & Accessibility Controls
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore keypresses when typing in input/select fields
+      if (document.activeElement?.tagName === 'INPUT' || 
+          document.activeElement?.tagName === 'SELECT' || 
+          document.activeElement?.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      const game = GameInstance.get();
+
+      // Space: Next Turn or Proceed Story
+      if (e.code === 'Space') {
+        e.preventDefault();
+        const proceedBtn = document.querySelector('.story-proceed-btn') as HTMLButtonElement | null;
+        const ackBtn = document.querySelector('.story-acknowledge-btn') as HTMLButtonElement | null;
+        if (proceedBtn) {
+          proceedBtn.click();
+        } else if (ackBtn) {
+          ackBtn.click();
+        } else if (!game.currentEvent && !game.isProcessing && !isGameOver) {
+          // Next Turn
+          game.runARound();
+          window.dispatchEvent(new CustomEvent('game-turn-complete'));
+        }
+      }
+
+      // Choice hotkeys: 1, 2, 3
+      if (['Digit1', 'Digit2', 'Digit3'].includes(e.code)) {
+        const index = parseInt(e.code.replace('Digit', '')) - 1;
+        const choiceBtns = document.querySelectorAll('.story-choice-btn') as NodeListOf<HTMLButtonElement>;
+        if (choiceBtns && choiceBtns[index]) {
+          e.preventDefault();
+          choiceBtns[index].click();
+        }
+      }
+
+      // View switcher: M, T, H, D
+      if (e.code === 'KeyM') {
+        e.preventDefault();
+        setActiveView('starmap');
+      }
+      if (e.code === 'KeyT') {
+        e.preventDefault();
+        setActiveView('techtree');
+      }
+      if (e.code === 'KeyH') {
+        e.preventDefault();
+        setActiveView('timeline');
+      }
+      if (e.code === 'KeyD') {
+        e.preventDefault();
+        setActiveView('diplomacy');
+      }
+
+      // Fleet center: F
+      if (e.code === 'KeyF') {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('open-fleet-modal'));
+      }
+
+      // Escape key: Close modals
+      if (e.code === 'Escape') {
+        e.preventDefault();
+        const fleetCloseBtn = document.querySelector('.fleet-modal-close-btn') as HTMLButtonElement | null;
+        if (fleetCloseBtn) {
+          fleetCloseBtn.click();
+        }
+        const tutorialCloseBtn = document.querySelector('.tutorial-modal-close-btn') as HTMLButtonElement | null;
+        if (tutorialCloseBtn) {
+          tutorialCloseBtn.click();
+        }
+        setUnlockedTech(null);
+      }
+
+      // Ctrl + Alt + C: Toggle High Contrast Mode
+      if (e.code === 'KeyC' && e.ctrlKey && e.altKey) {
+        e.preventDefault();
+        const active = !document.body.classList.contains('high-contrast');
+        window.dispatchEvent(new CustomEvent('high-contrast-changed', { detail: active }));
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeView, isGameOver]);
+
   return (
     <ErrorBoundary>
       <AtmosphereProvider engineRef={atmosphereEngineRef}>
@@ -141,6 +239,10 @@ export const App: React.FC = () => {
 
       {showTutorial && (
         <Tutorial onComplete={() => setShowTutorial(false)} />
+      )}
+
+      {unlockedTech && (
+        <TechUnlockModal tech={unlockedTech} onClose={() => setUnlockedTech(null)} />
       )}
 
       {showFleetModal && (

@@ -4,6 +4,7 @@ import { GameInstance } from '../core/Game';
 import { DepartmentType } from '../types/enums';
 import { wallfacerPanel } from '../ui/WallfacerPanel';
 import { DepartmentPanel } from '../ui/DepartmentPanel';
+import { t } from '../utils/i18n';
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -32,6 +33,7 @@ const deptPanel = new DepartmentPanel();
 
 export const LeftHub: React.FC<LeftHubProps> = ({ activeView, setActiveView }) => {
   const [sophonBlocked, setSophonBlocked] = useState(false);
+  const [diversity, setDiversity] = useState({ triggered: 0, total: 0, percentage: 0 });
 
   useEffect(() => {
     const check = () => {
@@ -39,9 +41,34 @@ export const LeftHub: React.FC<LeftHubProps> = ({ activeView, setActiveView }) =
         setSophonBlocked(GameInstance.get().isSophonBlocked());
       } catch { /* ignore */ }
     };
+    const updateStats = () => {
+      try {
+        const game = GameInstance.get();
+        if (game && game.eventManager) {
+          const stats = game.eventManager.getEventDiversityStats();
+          setDiversity({
+            triggered: stats.triggered,
+            total: stats.total,
+            percentage: stats.percentage
+          });
+        }
+      } catch { /* ignore */ }
+    };
+
     check();
+    updateStats();
+
     window.addEventListener('game-turn-complete', check);
-    return () => window.removeEventListener('game-turn-complete', check);
+    window.addEventListener('game-turn-complete', updateStats);
+    window.addEventListener('game-loaded', updateStats);
+    window.addEventListener('game-language-changed', updateStats);
+
+    return () => {
+      window.removeEventListener('game-turn-complete', check);
+      window.removeEventListener('game-turn-complete', updateStats);
+      window.removeEventListener('game-loaded', updateStats);
+      window.removeEventListener('game-language-changed', updateStats);
+    };
   }, []);
 
   const handleDeptClick = useCallback((deptType: number, deptName: string) => {
@@ -113,9 +140,24 @@ export const LeftHub: React.FC<LeftHubProps> = ({ activeView, setActiveView }) =
         ))}
       </div>
 
+      {/* Event Diversity Stats */}
+      <div className="p-4 border-t border-white/5 bg-black/5">
+        <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-[0.2em] mb-1.5 flex justify-between">
+          <span>{t('event_diversity') || '事件多样性观测'}</span>
+          <span className="text-[var(--color-primary)] font-data">{diversity.triggered} / {diversity.total}</span>
+        </div>
+        <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden mb-1">
+          <div className="h-full bg-[var(--color-primary)] rounded-full transition-all duration-500" style={{ width: `${diversity.percentage}%` }} />
+        </div>
+        <div className="flex justify-between text-[9px] text-[var(--text-secondary)] font-mono">
+          <span>{t('unique_trigger_rate') || '独特事件触发率'}</span>
+          <span>{diversity.percentage}%</span>
+        </div>
+      </div>
+
       {/* Bottom: Emergency Alerts */}
       {sophonBlocked && (
-        <div className="p-4 mt-auto">
+        <div className="p-4">
           <div className="bg-orange-500/10 dark:bg-orange-500/10 border border-orange-500/30 p-3 rounded-lg flex gap-3 items-start animate-pulse">
             <AlertOctagon className="text-orange-500 shrink-0" size={18} />
             <div className="flex flex-col">

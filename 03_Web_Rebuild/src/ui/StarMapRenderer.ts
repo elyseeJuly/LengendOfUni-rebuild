@@ -324,43 +324,65 @@ export class StarMapRenderer {
       }
     }
 
-    // 绘制航行中的舰队
+    // 绘制航行中的所有舰队 (地球 + 外星)
     const game = GameInstance.get();
     const isLightMode = document.body.classList.contains("light-mode");
 
-    game.earthCivi.fleets.forEach(fleet => {
+    const allFleets: any[] = [];
+    if (game.earthCivi && game.earthCivi.fleets) {
+      game.earthCivi.fleets.forEach(f => allFleets.push(f));
+    }
+    if (game.alienCiviManager && game.alienCiviManager.aliens) {
+      for (const alien of game.alienCiviManager.aliens.values()) {
+        if (alien.fleets) {
+          alien.fleets.forEach((f: any) => allFleets.push(f));
+        }
+      }
+    }
+
+    allFleets.forEach(fleet => {
       if (fleet.eta > 0) {
         const srcStar = this.renderStarMap.get(fleet.sourceStarIndex);
         const dstStar = this.renderStarMap.get(fleet.targetStarIndex);
 
         if (srcStar && dstStar) {
+          const isEarth = fleet.belongToCivi === "地球";
           // 连线
           this.ctx.beginPath();
           this.ctx.moveTo(srcStar.x, srcStar.y);
           this.ctx.lineTo(dstStar.x, dstStar.y);
-          this.ctx.strokeStyle = isLightMode ? "rgba(37, 99, 235, 0.3)" : "rgba(0, 229, 255, 0.2)";
+          this.ctx.strokeStyle = isEarth 
+            ? (isLightMode ? "rgba(37, 99, 235, 0.3)" : "rgba(0, 229, 255, 0.2)")
+            : (isLightMode ? "rgba(220, 38, 38, 0.3)" : "rgba(255, 85, 0, 0.25)");
           this.ctx.setLineDash([5, 5]);
           this.ctx.stroke();
           this.ctx.setLineDash([]);
 
           // 舰队当前位置插值
-          const progress = 1 - (fleet.eta / fleet.totalEta);
+          const total = fleet.totalEta > 0 ? fleet.totalEta : 1;
+          const progress = 1 - (fleet.eta / total);
           const fx = srcStar.x + (dstStar.x - srcStar.x) * progress;
           const fy = srcStar.y + (dstStar.y - srcStar.y) * progress;
 
           // 画舰队光点
           this.ctx.beginPath();
           this.ctx.arc(fx, fy, 4, 0, Math.PI * 2);
-          this.ctx.fillStyle = isLightMode ? "#2563EB" : "#FFFFFF";
+          this.ctx.fillStyle = isEarth
+            ? (isLightMode ? "#2563EB" : "#00E5FF")
+            : (isLightMode ? "#DC2626" : "#FF5500");
           this.ctx.shadowBlur = 10;
-          this.ctx.shadowColor = isLightMode ? "rgba(37, 99, 235, 0.5)" : "#00E5FF";
+          this.ctx.shadowColor = isEarth
+            ? (isLightMode ? "rgba(37, 99, 235, 0.5)" : "#00E5FF")
+            : (isLightMode ? "rgba(220, 38, 38, 0.5)" : "#FF5500");
           this.ctx.fill();
           this.ctx.shadowBlur = 0;
 
-          // 舰队名字
-          this.ctx.fillStyle = isLightMode ? "#1E293B" : "#00E5FF";
-          this.ctx.font = "bold 10px sans-serif";
-          this.ctx.fillText(fleet.name, fx + 8, fy);
+          // 舰队名字 + 倒计时
+          this.ctx.fillStyle = isEarth
+            ? (isLightMode ? "#1E293B" : "#00E5FF")
+            : (isLightMode ? "#DC2626" : "#FF5500");
+          this.ctx.font = "bold 9px sans-serif";
+          this.ctx.fillText(`${fleet.name} (${fleet.eta}回合)`, fx + 8, fy + 3);
         }
       }
     });

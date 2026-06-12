@@ -589,7 +589,7 @@ export class GameEventManager {
     if (fev) fev.lastTriggeredYear = year;
   }
 
-  private parseEventData(dataList: any): GameEvent[] {
+  public parseEventData(dataList: any): GameEvent[] {
     const events: GameEvent[] = [];
     if (!dataList || !Array.isArray(dataList)) return events;
 
@@ -778,6 +778,56 @@ export class GameEventManager {
 
     return picked;
   }
+
+  public getEventDiversityStats() {
+    const storyTotal = this.events.length;
+    const storyTriggered = this.events.filter(e => e.hasTriggered).length;
+
+    const randomTotal = this.randomEvents.length;
+    const randomTriggered = this.randomEventTriggerCounts.size;
+
+    const filteredTotal = this.filteredEvents.length;
+    const triggeredFiltered = this.triggeredFilteredIds.size;
+
+    const total = storyTotal + randomTotal + filteredTotal;
+    const triggered = storyTriggered + randomTriggered + triggeredFiltered;
+    const percentage = total > 0 ? Math.round((triggered / total) * 100) : 0;
+
+    return {
+      storyTotal,
+      storyTriggered,
+      randomTotal,
+      randomTriggered,
+      filteredTotal,
+      triggeredFiltered,
+      total,
+      triggered,
+      percentage
+    };
+  }
 }
+
+if (import.meta.hot) {
+  import.meta.hot.accept('../data/events.json', (newModule) => {
+    console.log('[HMR] events.json updated');
+    const game = GameInstance.get();
+    if (game && game.eventManager) {
+      game.eventManager.events = game.eventManager.parseEventData(newModule ? newModule.default : null);
+      game.eventManager.events = game.eventManager.events.map(e => normalizeEventMeta(e));
+      window.dispatchEvent(new CustomEvent('game-loaded'));
+    }
+  });
+
+  import.meta.hot.accept('../data/randomevents.json', (newModule) => {
+    console.log('[HMR] randomevents.json updated');
+    const game = GameInstance.get();
+    if (game && game.eventManager) {
+      game.eventManager.randomEvents = game.eventManager.parseEventData(newModule ? newModule.default : null);
+      game.eventManager.randomEvents = game.eventManager.randomEvents.map(e => normalizeEventMeta(e));
+      window.dispatchEvent(new CustomEvent('game-loaded'));
+    }
+  });
+}
+
 
 

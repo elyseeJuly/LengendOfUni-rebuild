@@ -19,10 +19,9 @@ import { RelationNetwork } from "./RelationNetwork";
 import { AtmosphereEngine } from "./AtmosphereEngine";
 import { HistoryGenerator } from "./HistoryGenerator";
 import { SliceNarrativeEngine } from "./SliceNarrativeEngine";
-import { EventBus, GameEvents } from "./EventBus";
-import { AppContainer, ServiceKeys } from "./DIContainer";
-import { SaveManager } from "./SaveManager";
-import { scoreEventUEE } from "./EventCadence";
+import { EventBus } from "./EventBus";
+import { SaveManager, SaveDataCorruptedError } from "./SaveManager";
+import { AudioManager } from "./AudioManager";
 
 export interface RngProvider {
   random(): number;
@@ -41,6 +40,7 @@ export class Game {
   public eventManager: GameEventManager;
   public planetEngine: PlanetEngine;
   public digitalLife: DigitalLife;
+  public audioManager: AudioManager;
 
   // UEE 新模块
   public tagManager: TagManager;
@@ -75,6 +75,7 @@ export class Game {
     this.eventManager = new GameEventManager();
     this.planetEngine = new PlanetEngine();
     this.digitalLife = new DigitalLife();
+    this.audioManager = new AudioManager();
 
     // UEE 新模块初始化
     this.tagManager = new TagManager();
@@ -308,6 +309,7 @@ export class Game {
 
       // ===== UEE 集成：历史记录器 =====
       this.historyGenerator.incTurn();
+      this.historyGenerator.prune(500);
 
       // Process blocking interactive strategy events via popup queue
       interactiveEvents.forEach(e => {
@@ -772,19 +774,19 @@ export class GameInstance {
   public static reset(): void {
     localStorage.removeItem("LegendOfUni_Save");
     this.instance = new Game();
-    setTimeout(() => window.dispatchEvent(new CustomEvent('open-tutorial')), 500);
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('open-tutorial'));
+      }
+    }, 500);
   }
 
-  private static calculateHash(str: string): string {
-    let hash = 5381;
-    for (let i = 0; i < str.length; i++) {
-      hash = ((hash << 5) + hash) + str.charCodeAt(i);
-    }
-    return "chk_" + Math.abs(hash & 0xFFFFFFFF).toString(16);
-  }
 
   public static saveGame(): void {
     if (!this.instance) return;
+    if (this.instance.historyGenerator) {
+      this.instance.historyGenerator.prune(500);
+    }
     this.instance.addHistory("游戏已保存到本地存储。");
     SaveManager.save(() => JSON.stringify(this.instance, this.replacer));
   }
@@ -819,6 +821,10 @@ export class GameInstance {
       return true;
     } catch (e) {
       if (e instanceof SaveDataCorruptedError) {
+        if (e.message.includes("无效的 JSON 格式")) {
+          console.error("Save load failed with invalid JSON format:", e.message);
+          return false;
+        }
         console.error("Save corruption detected:", e.message);
         throw e;
       }
@@ -950,10 +956,3 @@ export class GameInstance {
   }
 }
 
-export class SaveDataCorruptedError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "SaveDataCorruptedError";
-    Object.setPrototypeOf(this, SaveDataCorruptedError.prototype);
-  }
-}

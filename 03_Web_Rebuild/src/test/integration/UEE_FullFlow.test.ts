@@ -6,7 +6,6 @@ import { EcologyChain } from '../../core/EcologyChain';
 import { HistoryGenerator } from '../../core/HistoryGenerator';
 import { SliceNarrativeEngine } from '../../core/SliceNarrativeEngine';
 import { EventBus } from '../../core/EventBus';
-import { EarthCivilization } from '../../core/EarthCivilization';
 
 describe('UEE_FullFlow', () => {
   let game: Game;

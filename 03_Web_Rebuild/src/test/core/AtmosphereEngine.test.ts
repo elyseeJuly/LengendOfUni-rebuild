@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { AtmosphereEngine, AtmosphereState, AtmosphereConfig } from '../../core/AtmosphereEngine';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { AtmosphereEngine, AtmosphereState } from '../../core/AtmosphereEngine';
 import { TagManager } from '../../core/TagManager';
 import { EarthCivilization } from '../../core/EarthCivilization';
 

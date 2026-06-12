@@ -64,7 +64,7 @@ export class SliceNarrativeEngine {
   }
 
   /** 自动生成切片叙事 */
-  generateSlice(eventId: string, eventTitle: string, tagManager: any): SliceNarrative {
+  generateSlice(eventId: string, eventTitle: string, _tagManager: any): SliceNarrative {
     const name = this.getNextNpcName();
     const role = NPC_ROLES[Math.floor(Math.random() * NPC_ROLES.length)];
     const area = AREAS[Math.floor(Math.random() * AREAS.length)];

@@ -82,7 +82,12 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
   if (!currentNode) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-all duration-500 animate-in fade-in">
+    <div 
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-all duration-500 animate-in fade-in"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="story-modal-title"
+    >
       {/* Background Scanning Lines */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-10">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
@@ -115,7 +120,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
               <span className="text-[10px] md:text-xs font-mono font-bold tracking-[0.3em] text-white/50 uppercase">
                 CRITICAL RECORDING // 核心纪元记录
               </span>
-              <span className="text-[10px] md:text-xs font-bold text-[var(--color-primary)] tracking-wider">
+              <span id="story-modal-title" className="text-[10px] md:text-xs font-bold text-[var(--color-primary)] tracking-wider">
                 {event.title.trim().replace(/^【|】$/g, '')}
               </span>
             </div>
@@ -140,7 +145,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
 
                 {/* Subtitle Text */}
                 <div className="min-h-[48px] flex items-center justify-center">
-                  <p className="text-sm md:text-base leading-relaxed text-white/90 font-sans tracking-wide">
+                  <p className="text-sm md:text-base leading-relaxed text-white/90 font-sans tracking-wide" aria-live="polite">
                     {displayedText}
                     {isTyping && <span className="inline-block w-1.5 h-4 ml-1 bg-[var(--color-primary)] animate-pulse" />}
                   </p>
@@ -151,7 +156,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
                   {!showChoices ? (
                     <button 
                       onClick={handleNext} 
-                      className="px-6 py-2 border border-white/20 hover:border-[var(--color-primary)] text-white hover:text-[var(--color-primary)] font-bold uppercase tracking-[0.2em] text-xs transition-all duration-300 flex items-center gap-1.5 bg-white/5 hover:bg-[var(--color-primary)]/5"
+                      className="story-proceed-btn px-6 py-2 border border-white/20 hover:border-[var(--color-primary)] text-white hover:text-[var(--color-primary)] font-bold uppercase tracking-[0.2em] text-xs transition-all duration-300 flex items-center gap-1.5 bg-white/5 hover:bg-[var(--color-primary)]/5"
                     >
                       {isTyping ? "Skip Sync" : "Proceed"} <ChevronRight size={14} />
                     </button>
@@ -162,7 +167,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
                           <button
                             key={idx}
                             onClick={() => { choice.action(); onClose(); }}
-                            className="px-5 py-2 bg-black/60 border border-[var(--color-primary)]/40 hover:bg-[var(--color-primary)] hover:text-black hover:border-[var(--color-primary)] text-white transition-all duration-300 text-xs font-bold tracking-wider"
+                            className="story-choice-btn px-5 py-2 bg-black/60 border border-[var(--color-primary)]/40 hover:bg-[var(--color-primary)] hover:text-black hover:border-[var(--color-primary)] text-white transition-all duration-300 text-xs font-bold tracking-wider"
                           >
                             {choice.label}
                           </button>
@@ -170,7 +175,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
                       ) : (
                         <button 
                           onClick={onClose} 
-                          className="px-8 py-2 bg-[var(--color-primary)] text-black font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all duration-300"
+                          className="story-acknowledge-btn px-8 py-2 bg-[var(--color-primary)] text-black font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all duration-300"
                         >
                           Acknowledge
                         </button>
@@ -230,7 +235,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold text-[var(--text-secondary)]/40 tracking-[0.4em] uppercase">Narrative Sequence Node</p>
-                    <h2 className="text-2xl font-black tracking-tight text-[var(--text-primary)] flex items-center gap-3">
+                    <h2 id="story-modal-title" className="text-2xl font-black tracking-tight text-[var(--text-primary)] flex items-center gap-3">
                       <span className="w-2 h-6 bg-[var(--color-primary)]" />
                       {(() => {
                         if (event.title.includes('事件_')) return event.title;
@@ -250,7 +255,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
                 
                 <div className="relative">
                   <div className="absolute -left-6 top-0 bottom-0 w-[1px] bg-black/5 dark:bg-white/5" />
-                  <p className="text-2xl leading-relaxed font-light text-[var(--text-primary)]/90 font-sans min-h-[160px] tracking-wide">
+                  <p className="text-2xl leading-relaxed font-light text-[var(--text-primary)]/90 font-sans min-h-[160px] tracking-wide" aria-live="polite">
                     {displayedText}
                     {isTyping && <span className="inline-block w-2 h-6 ml-1 bg-[var(--color-primary)] shadow-[0_0_10px_var(--color-primary)] animate-pulse" />}
                   </p>
@@ -261,7 +266,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
                 {!showChoices ? (
                   <button 
                     onClick={handleNext}
-                    className="group relative flex items-center gap-4 px-8 py-4 bg-[var(--color-primary-glass)] hover:bg-[var(--color-primary-glass-hover)] border border-[var(--color-primary)]/30 transition-all overflow-hidden"
+                    className="story-proceed-btn group relative flex items-center gap-4 px-8 py-4 bg-[var(--color-primary-glass)] hover:bg-[var(--color-primary-glass-hover)] border border-[var(--color-primary)]/30 transition-all overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-[var(--color-primary-glass)] -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
                     <span className="relative z-10 text-[var(--color-primary)] font-black uppercase tracking-[0.2em] text-sm">
@@ -278,7 +283,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
                           <button
                             key={idx}
                             onClick={() => { choice.action(); onClose(); }}
-                            className="flex-1 min-w-[200px] px-6 py-4 bg-[var(--color-primary-glass)] hover:bg-[var(--color-primary-glass-hover)] border border-[var(--color-primary)]/40 text-[var(--text-primary)] transition-all hover:border-[var(--color-primary)] hover:shadow-[0_0_20px_rgba(var(--color-primary-rgb),0.2)] text-left group relative"
+                            className="story-choice-btn flex-1 min-w-[200px] px-6 py-4 bg-[var(--color-primary-glass)] hover:bg-[var(--color-primary-glass-hover)] border border-[var(--color-primary)]/40 text-[var(--text-primary)] transition-all hover:border-[var(--color-primary)] hover:shadow-[0_0_20px_rgba(var(--color-primary-rgb),0.2)] text-left group relative"
                           >
                             <div className="flex items-center gap-3">
                               <span className="text-[10px] font-mono text-[var(--text-secondary)]/60 group-hover:text-[var(--color-primary)] transition-colors shrink-0">0{idx + 1}</span>
@@ -308,7 +313,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ event, onClose }) => {
                       ) : (
                         <button
                           onClick={onClose}
-                          className="px-12 py-4 bg-[var(--color-primary)] text-white dark:text-blue-950 font-black uppercase tracking-[0.3em] text-sm hover:brightness-110 transition-all shadow-[0_0_30px_rgba(var(--color-primary-rgb),0.4)] active:scale-95"
+                          className="story-acknowledge-btn px-12 py-4 bg-[var(--color-primary)] text-white dark:text-blue-950 font-black uppercase tracking-[0.3em] text-sm hover:brightness-110 transition-all shadow-[0_0_30px_rgba(var(--color-primary-rgb),0.4)] active:scale-95"
                         >
                           Acknowledge
                         </button>
