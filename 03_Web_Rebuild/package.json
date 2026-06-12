@@ -12,7 +12,12 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "test:core": "vitest run src/test/core",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "tauri:build:win": "tauri build --target x86_64-pc-windows-msvc",
+    "tauri:build:mac": "tauri build --target aarch64-apple-darwin"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.0",

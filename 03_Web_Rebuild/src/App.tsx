@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TopHUD } from './components/TopHUD';
 import { LeftHub } from './components/LeftHub';
 import { RightInspector } from './components/RightInspector';
@@ -16,6 +16,7 @@ import { FleetModal } from './components/FleetModal';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { BattleScreen } from './components/BattleScreen';
 import { DiplomacyPanel } from './components/DiplomacyPanel';
+import { AtmosphereProvider } from './components/AtmosphereProvider';
 
 export const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -29,6 +30,8 @@ export const App: React.FC = () => {
   const [showTutorial, setShowTutorial] = useState(() => !localStorage.getItem('game-tutorial-seen'));
   const [showFleetModal, setShowFleetModal] = useState(false);
   const [showBattleScreen, setShowBattleScreen] = useState(false);
+
+  const atmosphereEngineRef = useRef<{ current: any }>({ current: null });
 
   // Apply dark mode class to html element
   useEffect(() => {
@@ -85,6 +88,10 @@ export const App: React.FC = () => {
       console.log("Auto-loaded save data");
     }
 
+    // Initialize atmosphere engine ref for provider
+    const game = GameInstance.get();
+    atmosphereEngineRef.current = game.atmosphereEngine;
+
     // Global Error Monitor
     const globalErrorHandler = (event: ErrorEvent) => {
       const game = GameInstance.get();
@@ -117,6 +124,7 @@ export const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
+      <AtmosphereProvider engineRef={atmosphereEngineRef}>
       <div className="flex flex-col h-screen overflow-hidden bg-white text-gray-900 dark:bg-[#0b0c10] dark:text-[#c5c6c7] transition-colors duration-300 font-sans selection:bg-cyan-900 selection:text-white">
         
         {/* Story Modal - Rendered globally */}
@@ -215,6 +223,7 @@ export const App: React.FC = () => {
         <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_70%,_rgba(13,71,161,0.05)_0%,_transparent_50%)]"></div>
       </div>
     </div>
+    </AtmosphereProvider>
     </ErrorBoundary>
   );
 };

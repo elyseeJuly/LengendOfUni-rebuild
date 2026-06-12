@@ -13,6 +13,16 @@ import epochsData from "../data/epochs.json";
 import { EVENT_BUDGET } from "./EventCadence";
 import { PlanetEngine } from "./PlanetEngine";
 import { DigitalLife } from "./DigitalLife";
+import { TagManager } from "./TagManager";
+import { EcologyChain } from "./EcologyChain";
+import { RelationNetwork } from "./RelationNetwork";
+import { AtmosphereEngine } from "./AtmosphereEngine";
+import { HistoryGenerator } from "./HistoryGenerator";
+import { SliceNarrativeEngine } from "./SliceNarrativeEngine";
+import { EventBus, GameEvents } from "./EventBus";
+import { AppContainer, ServiceKeys } from "./DIContainer";
+import { SaveManager } from "./SaveManager";
+import { scoreEventUEE } from "./EventCadence";
 
 export interface RngProvider {
   random(): number;
@@ -31,6 +41,15 @@ export class Game {
   public eventManager: GameEventManager;
   public planetEngine: PlanetEngine;
   public digitalLife: DigitalLife;
+
+  // UEE 新模块
+  public tagManager: TagManager;
+  public ecologyChain: EcologyChain;
+  public relationNetwork: RelationNetwork;
+  public atmosphereEngine: AtmosphereEngine;
+  public historyGenerator: HistoryGenerator;
+  public sliceNarrativeEngine: SliceNarrativeEngine;
+  public eventBus: EventBus;
 
   public earthCivi: EarthCivilization;
   public alienCiviManager: AlienCiviManager;
@@ -56,6 +75,16 @@ export class Game {
     this.eventManager = new GameEventManager();
     this.planetEngine = new PlanetEngine();
     this.digitalLife = new DigitalLife();
+
+    // UEE 新模块初始化
+    this.tagManager = new TagManager();
+    this.ecologyChain = new EcologyChain();
+    this.relationNetwork = new RelationNetwork();
+    this.relationNetwork.initCanonicalRelations(0);
+    this.atmosphereEngine = new AtmosphereEngine();
+    this.historyGenerator = new HistoryGenerator();
+    this.sliceNarrativeEngine = new SliceNarrativeEngine();
+    this.eventBus = new EventBus();
 
     this.earthCivi = new EarthCivilization();
     this.alienCiviManager = new AlienCiviManager();
@@ -230,6 +259,56 @@ export class Game {
         window.dispatchEvent(new CustomEvent('ticker-message-added'));
       }
 
+      // ===== UEE 集成：Tag 衰减与世界状态评估 =====
+      try {
+        this.tagManager.decayTags(this.year);
+
+        // 自动产生 Tag：基于数值阈值
+        if (this.earthCivi.population < 20 && !this.tagManager.hasTag('population_crisis')) {
+          this.tagManager.applyWorldTag('population_crisis', 20, 'auto:system', this.year);
+          this.historyGenerator.recordTagChange(this.year, this.epoch, 'population_crisis', '人口危机', true);
+        }
+        if (this.earthCivi.treachery > 60 && !this.tagManager.hasTag('civil_unrest')) {
+          this.tagManager.applyWorldTag('civil_unrest', 30, 'auto:system', this.year);
+          this.historyGenerator.recordTagChange(this.year, this.epoch, 'civil_unrest', '民心不稳', true);
+        }
+        if (this.earthCivi.deterrenceValue > 60 && !this.tagManager.hasTag('deterrence_steady')) {
+          this.tagManager.applyWorldTag('deterrence_steady', 40, 'auto:system', this.year);
+          this.historyGenerator.recordTagChange(this.year, this.epoch, 'deterrence_steady', '威慑稳固', true);
+        }
+      } catch (e: any) {
+        this.addHistory(`[UEE警告] Tag 系统异常: ${e.message}`);
+      }
+
+      // ===== UEE 集成：氛围评估 =====
+      try {
+        const prevAtmosphere = this.atmosphereEngine.currentState;
+        const newAtmosphere = this.atmosphereEngine.evaluate(this.tagManager, this.earthCivi);
+        if (this.atmosphereEngine.transitionTo(newAtmosphere) && prevAtmosphere !== newAtmosphere) {
+          this.addHistory(`【氛围变化】${this.atmosphereEngine.getConfig().label}: ${this.atmosphereEngine.getConfig().description}`);
+          this.historyGenerator.recordEvent(this.year, this.epoch, '氛围变化', `游戏氛围变为「${this.atmosphereEngine.getConfig().label}」`);
+        }
+      } catch (e: any) {
+        this.addHistory(`[UEE警告] 氛围系统异常: ${e.message}`);
+      }
+
+      // ===== UEE 集成：生态链推进 =====
+      try {
+        const ecoEvents = this.ecologyChain.advanceTurn(this.tagManager, this.year);
+        for (const eventId of ecoEvents) {
+          this.addHistory(`【生态链触发】涟漪效应事件: ${eventId}`);
+          const ecoRandomEvent = this.eventManager.checkRandomEvents();
+          if (ecoRandomEvent) {
+            triggeredEvents.push(ecoRandomEvent);
+          }
+        }
+      } catch (e: any) {
+        this.addHistory(`[UEE警告] 生态链系统异常: ${e.message}`);
+      }
+
+      // ===== UEE 集成：历史记录器 =====
+      this.historyGenerator.incTurn();
+
       // Process blocking interactive strategy events via popup queue
       interactiveEvents.forEach(e => {
         this.addHistory(`触发抉择事件: ${e.name}`);
@@ -317,6 +396,33 @@ export class Game {
       const epochNames = ["危机纪元", "威慑纪元", "广播纪元", "掩体纪元", "银河纪元"];
       this.addHistory(`【纪元更替】进入${epochNames[this.epoch]}！`);
       this.playerTimeline.push({ year: this.year, event: `【纪元更替】人类正式进入${epochNames[this.epoch]}` });
+
+      // UEE 纪元 Tag
+      const epochTagMap: Record<number, string> = {
+        0: 'crisis_era_deep',
+        1: 'deterrence_era',
+        2: 'broadcast_era',
+        3: 'bunker_era_deep',
+        4: 'galaxy_era_deep',
+      };
+      const tagId = epochTagMap[this.epoch];
+      if (tagId) {
+        this.tagManager.setWorldTagIntensity(tagId, 100, this.year, 'epoch_change');
+        this.historyGenerator.recordTagChange(this.year, this.epoch, tagId, epochNames[this.epoch], true);
+
+        // 移除旧纪元 Tag
+        for (const [eid, etag] of Object.entries(epochTagMap)) {
+          if (Number(eid) !== this.epoch && this.tagManager.hasTag(etag)) {
+            this.tagManager.removeWorldTag(etag);
+            this.historyGenerator.recordTagChange(this.year, this.epoch, etag, epochNames[Number(eid)], false);
+          }
+        }
+      }
+
+      // 自动触发氛围重评估
+      const newAtmos = this.atmosphereEngine.evaluate(this.tagManager, this.earthCivi);
+      this.atmosphereEngine.transitionTo(newAtmos);
+
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('epoch-changed'));
         window.dispatchEvent(new CustomEvent('play-game-sound', { detail: { type: 'milestone' } }));
@@ -680,35 +786,13 @@ export class GameInstance {
   public static saveGame(): void {
     if (!this.instance) return;
     this.instance.addHistory("游戏已保存到本地存储。");
-    const dataStr = JSON.stringify(this.instance, this.replacer);
-    const signature = this.calculateHash(dataStr);
-    const saveData = { version: 3, timestamp: Date.now(), data: dataStr, signature };
-    localStorage.setItem("LegendOfUni_Save", JSON.stringify(saveData));
+    SaveManager.save(() => JSON.stringify(this.instance, this.replacer));
   }
 
   public static loadGame(): boolean {
     try {
-      const rawStr = localStorage.getItem("LegendOfUni_Save");
-      if (!rawStr) return false;
-
-      let dataStr: string;
-      try {
-        const wrapper = JSON.parse(rawStr);
-        if (wrapper && typeof wrapper === 'object' && wrapper.data) {
-          const calculatedSignature = this.calculateHash(wrapper.data);
-          if (wrapper.signature !== calculatedSignature) {
-            throw new SaveDataCorruptedError("Save data hash mismatch! Data has been modified or corrupted.");
-          }
-          dataStr = wrapper.data;
-        } else {
-          throw new SaveDataCorruptedError("Legacy save format missing signature.");
-        }
-      } catch (e: any) {
-        if (e instanceof SaveDataCorruptedError) {
-          throw e; // Bubble up signature verification failures
-        }
-        dataStr = rawStr;
-      }
+      const dataStr = SaveManager.load();
+      if (!dataStr) return false;
 
       const parsedData = JSON.parse(dataStr, this.reviver);
       this.instance = new Game();
@@ -728,10 +812,14 @@ export class GameInstance {
       }
 
       this.instance.addHistory("【系统】游戏读取成功。");
-      window.dispatchEvent(new CustomEvent('game-loaded'));
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('game-loaded'));
+        window.dispatchEvent(new CustomEvent('ticker-message-added'));
+      }
       return true;
     } catch (e) {
       if (e instanceof SaveDataCorruptedError) {
+        console.error("Save corruption detected:", e.message);
         throw e;
       }
       console.error("Failed to load game:", e);
@@ -751,6 +839,15 @@ export class GameInstance {
     safeSP(inst.eventManager, GameEventManager.prototype);
     safeSP(inst.planetEngine, PlanetEngine.prototype);
     safeSP(inst.digitalLife, DigitalLife.prototype);
+
+    // UEE 新模块原型恢复
+    safeSP(inst.tagManager, TagManager.prototype);
+    safeSP(inst.ecologyChain, EcologyChain.prototype);
+    safeSP(inst.relationNetwork, RelationNetwork.prototype);
+    safeSP(inst.atmosphereEngine, AtmosphereEngine.prototype);
+    safeSP(inst.historyGenerator, HistoryGenerator.prototype);
+    safeSP(inst.sliceNarrativeEngine, SliceNarrativeEngine.prototype);
+    safeSP(inst.eventBus, EventBus.prototype);
 
     if (inst.digitalLife) {
       if (inst.digitalLife.resurrectedPersons && !(inst.digitalLife.resurrectedPersons instanceof Set)) {
