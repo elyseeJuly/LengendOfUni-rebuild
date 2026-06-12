@@ -12,6 +12,8 @@
  * - NEUTRAL: 中性
  */
 
+import { TagManager } from "./TagManager";
+
 export type RelationType = 'ALLY' | 'RIVAL' | 'BETRAYER' | 'MENTOR' | 'NEUTRAL';
 
 export interface CharacterRelation {
@@ -49,8 +51,32 @@ export class RelationNetwork {
   /** 事件影响关系强度 */
   modifyRelationByEvent(personA: string, personB: string, delta: number): void {
     for (const rel of this.relations) {
-      if (rel.personA === personA && rel.personB === personB) {
+      if ((rel.personA === personA && rel.personB === personB) || (rel.personA === personB && rel.personB === personA)) {
         rel.intensity = Math.max(0, Math.min(100, rel.intensity + delta));
+      }
+    }
+  }
+
+  /** 修改关系强度别名 */
+  modifyRelation(personA: string, personB: string, delta: number): void {
+    let rel = this.getRelation(personA, personB);
+    if (!rel) {
+      const type: RelationType = delta > 0 ? 'ALLY' : 'RIVAL';
+      this.establishRelation(personA, personB, type, 0, 'diplomacy', 50 + delta);
+    } else {
+      this.modifyRelationByEvent(personA, personB, delta);
+    }
+  }
+
+  /** 每回合自然更新与衰减关系 */
+  updateRelations(tagManager: TagManager): void {
+    for (const rel of this.relations) {
+      if (rel.relationType === 'ALLY') {
+        if (tagManager.hasTag('diplomatic_warming')) rel.intensity = Math.min(100, rel.intensity + 1);
+        else rel.intensity = Math.max(0, rel.intensity - 0.5); // 自然衰减
+      } else if (rel.relationType === 'RIVAL') {
+        if (tagManager.hasTag('diplomatic_crisis')) rel.intensity = Math.min(100, rel.intensity + 1);
+        else rel.intensity = Math.max(0, rel.intensity - 0.5);
       }
     }
   }

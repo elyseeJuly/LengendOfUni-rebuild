@@ -1,3 +1,5 @@
+import { VictoryType, DefeatType, EpochType } from "../types/enums";
+
 /**
  * SaveManager - 独立存档管理器
  *
@@ -31,8 +33,19 @@ export interface SaveMeta {
   timestamp: number;
 }
 
+export interface EndingRecord {
+  victoryType: VictoryType | null;
+  defeatType: DefeatType | null;
+  label: string;
+  year: number;
+  epoch: EpochType;
+  keyFlags: string[];
+  timestamp: number;
+}
+
 export class SaveManager {
   public static readonly STORAGE_KEY = 'LegendOfUni_Save';
+  public static readonly ENDING_HISTORY_KEY = 'LegendOfUni_EndingHistory';
   public static readonly SAVE_VERSION = 3;
 
   /**
@@ -136,5 +149,32 @@ export class SaveManager {
       hash = hash & hash; // Convert to 32-bit integer
     }
     return (hash >>> 0); // Ensure unsigned
+  }
+
+  public static recordEnding(record: EndingRecord): void {
+    const history = this.getEndingHistory();
+    history.push(record);
+    if (history.length > 10) history.shift();
+    localStorage.setItem(this.ENDING_HISTORY_KEY, JSON.stringify(history));
+  }
+
+  public static getEndingHistory(): EndingRecord[] {
+    try {
+      const data = localStorage.getItem(this.ENDING_HISTORY_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  public static getEndingUnlocks(): Set<string> {
+    const history = this.getEndingHistory();
+    const unlocked = new Set<string>();
+    for (const record of history) {
+      if (record.victoryType !== null && record.victoryType !== undefined) {
+        unlocked.add(`unlocked_victory_${record.victoryType}`);
+      }
+    }
+    return unlocked;
   }
 }

@@ -393,6 +393,39 @@ export class Game {
       });
 
       if (interactiveEvents.length === 0) {
+        try {
+          this.relationNetwork.updateRelations(this.tagManager);
+          for (const alien of this.alienCiviManager.aliens.values()) {
+            if (alien.unlocked && !alien.isDieOut()) {
+              const rel = this.relationNetwork.getRelation('地球', alien.name);
+              if (rel) {
+                if (rel.intensity > 70 && alien.diplomacyCooldown > 1) {
+                  alien.diplomacyCooldown = Math.max(1, alien.diplomacyCooldown - 1);
+                }
+                if (rel.intensity < 30 && alien.friendshipType > FriendshipType.VERYANGRY) {
+                  alien.friendshipType = FriendshipType.VERYANGRY;
+                }
+              }
+            }
+          }
+        } catch (e: any) {
+          this.addHistory(`[关系网络] 更新异常: ${e.message}`);
+        }
+
+        try {
+          const slice = this.sliceNarrativeEngine.generateSlice(
+            `auto_turn_${this.year}`, `年份推进`, this.tagManager
+          );
+          if (slice) {
+            const msg = `${slice.characterName}(${slice.characterRole}): ${slice.innerMonologue}`;
+            this.tickerMessages.push(msg);
+            this.addHistory(`【叙事片段】${msg}`);
+            window.dispatchEvent(new CustomEvent('ticker-message-added'));
+          }
+        } catch (e: any) {
+          console.warn("[SliceNarrative] 生成异常:", e.message);
+        }
+
         this.year++;
         this.updateEpoch();
         this.checkVictoryConditions();
@@ -528,6 +561,19 @@ export class Game {
         this.gameOverReason = `${cond.label}: ${cond.description}`;
         this.victoryType = VictoryType[cond.type as keyof typeof VictoryType];
         this.playerTimeline.push({ year: this.year, event: `【大结局】达成 ${cond.label}` });
+
+        SaveManager.recordEnding({
+          victoryType: this.victoryType,
+          defeatType: null,
+          label: cond.label,
+          year: this.year,
+          epoch: this.epoch,
+          keyFlags: Array.from(this.flags).filter(f => ['wandering_chosen', 'digital_ark_chosen', 'swordholder_appointed', 'wallfacer_project', 'galaxy_exodus_seen', 'alien_alliance'].includes(f)),
+          timestamp: Date.now()
+        });
+        this.tagManager.applyWorldTag(`victory_${cond.type.toLowerCase()}`, 100, 'game:ending', this.year);
+        this.tagManager.applyWorldTag('ending_completed', 100, 'game:ending', this.year);
+
         window.dispatchEvent(new CustomEvent('game-over'));
         return;
       }
@@ -538,6 +584,10 @@ export class Game {
       this.defeatType = DefeatType.TREACHERY;
       this.gameOverReason = "逃亡主义失控：人类放弃了最后的希望，文明在内耗中走向崩溃。";
       this.playerTimeline.push({ year: this.year, event: '【终结】逃亡主义吞噬了文明最后的秩序' });
+      SaveManager.recordEnding({
+        victoryType: null, defeatType: this.defeatType, label: "逃亡主义崩溃",
+        year: this.year, epoch: this.epoch, keyFlags: Array.from(this.flags), timestamp: Date.now()
+      });
       window.dispatchEvent(new CustomEvent('game-over'));
       return;
     }
@@ -547,6 +597,10 @@ export class Game {
       this.defeatType = DefeatType.EXTINCTION;
       this.gameOverReason = "文明灭绝：地球已成为一颗死寂的星球。";
       this.playerTimeline.push({ year: this.year, event: '【终结】最后的人类在沉默中消逝' });
+      SaveManager.recordEnding({
+        victoryType: null, defeatType: this.defeatType, label: "文明灭绝",
+        year: this.year, epoch: this.epoch, keyFlags: Array.from(this.flags), timestamp: Date.now()
+      });
       window.dispatchEvent(new CustomEvent('game-over'));
       return;
     }
@@ -558,6 +612,10 @@ export class Game {
         ? "二向箔打击：黑暗森林打击降临，太阳系从三维空间跌入二维。文明未能逃逸。"
         : "太阳氦闪：漫长的等待终结于刺眼的白光，地球未能逃离。";
       this.playerTimeline.push({ year: this.year, event: this.loreMode === 'strict_three_body' ? '【终结】二向箔降维打击抹去了整个太阳系' : '【终结】太阳的死亡终结了一切' });
+      SaveManager.recordEnding({
+        victoryType: null, defeatType: this.defeatType, label: "二向箔打击/太阳氦闪",
+        year: this.year, epoch: this.epoch, keyFlags: Array.from(this.flags), timestamp: Date.now()
+      });
       window.dispatchEvent(new CustomEvent('game-over'));
       return;
     }
@@ -730,6 +788,36 @@ export class Game {
   }
 
   public conductDiplomacy(alienName: string, actionType: string): string {
+    const result = this._conductDiplomacyInternal(alienName, actionType);
+    if (!result.startsWith("无法") && !result.startsWith("经济不足") && !result.includes("失败")) {
+      const alien = this.alienCiviManager.aliens.get(alienName);
+      if (alien) {
+        const relDelta = actionType === 'negotiate' ? 10 :
+                         actionType === 'trade' ? 5 :
+                         actionType === 'provoke' ? -20 :
+                         actionType === 'alliance' ? 30 : 0;
+        if (relDelta !== 0) {
+          this.relationNetwork.modifyRelation('地球', alienName, relDelta);
+          if (Math.abs(relDelta) >= 20) {
+            const tagId = relDelta > 0 ? 'diplomatic_warming' : 'diplomatic_crisis';
+            this.tagManager.applyWorldTag(tagId, Math.abs(relDelta), `diplomacy:${actionType}`, this.year);
+          }
+        }
+        if (alien.friendshipType >= FriendshipType.FRIEND && actionType === 'alliance') {
+          this.addFlag(`${alienName}_alliance_formed`);
+          this.addFlag("alien_alliance");
+          this.tickerMessages.push(`【星际外交】人类与 ${alienName} 正式缔结同盟条约，开启星际合作新纪元！`);
+          window.dispatchEvent(new CustomEvent('ticker-message-added'));
+        }
+        if (alien.friendshipType <= FriendshipType.VERYANGRY && actionType === 'provoke') {
+          this.tagManager.applyWorldTag('mil_threat', 30, `diplomacy:provoke:${alienName}`, this.year);
+        }
+      }
+    }
+    return result;
+  }
+
+  private _conductDiplomacyInternal(alienName: string, actionType: string): string {
     const alien = this.alienCiviManager.aliens.get(alienName);
     if (!alien || alien.isDieOut()) return `无法与已灭亡的文明 ${alienName} 进行外交。`;
     if (alien.diplomacyCooldown > 0) return `外交冷却中，还需等待 ${alien.diplomacyCooldown} 回合。`;
@@ -884,11 +972,47 @@ export class GameInstance {
   }
 
   public static reset(): void {
+    const endingHistory = SaveManager.getEndingHistory();
+    const unlocked = SaveManager.getEndingUnlocks();
+
     localStorage.removeItem("LegendOfUni_Save");
     this.instance = new Game();
+
+    if (endingHistory.length > 0) {
+      this.instance.addFlag('new_game_plus');
+      if (unlocked.has('unlocked_victory_HIDDEN')) {
+        this.instance.addFlag('unlocked_zeroer_perspective');
+      }
+      if (unlocked.has('unlocked_victory_DIGITAL')) {
+        this.instance.earthCivi.economy += 500;
+        this.instance.earthCivi.culture += 200;
+      }
+      if (unlocked.has('unlocked_victory_WANDERING')) {
+        this.instance.earthCivi.army += 50;
+      }
+      if (unlocked.has('unlocked_victory_DETERRENCE')) {
+        this.instance.earthCivi.deterrenceValue += 20;
+      }
+      if (unlocked.has('unlocked_victory_CONQUEST')) {
+        for (const alien of this.instance.alienCiviManager.aliens.values()) {
+          alien.unlocked = true;
+        }
+      }
+      if (unlocked.has('unlocked_victory_DARK_DOMAIN')) {
+        this.instance.earthCivi.resource += 500;
+      }
+      
+      this.instance.tagManager.applyWorldTag('echo_of_past_ending', 30, 'new_game_plus', 0);
+    }
+
     setTimeout(() => {
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('open-tutorial'));
+        if (endingHistory.length > 0) {
+          window.dispatchEvent(new CustomEvent('new-game-plus-activated', {
+            detail: { endings: endingHistory.length, unlocked: Array.from(unlocked) }
+          }));
+        }
       }
     }, 500);
   }

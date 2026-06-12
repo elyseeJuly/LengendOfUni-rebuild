@@ -22,6 +22,14 @@ export class EarthCivilization extends Civilization {
   public swordholderHandoverTurn: boolean = false;
   public departments: Map<DepartmentType, Department> = new Map();
 
+  public techResearchQueue: Map<TecTreeType, string> = new Map();
+  public setResearchTarget(treeType: TecTreeType, nodeName: string): void {
+    this.techResearchQueue.set(treeType, nodeName);
+  }
+  public getResearchTarget(treeType: TecTreeType): string | null {
+    return this.techResearchQueue.get(treeType) || null;
+  }
+
   public setSwordholder(name: string | null): void {
     if (this.swordholder !== name) {
       this.swordholder = name;
@@ -153,6 +161,18 @@ export class EarthCivilization extends Civilization {
     this.syncStarPopulation(game);
     this.processFleets(game);
     this.processBuildings(game);
+
+    let deterrenceDecay = 1;
+    for (const plan of Object.values(this.wallfacerPlans)) {
+      if (plan.progress >= 100) {
+        deterrenceDecay = 0;
+        break;
+      }
+    }
+    const activeWallfacersCount = Array.from(this.wallfacers).length;
+    deterrenceDecay = Math.max(0, deterrenceDecay - activeWallfacersCount * 0.2);
+    this.deterrenceValue = Math.max(0, this.deterrenceValue - deterrenceDecay);
+
     this.sanitizeResources(game);
   }
 
@@ -284,6 +304,14 @@ export class EarthCivilization extends Civilization {
   }
 
   private processFactories(game: any): void {
+    const projectedConsumption = this.factoryWorkers * 2;
+    if (projectedConsumption > this.resource * 0.5 && this.resource > 0) {
+      game.addHistory(`【资源预警】工厂产能消耗巨大，当前资源 ${this.resource} 可能在下回合供应紧张。建议增加采矿比例。`);
+    }
+    if (this.resource <= 10 && this.factoryWorkers > 0) {
+      game.addHistory(`【资源枯竭警报】资源储备仅剩 ${this.resource}，工厂生产即将停滞！请立即调整工人分配！`);
+    }
+
     const ecoDept = this.departments.get(DepartmentType.ECONOMY);
     let leaderBonus = 0;
     if (ecoDept && ecoDept.leaderName) {
@@ -314,11 +342,15 @@ export class EarthCivilization extends Civilization {
       if (!star || !star.hasFactory) continue;
       let add = Math.floor((workersPerFactory + leaderBonus) * factoryWeight / 2);
       if (tm.isTecFinished(TecTreeType.AEROSPACE, "行星发动机Ⅰ型")) {
-        add *= 5;
+        const engineLevel = tm.isTecFinished(TecTreeType.AEROSPACE, "行星发动机Ⅲ型") ? 2.5 :
+                            tm.isTecFinished(TecTreeType.AEROSPACE, "行星发动机Ⅱ型") ? 2.0 : 1.5;
+        add = Math.floor(add * engineLevel);
       }
       const treacheryFactor = Math.max(1, 100 - this.treachery);
       add = Math.floor(add * treacheryFactor / 100);
-      const maxEco = tm.isTecFinished(TecTreeType.AEROSPACE, "行星发动机Ⅰ型") ? 500 : 100;
+      const maxEco = tm.isTecFinished(TecTreeType.AEROSPACE, "行星发动机Ⅲ型") ? 500 :
+                     tm.isTecFinished(TecTreeType.AEROSPACE, "行星发动机Ⅱ型") ? 350 :
+                     tm.isTecFinished(TecTreeType.AEROSPACE, "行星发动机Ⅰ型") ? 200 : 100;
       add = Math.min(add, maxEco);
 
       const hasMassConversion = tm.isTecFinished(TecTreeType.INFORMATION, "质能转换");
@@ -386,21 +418,35 @@ export class EarthCivilization extends Civilization {
       }
 
       if (!hasActiveResearch) {
+        const playerTarget = this.getResearchTarget(treeType);
         let bestNode: any = null;
-        for (const node of tree.nodes.values()) {
-          if (node.finished) continue;
-          let parentFinished = !node.parentName || tree.isFinished(node.parentName);
 
-          // Cross-tree dependency constraint: 行星发动机基础 and 行星发动机Ⅰ型 require 强相互作用力材料
-          if (parentFinished && (node.name === "行星发动机Ⅰ型" || node.name === "行星发动机基础")) {
-            if (!this.tecTreeManager.isTecFinishedAnywhere("强相互作用力材料")) {
-              parentFinished = false;
+        if (playerTarget) {
+          const targetNode = tree.nodes.get(playerTarget);
+          if (targetNode && !targetNode.finished) {
+            const parentFinished = !targetNode.parentName || tree.isFinished(targetNode.parentName);
+            if (parentFinished) {
+              bestNode = targetNode;
             }
           }
+        }
 
-          if (!parentFinished) continue;
-          if (!bestNode || node.cost < bestNode.cost) {
-            bestNode = node;
+        if (!bestNode) {
+          for (const node of tree.nodes.values()) {
+            if (node.finished) continue;
+            let parentFinished = !node.parentName || tree.isFinished(node.parentName);
+
+            // Cross-tree dependency constraint: 行星发动机基础 and 行星发动机Ⅰ型 require 强相互作用力材料
+            if (parentFinished && (node.name === "行星发动机Ⅰ型" || node.name === "行星发动机基础")) {
+              if (!this.tecTreeManager.isTecFinishedAnywhere("强相互作用力材料")) {
+                parentFinished = false;
+              }
+            }
+
+            if (!parentFinished) continue;
+            if (!bestNode || node.cost < bestNode.cost) {
+              bestNode = node;
+            }
           }
         }
         if (bestNode) {
@@ -481,7 +527,10 @@ export class EarthCivilization extends Civilization {
 
   private processTreachery(game: any): void {
     const earlyGameFactor = game.year < 100 ? 0.5 : 1.0;
-    const randomGain = Math.floor(this.rng() * 3 * earlyGameFactor);
+    const cultureSuppression = Math.floor(this.culture / 100);
+    let randomGain = Math.floor(this.rng() * 3 * earlyGameFactor);
+    randomGain = Math.max(0, randomGain - cultureSuppression);
+    
     this.treachery = Math.min(100, this.treachery + randomGain);
     if (this.treachery > 80) {
       game.addHistory(`【警告】逃亡主义上升至 ${this.treachery}，文明面临内部分裂风险！`);
@@ -495,7 +544,23 @@ export class EarthCivilization extends Civilization {
     }
   }
 
+  private _lastFleetCount: number = 0;
+
   private processFleets(game: any): void {
+    if (!this._lastFleetCount) this._lastFleetCount = this.fleets.length;
+    const fleetLoss = this._lastFleetCount - this.fleets.length;
+    if (fleetLoss > 0 && this.economy >= 30) {
+      const rebuildCost = fleetLoss * 30;
+      const actualCost = Math.min(this.economy, rebuildCost);
+      this.economy -= actualCost;
+      const built = Math.floor(actualCost / 30);
+      this.army += built * 5;
+      if (built > 0) {
+        game.addHistory(`【后勤维修】自动重建了部分损失兵力，消耗 ${actualCost} 经济。`);
+      }
+    }
+    this._lastFleetCount = this.fleets.length;
+
     for (let i = this.fleets.length - 1; i >= 0; i--) {
       const fleet = this.fleets[i];
       if (fleet.eta > 0) {

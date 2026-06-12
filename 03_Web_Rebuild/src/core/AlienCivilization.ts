@@ -65,6 +65,23 @@ export class AlienCivilization extends Civilization {
     this.ageBehavior(game);
     this.processDimensionStrike(game);
 
+    if (this.friendshipType >= FriendshipType.FRIEND && this.rng() < 0.1) {
+      const trees = Array.from(game.earthCivi.tecTreeManager.trees.values());
+      const activeNodes: any[] = [];
+      for (const tree of trees) {
+        for (const node of (tree as any).nodes.values()) {
+          if (node.inResearch && !node.finished) activeNodes.push(node);
+        }
+      }
+      if (activeNodes.length > 0) {
+        const target = activeNodes[Math.floor(this.rng() * activeNodes.length)];
+        const boost = Math.floor(target.totalWorkload * 0.1) + 5;
+        target.currentWorkload += boost;
+        if (target.currentWorkload >= target.totalWorkload) target.currentWorkload = target.totalWorkload - 1;
+        game.addHistory(`【外交回馈】${this.name} 与人类进行了技术交流，显著推进了「${target.name}」的研发进度！`);
+      }
+    }
+
     // AI Special Weapons Triggers
     if (this.friendshipType === FriendshipType.VERYANGRY) {
       if (this.waterdropCooldown === 0 && this.waterdropCount < 3 && this.rng() < 0.15) {
@@ -98,9 +115,19 @@ export class AlienCivilization extends Civilization {
   }
 
   private growEconomy(): void {
-    this.resource += Math.floor(this.rng() * 10);
-    this.army += 2;
-    if (this.rng() < 0.12) this.population += Math.floor(this.rng() * 10) + 5;
+    const MAX_AI_RESOURCE = 5000;
+    const MAX_AI_ARMY = 500;
+    const MAX_AI_POPULATION = 2000;
+    
+    if (this.resource < MAX_AI_RESOURCE) {
+      this.resource += Math.floor(this.rng() * 10);
+    }
+    if (this.army < MAX_AI_ARMY) {
+      this.army += 2;
+    }
+    if (this.population < MAX_AI_POPULATION) {
+      if (this.rng() < 0.12) this.population += Math.floor(this.rng() * 10) + 5;
+    }
   }
 
   private ageBehavior(game: any): void {

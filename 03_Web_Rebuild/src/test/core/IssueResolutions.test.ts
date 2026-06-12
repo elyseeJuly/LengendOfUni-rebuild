@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Game } from '../../core/Game';
-import { STAR_INDEX } from '../../config/starIndices';
-import { FriendshipType, TecTreeType } from '../../types/enums';
+import { TecTreeType } from '../../types/enums';
 
 describe('Issue Resolutions and Refactors tests', () => {
   let game: Game;
