@@ -43,7 +43,7 @@ $$\Large \texttt{[CATEGORY\_PREFIX]\_[YYYYMMDD]\_[DOCUMENT\_NAME].md}$$
 
 ## 🗃️ 4. Full Organized File Inventory
 
-Below is the complete inventory of the 31 files organized under the new standard:
+Below is the complete inventory of the files organized under the new standard:
 
 ### 4.1 Specifications & Design Systems (`SPEC_`)
 Documents defining features, architectures, and design directives.
@@ -60,8 +60,8 @@ Documents defining features, architectures, and design directives.
 *   [SPEC_20260520_GLOBAL_DEVELOPMENT_STANDARDS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260520_GLOBAL_DEVELOPMENT_STANDARDS.md) — *Global development, archiving, & naming specification rules*
 *   [SPEC_20260603_REVISED_ITERATION_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260603_REVISED_ITERATION_PLAN.md) — *Revised iteration development roadmap, AI prompts, and human director operation guidelines*
 *   [SPEC_20260608_SUPPLEMENTARY_CG_PROMPTS_SPEC.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260608_SUPPLEMENTARY_CG_PROMPTS_SPEC.md) — *Midjourney generation prompts and naming requirements spec for supplementary CGs*
-
-
+*   [SPEC_20260612_UNIVERSAL_EVENT_ENGINE_V1.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260612_UNIVERSAL_EVENT_ENGINE_V1.md) — *Universal Event Engine (UEE v1.0) architecture and dynamic generation rules*
+*   [SPEC_20260612_COMPREHENSIVE_ARCHITECTURE_REFACTORING.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/SPEC_20260612_COMPREHENSIVE_ARCHITECTURE_REFACTORING.md) — *Comprehensive architecture refactoring specification blueprints*
 
 ### 4.2 Audits & Analyses (`AUDIT_`)
 Diagnostic reviews and balance reports.
@@ -78,9 +78,9 @@ Diagnostic reviews and balance reports.
 *   [AUDIT_20260525_FULL_NARRATIVE_PHYSICS_AUDIT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260525_FULL_NARRATIVE_PHYSICS_AUDIT.md) — *Full narrative/physics/balance deep audit with optimization proposals for AI handoff*
 *   [AUDIT_20260603_GODOT_MIGRATION_FEASIBILITY.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260603_GODOT_MIGRATION_FEASIBILITY.md) — *Feasibility analysis and evaluation on Godot transplantation vs. Web rebuild roadmap*
 *   [AUDIT_20260605_ART_ASSETS_STYLE_AUDIT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260605_ART_ASSETS_STYLE_AUDIT.md) — *Style consistency audit and reconstruction proposals of non-CG art assets*
+*   [AUDIT_20260605_CG_LOSS_ANALYSIS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260605_CG_LOSS_ANALYSIS.md) — *CG graphic loss and name mismatch core root cause analysis report*
+*   [AUDIT_20260605_REVISED_ITERATION_STATUS.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260605_REVISED_ITERATION_STATUS.md) — *Implementation progress audit of the new iteration plan*
 *   [AUDIT_20260608_EVENT_TIMELINE_AUDIT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/AUDIT_20260608_EVENT_TIMELINE_AUDIT.md) — *Narrative pacing, event structure, dynamic triggers, and character lifetimes audit*
-
-
 
 ### 4.3 Testing Standards & Coverage (`TEST_`)
 Standards and definitions of tests.
@@ -106,21 +106,38 @@ Archived logs and historical progression tracking.
 *   [HIST_20260520_DEVELOPMENT_V7.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260520_DEVELOPMENT_V7.md) — *Development log V7*
 *   [HIST_20260525_ART_UI_UNIFICATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/HIST_20260525_ART_UI_UNIFICATION.md) — *Archived dev history of characters Gongbi Cyberpunk style and letterbox UI*
 
-
 ### 4.5 Active Execution & Tasks (`EXEC_`)
 Active development logs, blueprints, and task runners.
 *   [EXEC_20260514_IMPLEMENTATION_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_IMPLEMENTATION_PLAN.md) — *Workspace development blueprint*
 *   [EXEC_20260514_TASK.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_TASK.md) — *Active task/checklist log*
 *   [EXEC_20260514_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_WALKTHROUGH.md) — *Walkthrough for daily verification*
 *   [EXEC_20260514_WALKTHROUGH_FINAL.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260514_WALKTHROUGH_FINAL.md) — *Walkthrough for grand finale and event audits*
+*   [EXEC_20260519_AUDIT_OPTIMIZATION_ITERATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260519_AUDIT_OPTIMIZATION_ITERATION.md) — *Audit optimization first phase execution plan*
+*   [EXEC_20260519_AUDIT_OPTIMIZATION_ITERATION_v2.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260519_AUDIT_OPTIMIZATION_ITERATION_v2.md) — *Audit optimization second phase execution plan*
+*   [EXEC_20260519_REORGANIZATION_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260519_REORGANIZATION_PLAN.md) — *Documentation naming reorganization execution plan*
+*   [EXEC_20260519_REORGANIZATION_TASK.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260519_REORGANIZATION_TASK.md) — *Documentation naming reorganization task checklist*
+*   [EXEC_20260519_REORGANIZATION_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260519_REORGANIZATION_WALKTHROUGH.md) — *Documentation naming reorganization walkthrough*
 *   [EXEC_20260520_EVENT_SYSTEM_OVERHAUL_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260520_EVENT_SYSTEM_OVERHAUL_WALKTHROUGH.md) — *Walkthrough for event system and Liu Cixin narrative integration*
 *   [EXEC_20260520_TACTICAL_BULLETIN_BOARD_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260520_TACTICAL_BULLETIN_BOARD_WALKTHROUGH.md) — *Walkthrough for vertical strategic bulletin board implementation*
 *   [EXEC_20260525_FIX_AUDIT_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260525_FIX_AUDIT_PLAN.md) — *Execution plan for fixing narrative, numerical balance, and star map physics issues*
 *   [EXEC_20260525_FIX_AUDIT_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260525_FIX_AUDIT_WALKTHROUGH.md) — *Walkthrough of the implemented narrative, physics, and UI/UX corrections*
+*   [EXEC_20260525_NARRATIVE_FLOW_REMEDIATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260525_NARRATIVE_FLOW_REMEDIATION.md) — *Remediation log of narrative pacing and event node blocking*
+*   [EXEC_20260526_FLEET_MANAGEMENT_OVERHAUL.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260526_FLEET_MANAGEMENT_OVERHAUL.md) — *Fleet management panel and movement visualization overhaul walkthrough*
+*   [EXEC_20260602_DEEP_AUDIT_FIXES.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260602_DEEP_AUDIT_FIXES.md) — *Remediation walkthrough of deep code gaps and testing enhancements*
+*   [EXEC_20260602_NARRATIVE_ART_REMEDIATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260602_NARRATIVE_ART_REMEDIATION.md) — *Remediation of main narrative images into white background white brush strokes*
+*   [EXEC_20260602_REMEDIATION_REPORT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260602_REMEDIATION_REPORT.md) — *Remediation summary report on narrative art, engine pacing, and UI layouts*
 *   [EXEC_20260603_CI_BUGFIX_AND_UI_OPTIMIZATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260603_CI_BUGFIX_AND_UI_OPTIMIZATION.md) — *CI pipeline compiling fixes, coverage elevation, and double bracket normalization walkthrough*
+*   [EXEC_20260605_ART_ASSETS_AND_EVENT_FIXES.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260605_ART_ASSETS_AND_EVENT_FIXES.md) — *Execution walkthrough of restoring missing CG assets and event references*
+*   [EXEC_20260605_ITERATION_STAGES_ABC_REPORT.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260605_ITERATION_STAGES_ABC_REPORT.md) — *Audit report summarizing development phases A, B, and C completion*
+*   [EXEC_20260605_TIME_SYNCHRONIZATION_AND_SUBTITLE_REBUILD.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260605_TIME_SYNCHRONIZATION_AND_SUBTITLE_REBUILD.md) — *Walkthrough of time synchronization logic and subtitle rendering rebuild*
 *   [EXEC_20260608_EVENT_AUDIT_IMPLEMENTATION_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260608_EVENT_AUDIT_IMPLEMENTATION_PLAN.md) — *Implementation plan for auditing and overhauling events and timeline*
 *   [EXEC_20260608_EVENT_AUDIT_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260608_EVENT_AUDIT_WALKTHROUGH.md) — *Walkthrough of the completed event/timeline refactoring and verification*
-
+*   [EXEC_20260612_APPENDIX_B_IMPLEMENTATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260612_APPENDIX_B_IMPLEMENTATION.md) — *Appendix B missing items implementation execution report*
+*   [EXEC_20260612_ARCHITECTURE_REFACTORING_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260612_ARCHITECTURE_REFACTORING_WALKTHROUGH.md) — *Complete UEE system architecture refactoring execution report*
+*   [EXEC_20260612_CG_ASSETS_UPDATE.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260612_CG_ASSETS_UPDATE.md) — *Gongbi Cyberpunk 21:9 story CG updates and ending page particle UI execution report*
+*   [EXEC_20260612_NPC_STYLE_UNIFICATION.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260612_NPC_STYLE_UNIFICATION.md) — *General NPC portrait updates and redundant asset cleaning report*
+*   [EXEC_20260612_CRITICAL_ISSUES_IMPLEMENTATION_PLAN.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260612_CRITICAL_ISSUES_IMPLEMENTATION_PLAN.md) — *Critical issues implementation plan addressing six user-reported problems*
+*   [EXEC_20260612_CRITICAL_ISSUES_WALKTHROUGH.md](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/02_Project_Documentation/EXEC_20260612_CRITICAL_ISSUES_WALKTHROUGH.md) — *Walkthrough of the six critical issues resolution and test verification*
 
 ---
 
