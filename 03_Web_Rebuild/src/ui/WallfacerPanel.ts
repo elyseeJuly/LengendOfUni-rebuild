@@ -160,8 +160,28 @@ export class WallfacerPanel {
     if (btnBroadcast) {
       btnBroadcast.addEventListener("click", () => {
         if (confirm("警告：您确定要广播宇宙坐标吗？游戏将以双方毁灭告终！")) {
-          alert("【广播纪元开始】\n太阳系坐标已发送至宇宙深处。\n很快，光粒或二向箔将抵达。\n异星舰队已撤退。\n游戏结束：同归于尽。");
-          window.location.reload(); // 重置游戏
+          const game = GameInstance.get();
+          const tm = earth.tecTreeManager;
+          const survives = tm.isTecFinishedAnywhere("黑域生成") || 
+                           tm.isTecFinishedAnywhere("数字方舟") || 
+                           tm.isTecFinishedAnywhere("新家园选址") ||
+                           game.hasFlag("galaxy_exodus_seen") || 
+                           game.hasFlag("wandering_completed");
+
+          game.isGameOver = true;
+          if (survives) {
+            game.victoryType = 5; // VictoryType.HIDDEN
+            game.gameOverReason = "太阳系坐标宣告暴露，但幸存的人类先驱已通过光速飞船或数字方舟逃逸。在大宇宙热寂到来之前，你们在归零者的小宇宙中将火种延续下去。";
+          } else {
+            game.defeatType = 1; // DefeatType.EXTINCTION
+            game.gameOverReason = "引力波发射塔发射了精确的星系坐标信号，黑暗森林打击全面爆发。地球和三体世界在光粒打击中双双被湮灭，未做逃逸准备的人类文明彻底断绝。";
+          }
+          
+          // Close the modal container first so it doesn't block ending screen rendering
+          const modal = document.getElementById("modal-container");
+          if (modal) modal.classList.add("hidden");
+          
+          window.dispatchEvent(new CustomEvent('game-over'));
         }
       });
     }

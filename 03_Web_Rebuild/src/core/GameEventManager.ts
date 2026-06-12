@@ -32,7 +32,7 @@ export class GameEventManager {
     }
 
     let name = bmpName.toLowerCase();
-    name = name.replace("/images/", "").replace("character_", "").replace("unified_", "");
+    name = name.replace(/^\/?images\//, "").replace("character_", "").replace("unified_", "");
     name = name.replace(".png", "").replace(".bmp", "");
     
     // Do not split by '_' if it's an event or cg image
@@ -112,8 +112,8 @@ export class GameEventManager {
 
     if (mapping[name]) return getImageUrl(mapping[name]);
 
-    if (bmpName.startsWith("/images/") || bmpName.startsWith("character_") || bmpName.startsWith("unified_") || bmpName.startsWith("event_") || bmpName.startsWith("cg_") || bmpName.endsWith(".png")) {
-      const fileName = bmpName.startsWith("/images/") ? bmpName.replace("/images/", "") : bmpName;
+    if (bmpName.startsWith("/images/") || bmpName.startsWith("images/") || bmpName.startsWith("character_") || bmpName.startsWith("unified_") || bmpName.startsWith("event_") || bmpName.startsWith("cg_") || bmpName.endsWith(".png")) {
+      const fileName = bmpName.replace(/^\/?images\//, "");
       return getImageUrl(fileName);
     }
 

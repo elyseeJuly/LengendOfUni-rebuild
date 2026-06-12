@@ -7,6 +7,7 @@
  */
 
 import { VictoryType, DefeatType } from '../types/enums';
+import { getImageUrl } from '../utils/assetUrl';
 
 export type EndingKey =
   | 'CONQUEST'
@@ -65,7 +66,7 @@ export const ENDING_CONFIGS: Record<EndingKey, EndingConfig> = {
     accentColor: '#FFD700',
     particleColor: '#FF6347',
     particleEffect: 'starfield',
-    sceneImage: '/images/ending_conquest.png',
+    sceneImage: getImageUrl('ending_conquest.png'),
     iconSymbol: '⚔️',
     isVictory: true,
   },
@@ -80,7 +81,7 @@ export const ENDING_CONFIGS: Record<EndingKey, EndingConfig> = {
     accentColor: '#B388FF',
     particleColor: '#7C4DFF',
     particleEffect: 'ripple',
-    sceneImage: '/images/ending_deterrence.png',
+    sceneImage: getImageUrl('ending_deterrence.png'),
     iconSymbol: '🗡️',
     isVictory: true,
   },
@@ -95,7 +96,7 @@ export const ENDING_CONFIGS: Record<EndingKey, EndingConfig> = {
     accentColor: '#CFD8DC',
     particleColor: '#90A4AE',
     particleEffect: 'collapse',
-    sceneImage: '/images/ending_dark_domain.png',
+    sceneImage: getImageUrl('ending_dark_domain.png'),
     iconSymbol: '🕳️',
     isVictory: true,
   },
@@ -110,7 +111,7 @@ export const ENDING_CONFIGS: Record<EndingKey, EndingConfig> = {
     accentColor: '#FFE082',
     particleColor: '#FF8F00',
     particleEffect: 'thrust',
-    sceneImage: '/images/ending_wandering.png',
+    sceneImage: getImageUrl('ending_wandering.png'),
     iconSymbol: '🌍',
     isVictory: true,
   },
@@ -125,7 +126,7 @@ export const ENDING_CONFIGS: Record<EndingKey, EndingConfig> = {
     accentColor: '#00E5FF',
     particleColor: '#00BCD4',
     particleEffect: 'matrix',
-    sceneImage: '/images/ending_digital.png',
+    sceneImage: getImageUrl('ending_digital.png'),
     iconSymbol: '🧬',
     isVictory: true,
   },
@@ -140,7 +141,7 @@ export const ENDING_CONFIGS: Record<EndingKey, EndingConfig> = {
     accentColor: '#FFD700',
     particleColor: '#E0E0E0',
     particleEffect: 'kaleidoscope',
-    sceneImage: '/images/ending_hidden.png',
+    sceneImage: getImageUrl('ending_hidden.png'),
     iconSymbol: '🌌',
     isVictory: true,
   },
@@ -155,7 +156,7 @@ export const ENDING_CONFIGS: Record<EndingKey, EndingConfig> = {
     accentColor: '#FF5252',
     particleColor: '#B71C1C',
     particleEffect: 'shatter',
-    sceneImage: '/images/ending_defeat_treachery.png',
+    sceneImage: getImageUrl('ending_defeat_treachery.png'),
     iconSymbol: '💔',
     isVictory: false,
   },
@@ -170,7 +171,7 @@ export const ENDING_CONFIGS: Record<EndingKey, EndingConfig> = {
     accentColor: '#616161',
     particleColor: '#424242',
     particleEffect: 'ember',
-    sceneImage: '/images/ending_defeat_extinction.png',
+    sceneImage: getImageUrl('ending_defeat_extinction.png'),
     iconSymbol: '💀',
     isVictory: false,
   },
@@ -185,7 +186,7 @@ export const ENDING_CONFIGS: Record<EndingKey, EndingConfig> = {
     accentColor: '#FF6F00',
     particleColor: '#FFAB00',
     particleEffect: 'flash',
-    sceneImage: '/images/ending_defeat_helium_flash.png',
+    sceneImage: getImageUrl('ending_defeat_helium_flash.png'),
     iconSymbol: '☀️',
     isVictory: false,
   },

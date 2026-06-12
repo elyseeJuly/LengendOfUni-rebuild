@@ -14,6 +14,7 @@ export class AlienCivilization extends Civilization {
   public attackCooldown: number = 0;
   public lastAttackYear: number = 0;
   public starsys: number = 0;
+  public unlocked: boolean = false;
   
   public waterdropCount: number = 0;
   public waterdropCooldown: number = 0;
@@ -302,12 +303,16 @@ export class AlienCiviManager {
 
     aliensData.forEach((data: any) => {
       const personality = data.personality ?? AiPersonality.HUNTER;
+      const civiName = data.name || data.Name;
       const alien = new AlienCivilization(
-        data.name || data.Name,
+        civiName,
         this.aliens.size,
         personality,
         data.starsys || 1
       );
+      if (civiName === "三体") {
+        alien.unlocked = true;
+      }
       const homeStarIndex = 999 - this.aliens.size;
       alien.starIndices.add(homeStarIndex);
       alien.population = data.res || 500;

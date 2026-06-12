@@ -49,8 +49,33 @@ export const FleetModal: React.FC<FleetModalProps> = ({ onClose }) => {
     
     if (source && target) {
       fleet.targetStarIndex = targetIdx;
-      // Simple ETA: 3 turns for intra-solar, more for deep space.
-      fleet.eta = targetIdx > STAR_INDEX.OORT_CLOUD ? 15 : 3; 
+      
+      let baseEta = 3;
+      if (targetIdx > STAR_INDEX.PLUTO) {
+        // Interstellar travel
+        if (game.earthCivi.tecTreeManager.isTecFinishedAnywhere("光速飞船")) {
+          baseEta = 1;
+        } else if (game.earthCivi.tecTreeManager.isTecFinishedAnywhere("99%光速飞船")) {
+          baseEta = 2;
+        } else if (game.earthCivi.tecTreeManager.isTecFinishedAnywhere("50%光速飞船")) {
+          baseEta = 4;
+        } else if (game.earthCivi.tecTreeManager.isTecFinishedAnywhere("10%光速飞船")) {
+          baseEta = 8;
+        } else {
+          baseEta = 15;
+        }
+      } else {
+        // Intra-solar travel
+        if (game.earthCivi.tecTreeManager.isTecFinishedAnywhere("10%光速飞船") || 
+            game.earthCivi.tecTreeManager.isTecFinishedAnywhere("50%光速飞船") || 
+            game.earthCivi.tecTreeManager.isTecFinishedAnywhere("99%光速飞船") || 
+            game.earthCivi.tecTreeManager.isTecFinishedAnywhere("光速飞船")) {
+          baseEta = 1;
+        } else {
+          baseEta = 3;
+        }
+      }
+      fleet.eta = baseEta;
       fleet.totalEta = fleet.eta;
       
       game.addHistory(`【出征】${fleet.name} 离开 ${source.name}，目标 ${target.name}，预计 ${fleet.eta} 回合后抵达。`);
@@ -61,13 +86,38 @@ export const FleetModal: React.FC<FleetModalProps> = ({ onClose }) => {
 
   // Get known stars for dispatch targets
   const knownStars = Array.from(earth.starIndices).map(idx => game.starManager.getStar(idx)).filter(Boolean);
-  // Add some default uncolonized but known targets (like Mars, Jupiter) if not already colonized
-  [STAR_INDEX.MARS, STAR_INDEX.JUPITER, STAR_INDEX.SATURN].forEach(idx => {
+  
+  // 1. Add all Solar System planets (indices 0 to 10) by default to make them reachable/colonizable
+  const solarSystemIndices = [
+    STAR_INDEX.MERCURY, STAR_INDEX.VENUS, STAR_INDEX.EARTH, STAR_INDEX.MOON,
+    STAR_INDEX.MARS, STAR_INDEX.JUPITER, STAR_INDEX.SATURN, STAR_INDEX.URANUS,
+    STAR_INDEX.NEPTUNE, STAR_INDEX.PLUTO
+  ];
+  solarSystemIndices.forEach(idx => {
     if (!earth.starIndices.has(idx)) {
       const s = game.starManager.getStar(idx);
-      if (s) knownStars.push(s);
+      if (s && !knownStars.find(item => item && item.index === idx)) {
+        knownStars.push(s);
+      }
     }
   });
+
+  // 2. Check if advanced propulsion/observatory technologies are completed, to unlock nearby star systems (indices 11 to 17)
+  const isInterstellarUnlocked = 
+    game.earthCivi.tecTreeManager.isTecFinishedAnywhere("50光年远镜") ||
+    game.earthCivi.tecTreeManager.isTecFinishedAnywhere("10%光速飞船") ||
+    game.earthCivi.tecTreeManager.isTecFinishedAnywhere("太阳波放大器50光年");
+
+  if (isInterstellarUnlocked) {
+    for (let idx = 11; idx <= 17; idx++) {
+      if (!earth.starIndices.has(idx)) {
+        const s = game.starManager.getStar(idx);
+        if (s && !knownStars.find(item => item && item.index === idx)) {
+          knownStars.push(s);
+        }
+      }
+    }
+  }
 
   return (
     <div className="fixed inset-0 z-[600] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">

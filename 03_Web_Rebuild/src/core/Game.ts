@@ -195,10 +195,11 @@ export class Game {
         this.earthCivi.swordholderHandoverTurn = false;
       }
 
-      this.addHistory("...正在更新外交冷却");
+      this.addHistory("...正在更新外交冷却与通信信道");
       for (const alien of this.alienCiviManager.aliens.values()) {
         if (alien.diplomacyCooldown > 0) alien.diplomacyCooldown--;
       }
+      this.updateDiplomacyUnlocks();
 
       this.addHistory("...正在检索纪元剧情事件");
       const triggeredEvents = this.eventManager.checkEvents(this.year);
@@ -237,6 +238,31 @@ export class Game {
         }));
         triggeredEvents.push(fevGameEvent);
       }
+      
+      // Scan triggered events for civilization mentions to unlock contacts
+      triggeredEvents.forEach(evt => {
+        const title = evt.name || "";
+        const tip = evt.tip || "";
+        let fullText = title + " " + tip;
+        if (evt.dialogNodes) {
+          evt.dialogNodes.forEach(node => {
+            fullText += " " + (node.speakerName || "") + " " + (node.content || "");
+          });
+        }
+        
+        if (fullText.includes("歌者") || fullText.includes("光粒")) {
+          this.addFlag("singer_contact");
+        }
+        if (fullText.includes("魔戒") || fullText.includes("四维碎块") || fullText.includes("四维空间碎块")) {
+          this.addFlag("ring_contact");
+        }
+        if (fullText.includes("边缘世界") || fullText.includes("高维生命")) {
+          this.addFlag("fringe_contact");
+        }
+        if (fullText.includes("归零者")) {
+          this.addFlag("zeroers_contact");
+        }
+      });
 
       const tickerEvents = triggeredEvents.filter(e => (!e.choices || e.choices.length === 0) && (!e.dialogNodes || e.dialogNodes.length === 0));
       const interactiveEvents = triggeredEvents.filter(e => (e.choices && e.choices.length > 0) || (e.dialogNodes && e.dialogNodes.length > 0));
@@ -713,6 +739,39 @@ export class Game {
 
     alien.diplomacyCooldown = 3;
 
+    if (alienName === "三体") {
+      switch (actionType) {
+        case 'negotiate':
+          alien.friendshipType = Math.min(FriendshipType.VERYFRIEND, alien.friendshipType + 1);
+          e.deterrenceValue = Math.max(0, e.deterrenceValue - 10);
+          return `与 ${alienName} 进行外交和平谈判。关系得到改善，但因释放和平信号，对三体威慑度下降 10%（当前威慑度: ${Math.floor(e.deterrenceValue)}%）。`;
+        case 'trade':
+          if (e.economy >= 30) {
+            e.economy -= 30;
+            e.resource += 50;
+            e.deterrenceValue = Math.max(0, e.deterrenceValue - 15);
+            return `与 ${alienName} 进行了“三体文化与科技交流”：-30 经济，+50 资源。人类社会沉浸在三体文化的温吞中，威慑度下降 15%（当前威慑度: ${Math.floor(e.deterrenceValue)}%）。`;
+          }
+          return `经济不足以进行贸易（需要30）。`;
+        case 'provoke':
+          if (!e.swordholder) {
+            return `【威慑失败】当前没有执剑人在位，无法发起坐标广播威慑。威胁被判定为虚张声势！`;
+          }
+          alien.friendshipType = FriendshipType.VERYANGRY;
+          e.deterrenceValue = Math.min(100, e.deterrenceValue + 20);
+          return `【威慑提升】人类通过执剑人 ${e.swordholder} 对 ${alienName} 进行了引力波广播威慑威胁！威慑度提升 20%，当前威慑度: ${Math.floor(e.deterrenceValue)}%，关系恶化至极度敌对。`;
+        case 'alliance':
+          if (e.deterrenceValue >= 90) {
+            alien.isBund = true;
+            alien.friendshipType = Math.min(FriendshipType.VERYFRIEND, alien.friendshipType + 1);
+            return `【战略同盟】在高达 ${Math.floor(e.deterrenceValue)}% 的绝对威慑力下，${alienName} 被迫妥协，与人类签署了《太阳系-三体威慑平衡和平同盟协定》！`;
+          }
+          return `【结盟失败】${alienName} 拒绝了和平结盟。三体文明回复：“我们在人类的执剑人身上看到了软弱与迟疑。威慑度不足以保障我们的平等共存。”`;
+        default:
+          return `未知的外交行动：${actionType}`;
+      }
+    }
+
     switch (actionType) {
       case 'negotiate':
         alien.friendshipType = Math.min(FriendshipType.VERYFRIEND, alien.friendshipType + 1);
@@ -736,6 +795,59 @@ export class Game {
         return `${alienName} 拒绝了同盟提议，关系不足。`;
       default:
         return `未知的外交行动：${actionType}`;
+    }
+  }
+
+  public updateDiplomacyUnlocks(): void {
+    const trisolaris = this.alienCiviManager.aliens.get("三体");
+    if (trisolaris) trisolaris.unlocked = true;
+
+    const singer = this.alienCiviManager.aliens.get("歌者");
+    if (singer && !singer.unlocked) {
+      const condition = this.earthCivi.tecTreeManager.isTecFinishedAnywhere("1万光年远镜") ||
+                        this.earthCivi.tecTreeManager.isTecFinishedAnywhere("太阳波放大器50光年") ||
+                        this.year >= 150 ||
+                        this.hasFlag("singer_contact");
+      if (condition) {
+        singer.unlocked = true;
+        this.addHistory(`【探索信道解锁】深空观测站捕获到高频光粒波段信号，成功建立与异星文明「歌者」的通信信道！`);
+      }
+    }
+
+    const ring = this.alienCiviManager.aliens.get("魔戒");
+    if (ring && !ring.unlocked) {
+      const condition = this.earthCivi.tecTreeManager.isTecFinishedAnywhere("宇宙社会学") ||
+                        this.earthCivi.tecTreeManager.isTecFinishedAnywhere("10%光速飞船") ||
+                        this.earthCivi.starIndices.has(10) ||
+                        this.earthCivi.starIndices.has(11) ||
+                        this.hasFlag("ring_contact");
+      if (condition) {
+        ring.unlocked = true;
+        this.addHistory(`【探索信道解锁】探索飞船在太阳系边缘发现四维空间碎块及墓地遗迹，成功解密与异星生命「魔戒」的通信信道！`);
+      }
+    }
+
+    const fringe = this.alienCiviManager.aliens.get("边缘世界");
+    if (fringe && !fringe.unlocked) {
+      const condition = this.earthCivi.tecTreeManager.isTecFinishedAnywhere("99%光速飞船") ||
+                        this.earthCivi.tecTreeManager.isTecFinishedAnywhere("引力波广播系统") ||
+                        this.epoch >= EpochType.BROADCAST ||
+                        this.hasFlag("fringe_contact");
+      if (condition) {
+        fringe.unlocked = true;
+        this.addHistory(`【探索信道解锁】引力波天线捕获到正在与三体文明交战的敌对势力讯号，建立通信信道：「边缘世界」！`);
+      }
+    }
+
+    const zeroers = this.alienCiviManager.aliens.get("归零者");
+    if (zeroers && !zeroers.unlocked) {
+      const condition = this.earthCivi.tecTreeManager.isTecFinishedAnywhere("归零者研究") ||
+                        this.hasFlag("zeroers_contact") ||
+                        this.year >= 280;
+      if (condition) {
+        zeroers.unlocked = true;
+        this.addHistory(`【探索信道解锁】检测到全宇宙广播的终极归零重置宣言，成功接入神级文明通信信道：「归零者」！`);
+      }
     }
   }
 

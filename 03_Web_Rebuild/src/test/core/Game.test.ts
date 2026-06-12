@@ -300,62 +300,62 @@ describe('Game Core Extended', () => {
     });
 
     it('negotiate 提升关系', () => {
-      const sanTi = game.alienCiviManager.aliens.get('三体');
-      if (sanTi && !sanTi.isDieOut()) {
-        sanTi.starIndices.add(1000);
-        const before = sanTi.friendshipType;
-        const msg = game.conductDiplomacy('三体', 'negotiate');
+      const geZhe = game.alienCiviManager.aliens.get('歌者');
+      if (geZhe && !geZhe.isDieOut()) {
+        geZhe.starIndices.add(1000);
+        const before = geZhe.friendshipType;
+        const msg = game.conductDiplomacy('歌者', 'negotiate');
         expect(msg).toContain('关系提升');
-        expect(sanTi.friendshipType).toBe(before + 1);
+        expect(geZhe.friendshipType).toBe(before + 1);
       }
     });
 
     it('trade 需要30经济', () => {
       game.earthCivi.economy = 20;
-      const sanTi = game.alienCiviManager.aliens.get('三体');
-      if (sanTi && !sanTi.isDieOut()) {
-        sanTi.starIndices.add(1000);
-        const msg = game.conductDiplomacy('三体', 'trade');
+      const geZhe = game.alienCiviManager.aliens.get('歌者');
+      if (geZhe && !geZhe.isDieOut()) {
+        geZhe.starIndices.add(1000);
+        const msg = game.conductDiplomacy('歌者', 'trade');
         expect(msg).toContain('不足以');
       }
     });
 
     it('trade 成功交易', () => {
       game.earthCivi.economy = 100;
-      const sanTi = game.alienCiviManager.aliens.get('三体');
-      if (sanTi && !sanTi.isDieOut()) {
-        sanTi.starIndices.add(1000);
-        const msg = game.conductDiplomacy('三体', 'trade');
+      const geZhe = game.alienCiviManager.aliens.get('歌者');
+      if (geZhe && !geZhe.isDieOut()) {
+        geZhe.starIndices.add(1000);
+        const msg = game.conductDiplomacy('歌者', 'trade');
         expect(msg).toContain('贸易交换');
       }
     });
 
     it('provoke 恶化关系', () => {
-      const sanTi = game.alienCiviManager.aliens.get('三体');
-      if (sanTi && !sanTi.isDieOut()) {
-        sanTi.starIndices.add(1000);
-        sanTi.friendshipType = FriendshipType.NORMAL;
-        game.conductDiplomacy('三体', 'provoke');
-        expect(sanTi.friendshipType).toBe(FriendshipType.ANGRY);
+      const geZhe = game.alienCiviManager.aliens.get('歌者');
+      if (geZhe && !geZhe.isDieOut()) {
+        geZhe.starIndices.add(1000);
+        geZhe.friendshipType = FriendshipType.NORMAL;
+        game.conductDiplomacy('歌者', 'provoke');
+        expect(geZhe.friendshipType).toBe(FriendshipType.ANGRY);
       }
     });
 
     it('外交冷却机制', () => {
-      const sanTi = game.alienCiviManager.aliens.get('三体');
-      if (sanTi && !sanTi.isDieOut()) {
-        sanTi.starIndices.add(1000);
-        game.conductDiplomacy('三体', 'negotiate');
-        expect(sanTi.diplomacyCooldown).toBe(3);
-        const msg = game.conductDiplomacy('三体', 'negotiate');
+      const geZhe = game.alienCiviManager.aliens.get('歌者');
+      if (geZhe && !geZhe.isDieOut()) {
+        geZhe.starIndices.add(1000);
+        game.conductDiplomacy('歌者', 'negotiate');
+        expect(geZhe.diplomacyCooldown).toBe(3);
+        const msg = game.conductDiplomacy('歌者', 'negotiate');
         expect(msg).toContain('冷却');
       }
     });
 
     it('unknown action 返回未知', () => {
-      const sanTi = game.alienCiviManager.aliens.get('三体');
-      if (sanTi && !sanTi.isDieOut()) {
-        sanTi.starIndices.add(1000);
-        const msg = game.conductDiplomacy('三体', 'weird_action');
+      const geZhe = game.alienCiviManager.aliens.get('歌者');
+      if (geZhe && !geZhe.isDieOut()) {
+        geZhe.starIndices.add(1000);
+        const msg = game.conductDiplomacy('歌者', 'weird_action');
         expect(msg).toContain('未知的外交行动');
       }
     });

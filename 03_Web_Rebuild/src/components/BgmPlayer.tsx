@@ -10,6 +10,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Volume2, VolumeX, Play } from 'lucide-react';
 import { GAMEPLAY_BGM_PATH } from '../config/endingConfig';
+import { getAssetUrl } from '../utils/assetUrl';
 
 interface BgmPlayerProps {
   isGameOver: boolean;
@@ -31,7 +32,7 @@ export const BgmPlayer: React.FC<BgmPlayerProps> = ({ isGameOver }) => {
 
   // Initialize and load audio
   useEffect(() => {
-    const audio = new Audio(GAMEPLAY_BGM_PATH);
+    const audio = new Audio(getAssetUrl(GAMEPLAY_BGM_PATH));
     audioRef.current = audio;
     audio.loop = true;
     audio.volume = isMuted ? 0 : volume;

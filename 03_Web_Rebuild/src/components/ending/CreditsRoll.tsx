@@ -9,6 +9,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { EndingConfig, FINALE_THEME_PATH, CREDITS_LIST } from '../../config/endingConfig';
 import { RefreshCw } from 'lucide-react';
+import { getAssetUrl } from '../../utils/assetUrl';
 
 interface Props {
   config: EndingConfig;
@@ -24,7 +25,7 @@ export const CreditsRoll: React.FC<Props> = ({ config, onRestart }) => {
 
   // Attempt to play theme song
   useEffect(() => {
-    const audio = new Audio(FINALE_THEME_PATH);
+    const audio = new Audio(getAssetUrl(FINALE_THEME_PATH));
     audioRef.current = audio;
     audio.volume = 0.6;
     audio.loop = false;
