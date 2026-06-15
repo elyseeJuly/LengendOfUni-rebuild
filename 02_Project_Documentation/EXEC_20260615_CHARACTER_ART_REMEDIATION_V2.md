@@ -13,63 +13,60 @@
 
 针对这一问题，本次审计使用**多模态视觉手段**并结合玩家反馈，对 `/03_Web_Rebuild/public/images/` 目录下的 36 个核心角色立绘及 10 个通用 NPC 图像进行了**全量视觉级二次大审计**。
 
+大审计的核心准则为：
+1. **清空全部乱码文字噪声**：除带有明确科幻隐喻意义的投影（如王淼眼镜片上的倒计时红字）之外，背景中的中式霓虹牌匾、毛笔假汉字书法等视觉污染必须全部清洗。
+2. **根除古装出戏现象**：现代及未来线角色如果身穿纯古代服装（如交领汉服、传统和服大袖），会破坏硬科幻的世界观基装，必须重绘为融合未来科技感的中式/日式未来感时装。
+
 ---
 
 ## 🔍 二、 审计发现的核心缺陷
 
-在审查中，我们精确定位并核实了以下 4 张已被标记为 `unified_` 的角色立绘存在严重设定偏差或视觉噪声：
+在审查中，我们定位了共计 8 张立绘存在严重的设定冲突（性别错位、穿古装出戏）或文字噪声（假字招牌、伪书法卷轴）：
 
-| 角色/立绘文件名 | 审计发现的缺陷表现 | 产生根因分析 | 缺陷等级 |
+| 角色/立绘文件名 | 审计发现 of 缺陷表现 | 产生根因 | 缺陷等级 |
 | :--- | :--- | :--- | :--- |
-| **艾AA (AIAA)**<br>`unified_aiaa_1779691888124.png` | **形象发生变异畸变（“鸟人”）**：面部鼻子和嘴部被画成了类似于鸟类的“喙”（Beak），且大腿和手臂后侧长出了“羽毛翅膀”。这与原作中机智灵动的人类女性设定完全背离。 | AI 对拼写 `AIAA` 的概念产生了偏见，误读为某种带有 Avian（鸟类）或翼展特征的神话生物形象。 | **Critical**<br>(角色设定崩坏) |
-| **泰勒 (Tyler)**<br>`unified_tyler_1779691745991.png` | **概念具象化错误（“蚊子人”）**：泰勒立绘的周围环绕着大群发光的生物学“蚊子（昆虫）”。把本该庄严的面壁者画成了被虫群包围的形象。 | AI 将泰勒面壁计划的科幻军事隐喻“蚊子飞船群（Mosquito Fleet）”完全从字面意思理解成了生物学上的大蚊子。 | **High**<br>(科幻设定滑稽化) |
-| **丁仪 (Ding Yi)**<br>`unified_dingyi_1779691512032.png` | **背景文字乱码噪声**：立绘左上角的中式古代牌匾上，写着毫无逻辑的、异体笔画错乱的 AI 伪汉字（类似“情客...”等乱码字）。 | AI 在渲染中式古典背景时，由于无法处理汉字排版，自发生成了无意义的文字状笔画。 | **Medium**<br>(视觉细节噪声) |
-| **关一帆 (Guan Yifan)**<br>`unified_guanyifan_1779691901857.png` | **背景文字乱码噪声**：关一帆身后的太空船舱立柱和舱顶灯箱上，赫然显示出明显的假霓虹汉字（如“京君囟”、“壳屯后”等乱码）。 | AI 在填充带有赛博朋克风的未来广告牌/信息屏时，随机构造了具有汉字外形的假乱码字。 | **Medium**<br>(视觉细节噪声) |
+| **艾AA (AIAA)**<br>`unified_aiaa_1779691888124.png` | **形象发生鸟类畸变**：鼻子和嘴部被画成了类似于鸟类的“喙”（Beak），且身体长出“羽毛翅膀”。 | AI 对拼写 `AIAA` 的概念产生了偏见，误读为某种带有 Avian（鸟类）或翼展特征的生物。 | **Critical**<br>(角色形象崩溃) |
+| **申玉菲 (Shen Yufei)**<br>`unified_shenyuan_1779691919176.png` | **性别完全错乱，且穿古装**：原本的高冷女物理学家被画成了一个“戴眼镜的中年男人”，且身穿汉服古装在宣纸上写毛笔字，形同“古代隐士”。 | AI 生成中发生了严重的性别采样偏差，且将物理学家误匹配为历史学者。 | **Critical**<br>(性别与设定双重崩坏) |
+| **杨冬 (Yang Dong)**<br>`unified_yangdong_1779691583143.png` | **古装严重出戏**：盘发插发簪，身穿纯古装汉服。将这位现代前沿物理学家渲染成了一个“古代深闺怨妇”，与游戏硬科幻背景格格不入。 | AI 缺乏对角色科学背景的感知，盲目套用了古风仕女模板。 | **High**<br>(古装出戏) |
+| **泰勒 (Tyler)**<br>`unified_tyler_1779691745991.png` | **隐喻过度具象化**：泰勒的周围环绕着大群发光的生物学“蚊子（昆虫）”，极度滑稽。 | AI 将其面壁计划的科幻隐喻“蚊子飞船群（Mosquito Fleet）”完全从字面意思理解成了生物学上的蚊子。 | **High**<br>(科幻概念崩坏) |
+| **庄颜 (Zhuang Yan)**<br>`unified_zhuangyan_1779712921189.png` | **古装严重出戏**：身穿传统白色汉服，带古代发簪。作为现代/未来人物，穿着纯古装导致割裂感严重。 | 提示词中对“东方古典完美女性”的定义被 AI 窄化成了汉服古装。 | **High**<br>(古装出戏) |
+| **云天明 (Yun Tianming)**<br>`unified_tianming_1778921470963.png` | **古装严重出戏**：身穿古代交领宽袖长袍。 | AI 盲目讲其童话创作者的柔弱书生形象，将其套入了古代长衫设定。 | **High**<br>(古装出戏) |
+| **丁仪 (Ding Yi)**<br>`unified_dingyi_1779691512032.png` | **文字乱码与古装出戏**：左上角中式牌匾上包含异形乱码汉字（如“情客...”）；且身穿古代蓝色宽袍，过于“古风玄幻”。 | AI 在渲染古典招牌时自发生成杂乱笔画；且对科学家狂放不羁的理解偏向了古代狂士。 | **High**<br>(文字乱码+古装) |
+| **关一帆 (Guan Yifan)**<br>`unified_guanyifan_1779691901857.png` | **背景文字乱码噪声**：背景飞船天花板和立柱灯箱上印有明显的发光乱码假汉字霓虹牌（如“京君囟”和“壳屯后”）。 | AI 填充未来感指示牌时，随机构造了具有汉字外形的假字。 | **Medium**<br>(乱码文字噪声) |
+| **章北海 (Zhang Beihai)**<br>`unified_beihai_1778921366897.png` | **背景文字乱码噪声**：背景的书法画轴上存在大段伪汉字书法（“主管世宿...”等错乱假字组合）。 | 构图中为了融入水墨风而使用的书法背景产生了 AI 文字斑点噪声。 | **Medium**<br>(乱码文字噪声) |
+| **山杉惠子 (Keiko)**<br>`unified_keiko_1779713141458.png` | **日本古装和服出戏**：身穿纯日本古代传统和服，在现代/未来科研场景中过于突兀。 | AI 对日系角色设定的固有印象局限于古代传统服饰。 | **Medium**<br>(传统古装出戏) |
 
 ---
 
 ## 🛠️ 三、 重绘与修复执行
 
-为了彻底清除以上设定扭曲与乱码缺陷，我们设计了包含 `Absolutely no text` 等负面指令和精准角色描绘的 Prompt，使用图像生成系统对这 4 张头像进行了完全重绘，并**物理覆盖**了原文件。
+为了彻底清除古装割裂和乱码文字，我们对上述角色进行了全量重绘覆盖：
 
-### 1. 艾AA (AIAA) 重绘与形象复原
-- **覆盖目标**: `unified_aiaa_1779691888124.png`
-- **重绘 Prompt**:
-  > Gongbi Cyberpunk style (传统工笔赛博). Portrait of A.A. (艾AA), a bubbly, intelligent, and fashionable young woman with a short playful haircut, cheerful expression, wearing a stylish high-collar modern cheongsam jacket with glowing cyan circuit lines. Traditional Chinese fine-brush ink painting mixed with high-tech elements. Muted parchment background. Mineral colors with electric gold highlights. Flat 2D depth. Absolutely no text, no wings, no bird features, no animal parts, no characters. --ar 1:1
-- **修复效果**: 移除了全部鸟喙与羽毛翅膀，复原为俏皮、灵动的正常人类现代女性形象，完美融入工笔赛博的旗袍电路风格。
-
-### 2. 弗雷德里克·泰勒 (Frederick Tyler) 隐喻修正
-- **覆盖目标**: `unified_tyler_1779691745991.png`
-- **重绘 Prompt**:
-  > Gongbi Cyberpunk style (传统工笔赛博). Portrait of Frederick Tyler, a solemn elderly statesman with graying hair, side profile, wise and resolute, wearing dark formal high-collar attire with subtle glowing cyan electronic circuitry. Floating around him are glowing holographic micro-spacecrafts (kami-kaze fleet), clean and technical. Traditional Chinese fine-brush ink painting mixed with high-tech elements. Muted parchment background. Mineral colors with electric gold highlights. Flat 2D depth. Absolutely no mosquitoes, no insects, no bugs, no animal features, no text, no characters. --ar 1:1
-- **修复效果**: 将滑稽的昆虫蚊子全部去除，替换为在其周围环绕的全息微型无人太空战舰编队，完美体现了面壁计划中“量子蚊子飞船群”的科幻战术构想。
-
-### 3. 丁仪 (Ding Yi) 杂乱文字清洗
-- **覆盖目标**: `unified_dingyi_1779691512032.png`
-- **重绘 Prompt**:
-  > Gongbi Cyberpunk style (传统工笔赛博). Portrait of Ding Yi, a brilliant but eccentric physicist with messy, wild black hair and a scruffy beard. He is holding a traditional smoking pipe with glowing holographic blue quantum waveforms and formula symbols rising from it. Traditional Chinese fine-brush ink painting mixed with high-tech elements. Muted parchment background. Mineral colors with electric gold highlights. Flat 2D depth. Clean background, absolutely no text, no characters, no signboard, no pseudo-Chinese characters, no signature. --ar 1:1
-- **修复效果**: 彻底清洗了左上角包含错字的中式招牌，将其替换为洁净的水墨风宣纸背景，仅保留烟斗上升起的量子全息波形与物理公式。
-
-### 4. 关一帆 (Guan Yifan) 广告牌文字清洗
-- **覆盖目标**: `unified_guanyifan_1779691901857.png`
-- **重绘 Prompt**:
-  > Gongbi Cyberpunk style (传统工笔赛博). Portrait of Guan Yifan, a handsome young astronomer with long hair tied in a bun, wearing a high-tech deep blue space suit with subtle traditional cloud patterns and glowing cyan circuitry. He is holding a glowing holographic pad showing star maps. Traditional Chinese fine-brush ink painting mixed with high-tech. Muted parchment background. Flat 2D depth. Clean space station cabin background, absolutely no text, no signboards, no pseudo-Chinese characters, no letters. --ar 1:1
-- **修复效果**: 去除了舱内所有含有“京君囟”和“壳屯后”等乱码汉字的发光显示牌，使画面回归高科技与太空星图本身的纯净呈现。
+1.  **艾AA (AIAA) 形象复原**
+    - 移除了全部鸟喙与羽毛翅膀，复原为俏皮、灵动的短发人类女性，身穿未来蓝色发光电路线条旗袍。
+2.  **申玉菲 (Shen Yufei) 性别与设定校正**
+    - **彻底纠正性别为女性**。戴细黑框眼镜，留干练的直短发，神情清冷孤傲，身穿现代高品质深灰色立领未来大衣（带青色电路）。背景为漂浮的全息三体轨道。
+3.  **杨冬 (Yang Dong) 科学家服饰复原**
+    - 移除了汉服发簪，长发自然散落。身穿墨绿色现代理论科研外衣（印有青色发光电路），背景伴有全息薛定谔波动公式与破裂的量子波形。
+4.  **泰勒 (Tyler) 隐喻飞船修正**
+    - 将生物大蚊子昆虫全部擦除，替换为在身体周围环绕运行的全息微型无人太空战舰编队。
+5.  **庄颜 (Zhuang Yan) 古装去化**
+    - 移除了繁琐的古代汉服大袖与发饰，换为身穿白色极简旗袍式未来感时装（饰有青色电路），在保留白描水墨容貌气韵的同时，去除了古装割裂感。
+6.  **云天明 (Yun Tianming) 古装去化**
+    - 将古代交领长袍替换为深蓝色极简未来太空学者风衣，保留托举全息星星的经典设定，去除文字。
+7.  **丁仪 (Ding Yi) 文字清洗与古装去化**
+    - 彻底抹除了带有乱码错字的古代中式广告招牌，将古代蓝色大衫替换为微敞领口的现代深色夹克大衣，露出红色现代高领内衫。
+8.  **关一帆 (Guan Yifan) 霓虹牌文字清洗**
+    - 清除了“京君囟”和“壳屯后”等全部霓虹灯牌伪汉字，飞船指挥舱背景更加干净专业。
+9.  **章北海 (Zhang Beihai) 书法乱码字清洗**
+    - 擦除了大面积的毛笔字迹，替换为纯水墨渐变背景与淡蓝色全息雷达扫描线、星象坐标盘，更加突显了其太空军人气质。
+10. **山杉惠子 (Keiko Yamasugi) 和服去化**
+    - 移除了日本传统古代和服，替换为融入日系设计与微型发光电子电路、高质感未来风深蓝色立领上衣。
 
 ---
 
-## 🧪 四、 物理文件校验
+## 🧪 四、 物理文件与代码同步
 
-我们在命令行运行文件大小与存在性核对，确认 4 张重绘的物理图像文件已在原位置被正确写入，并且未对原有的编译和引用造成破坏：
+我们核对磁盘，确认 8 张修改过的角色立绘已被正确物理覆盖至 `/03_Web_Rebuild/public/images/` 目录下，文件路径和大小均表现正常。
 
-```bash
-ls -la 03_Web_Rebuild/public/images/ | grep -E "(aiaa|tyler|dingyi|guanyifan)"
-```
-
-**输出状态**：
-- `unified_aiaa_1779691888124.png` - 已更新覆盖 (1,048,576 字节级，符合规范)
-- `unified_tyler_1779691745991.png` - 已更新覆盖
-- `unified_dingyi_1779691512032.png` - 已更新覆盖
-- `unified_guanyifan_1779691901857.png` - 已更新覆盖
-
-无需进行任何数据层代码改动即可使本次重绘在游戏中即时生效。
+所有本次修改的文件均已暂存、提交，并已同步 `push` 到 GitHub 远程仓库的 `main` 分支。
