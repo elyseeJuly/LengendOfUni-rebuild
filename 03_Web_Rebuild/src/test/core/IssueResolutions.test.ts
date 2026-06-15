@@ -38,7 +38,7 @@ describe('Issue Resolutions and Refactors tests', () => {
     expect(zeroers?.unlocked).toBe(false);
 
     // Simulate tech finished for Singer
-    const node = game.earthCivi.tecTreeManager.trees.get(TecTreeType.PHYSICS)?.getNode("50光年远镜");
+    const node = game.earthCivi.tecTreeManager.trees.get(TecTreeType.PHYSICS)?.getNode("太阳波放大器50光年");
     if (node) {
       node.finished = true;
     }

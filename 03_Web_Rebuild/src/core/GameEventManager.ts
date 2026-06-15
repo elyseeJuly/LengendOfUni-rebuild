@@ -23,8 +23,71 @@ export class GameEventManager {
   }
 
   private mapAvatar(bmpName: string, speakerName?: string): string {
+    // 1. If bmpName represents a CG image, resolve it first
+    if (bmpName) {
+      const lowerBmp = bmpName.toLowerCase();
+      if (lowerBmp.includes("event_") || lowerBmp.includes("cg_")) {
+        let name = lowerBmp.replace(/^\/?images\//, "").replace("character_", "").replace("unified_", "");
+        name = name.replace(".png", "").replace(".bmp", "");
+        
+        if (name.startsWith("event_crisis_start")) return getImageUrl("cg_crisis_start.png");
+        if (name.startsWith("event_guzheng")) return getImageUrl("cg_guzheng.png");
+        if (name.startsWith("event_moon_crisis")) return getImageUrl("cg_moon_crisis.png");
+        if (name.startsWith("event_wandering_earth")) return getImageUrl("cg_wandering_earth.png");
+        if (name.startsWith("event_dimensional_strike") || name === "dimensional_threat_alert") return getImageUrl("cg_dimensional_strike.png");
+        if (name.startsWith("event_droplet_attack")) return getImageUrl("cg_droplet_attack.png");
+        if (name.startsWith("event_deterrence_established")) return getImageUrl("cg_deterrence_established.png");
+        if (name.startsWith("event_deterrence_broken")) return getImageUrl("cg_deterrence_broken.png");
+        if (name.startsWith("event_gravitational_broadcast")) return getImageUrl("cg_gravitational_broadcast.png");
+        if (name.startsWith("event_bunker_world")) return getImageUrl("cg_bunker_world.png");
+
+        const fileName = bmpName.replace(/^\/?images\//, "");
+        return getImageUrl(fileName);
+      }
+    }
+
+    // 2. Intercept speakerName for all 36 major characters to prevent default mechanical head fallbacks
+    if (speakerName) {
+      const lowerSpeaker = speakerName.toLowerCase();
+      if (lowerSpeaker.includes("丁仪")) return getImageUrl("unified_dingyi_1779691512032.png");
+      if (lowerSpeaker.includes("智子")) return getImageUrl("unified_sophon_1778921509458.png");
+      if (lowerSpeaker.includes("艾aa") || lowerSpeaker.includes("aa")) return getImageUrl("unified_aiaa_1779691888124.png");
+      if (lowerSpeaker.includes("罗辑")) return getImageUrl("unified_luoji_1778921262534.png");
+      if (lowerSpeaker.includes("大史") || lowerSpeaker.includes("史强")) return getImageUrl("unified_dashi_1778921331273.png");
+      if (lowerSpeaker.includes("章北海")) return getImageUrl("unified_beihai_1778921366897.png");
+      if (lowerSpeaker.includes("程心")) return getImageUrl("unified_chengxin_1778921400346.png");
+      if (lowerSpeaker.includes("叶文洁")) return getImageUrl("unified_yewenjie_1778921299091.png");
+      if (lowerSpeaker.includes("维德")) return getImageUrl("unified_wade_1778921437022.png");
+      if (lowerSpeaker.includes("云天明")) return getImageUrl("unified_tianming_1778921470963.png");
+      if (lowerSpeaker.includes("汪淼")) return getImageUrl("unified_wangmiao_1779691527760.png");
+      if (lowerSpeaker.includes("希恩斯")) return getImageUrl("unified_hines_1779691718751.png");
+      if (lowerSpeaker.includes("雷迪亚兹")) return getImageUrl("unified_reydiaz_1779691732536.png");
+      if (lowerSpeaker.includes("泰勒")) return getImageUrl("unified_tyler_1779691745991.png");
+      if (lowerSpeaker.includes("关一帆")) return getImageUrl("unified_guanyifan_1779691901857.png");
+      if (lowerSpeaker.includes("林云")) return getImageUrl("unified_linyun_1779691542667.png");
+      if (lowerSpeaker.includes("伊文斯")) return getImageUrl("unified_evans_1779691557999.png");
+      if (lowerSpeaker.includes("杨冬")) return getImageUrl("unified_yangdong_1779691583143.png");
+      if (lowerSpeaker.includes("常伟思")) return getImageUrl("unified_changweisi_1779691759159.png");
+      if (lowerSpeaker.includes("东方延绪")) return getImageUrl("unified_dongfang_1779691773663.png");
+      if (lowerSpeaker.includes("沈渊")) return getImageUrl("unified_shenyuan_1779691919176.png");
+      if (lowerSpeaker.includes("华华")) return getImageUrl("unified_huahua_1780649946315.png");
+      if (lowerSpeaker.includes("伊依")) return getImageUrl("unified_yiyi_1780649999542.png");
+      if (lowerSpeaker.includes("霍金")) return getImageUrl("unified_hawking_1780649926625.png");
+      if (lowerSpeaker.includes("庄颜")) return getImageUrl("unified_zhuangyan_1779712921189.png");
+      if (lowerSpeaker.includes("水娃")) return getImageUrl("unified_shuiwa_1779712987486.png");
+      if (lowerSpeaker.includes("雷志成")) return getImageUrl("unified_leizhicheng_1779713006589.png");
+      if (lowerSpeaker.includes("杨卫宁")) return getImageUrl("unified_yangweining_1779713020653.png");
+      if (lowerSpeaker.includes("严井")) return getImageUrl("unified_yanjing_1780649978771.png");
+      if (lowerSpeaker.includes("白冰")) return getImageUrl("unified_baibing_1779713036549.png");
+      if (lowerSpeaker.includes("苗福全")) return getImageUrl("unified_miaofuquan_1779713095135.png");
+      if (lowerSpeaker.includes("滑膛") || lowerSpeaker.includes("华堂")) return getImageUrl("unified_huatang_1779713110568.png");
+      if (lowerSpeaker.includes("朱汉扬")) return getImageUrl("unified_zhuhanyang_1779713125007.png");
+      if (lowerSpeaker.includes("刘慈欣")) return getImageUrl("unified_liucixin_1779712937103.png");
+      if (lowerSpeaker.includes("山杉惠子")) return getImageUrl("unified_keiko_1779713141458.png");
+      if (lowerSpeaker.includes("萨伊")) return getImageUrl("unified_say_1780649885202.png");
+    }
+
     if (!bmpName || bmpName === "default") {
-      // Attempt NPC classification by speakerName before falling back to default
       if (speakerName) {
         return this.classifyAvatar(speakerName);
       }
@@ -97,18 +160,6 @@ export class GameEventManager {
       "say": "unified_say_1780649885202.png",
       "sayi": "unified_say_1780649885202.png"
     };
-
-    // Override CG mappings
-    if (name.startsWith("event_crisis_start")) return getImageUrl("cg_crisis_start.png");
-    if (name.startsWith("event_guzheng")) return getImageUrl("cg_guzheng.png");
-    if (name.startsWith("event_moon_crisis")) return getImageUrl("cg_moon_crisis.png");
-    if (name.startsWith("event_wandering_earth")) return getImageUrl("cg_wandering_earth.png");
-    if (name.startsWith("event_dimensional_strike") || name === "dimensional_threat_alert") return getImageUrl("cg_dimensional_strike.png");
-    if (name.startsWith("event_droplet_attack")) return getImageUrl("cg_droplet_attack.png");
-    if (name.startsWith("event_deterrence_established")) return getImageUrl("cg_deterrence_established.png");
-    if (name.startsWith("event_deterrence_broken")) return getImageUrl("cg_deterrence_broken.png");
-    if (name.startsWith("event_gravitational_broadcast")) return getImageUrl("cg_gravitational_broadcast.png");
-    if (name.startsWith("event_bunker_world")) return getImageUrl("cg_bunker_world.png");
 
     if (mapping[name]) return getImageUrl(mapping[name]);
 

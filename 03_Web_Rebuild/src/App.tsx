@@ -22,7 +22,7 @@ import { TechUnlockModal } from './components/TechUnlockModal';
 export const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('game-theme');
-    return saved !== null ? saved === 'dark' : true;
+    return saved !== null ? saved === 'dark' : false;
   });
   const [showInspector] = useState(true);
   const [activeView, setActiveView] = useState<'starmap' | 'techtree' | 'timeline' | 'diplomacy'>('starmap');
