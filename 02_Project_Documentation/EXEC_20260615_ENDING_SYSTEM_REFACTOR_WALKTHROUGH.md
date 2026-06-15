@@ -78,18 +78,44 @@
 | **3** | **掩体纪元 (BUNKER)** | `[800, 1199]` | 人类利用木星、土星、天王星等掩体规避光粒打击。 |
 | **4** | **银河纪元 (GALAXY)** | `[1200, 999999]` | 太阳系被二向箔降维打击毁灭。人类火种乘光速飞船逃往银河系深空。 |
 
-### 2. “星屑纪元 (Stardust Epoch)” 的定位与放置建议
-“星屑纪元”在科幻语境中指代星系与文明被更强力的法则武器（如多向折叠、归零等）彻底粉碎，文明流浪流落为茫茫宇宙中的“尘埃与尘沙”，或者是降维后文明以碎片化形态生存的历史。
+### 2. “星屑纪元 (Stardust Epoch)” 的实装与游戏性增强方案
+“星屑纪元”在科幻语境中指代星系与文明被更强力的法则武器（如多向折叠、归零等）彻底粉碎，文明流浪流落为宇宙中的“尘埃与尘沙”，或者是降维后文明以碎片化形态生存的历史。
 
-若要在游戏中加入该纪元，我们建议将其放置在 **银河纪元之后，作为第 6 个纪元（索引 5）**：
+目前该纪元已**正式实装**进游戏中，并作为 **银河纪元之后的第 6 个纪元（索引 5: `EpochType.STARDUST`）**。
 
-#### 放置理由：
-1. **科学史诗叙事顺位**：危机 $\rightarrow$ 威慑 $\rightarrow$ 广播 $\rightarrow$ 掩体 $\rightarrow$ 银河（逃亡银河系） $\rightarrow$ **星屑（小宇宙或宇宙坍缩重置前的尘埃生存期）**。星屑纪元最适合表现银河系流亡中后期、大范围降维发生、宇宙各流亡分支由于引力波广播和黑暗森林伏击被打击成小碎片（星屑）的苍凉纪元。
-2. **触发条件设置**：
-   - 方式一：设定极高的文化阈值条件（如 `minCulture: 2500`），作为超后期的高峰展示。
-   - 方式二（推荐）：作为隐藏/触发式纪元。当玩家完成特定的高级结局任务（例如：成功触发 `galaxy_exodus_seen` 银河外逃且游戏轮数超过 400 轮，或触发了与归零者接头 `zero_homer_contacted` 且玩家选择将自身小宇宙的物质归还给大宇宙时），动态将 `epoch` 切换为 `EpochType.STARDUST`。
-3. **实现修改路径**：
-   - 在 `enums.ts` 的 `EpochType` 中增加 `STARDUST = 5`，并将 `COUNT` 设为 `6`。
-   - 在 `epochs.json` 中将银河纪元的 `maxCulture` 限制修改为 `2499`，并新增一行：
-     `{ "epoch": 5, "name": "星屑纪元", "minCulture": 2500, "maxCulture": 999999 }`。
-   - 在 `Game.ts` 的 `updateEpoch()` 中为 `epochNames` 数组增加 `"星屑纪元"` 标签，并在 `epochTagMap` 增加 `'stardust_era_deep'` 标识绑定。
+#### 游戏性增强机制：
+1. **触发机制与阈值**：当人类文明的 `culture` 达到 `2500` 时，动态判定并进入“星屑纪元”。
+2. **纪元属性增益（星屑遗泽）**：进入该纪元后，触发纪元更替事件，自动获得 `stardust_era_active` 状态标志，且由于人类在余烬中复燃，文化强度直接获得 `+300` 奖励，提升后期的科技与政策转化效率。
+
+---
+
+## 🌌 六、 全纪元 CG 提醒与资源配对方案
+
+为了强化纪元更替的史诗感，我们在 [Game.ts](file:///Users/quantumrose/Documents/Emberois/LengendOfUni-rebuild/03_Web_Rebuild/src/core/Game.ts) 中实装了**全纪元更替 CG 事件弹窗机制**：
+当检测到纪元切换时，系统会创建高优先级的纪元宣言事件弹窗，播放专属 CG 图画并展示更替文本，玩家确认后正式进入新纪元。
+
+### 1. 纪元更替 CG 资源与对应表
+
+| 纪元 | 对应事件图片 (talkX_pic) | 最终解析 CG 文件 | 画面描述 |
+| :--- | :--- | :--- | :--- |
+| **0. 危机纪元** | `event_crisis_start` | `cg_crisis_start.png` | 联合政府成立、太空军成立背景及面壁计划宣告。 |
+| **1. 威慑纪元** | `event_deterrence_established` | `cg_deterrence_established.png` | 罗辑执剑人威慑建立，雪地工程引力波广播发射架。 |
+| **2. 广播纪元** | `event_gravitational_broadcast` | `cg_gravitational_broadcast.png` | 万有引力号及蓝色空间号发射引力波暴露坐标。 |
+| **3. 掩体纪元** | `event_bunker_world` | `cg_bunker_world.png` | 散布在木星、土星背影中宏伟的掩体太空城。 |
+| **4. 银河纪元** | `event_galaxy_era` | `cg_galaxy_era.png` | **【新规/缺资源】** 光速飞船飞离已二维扁平化的太阳系。 |
+| **5. 星屑纪元** | `event_stardust_era` | `cg_stardust_era.png` | **【新规/缺资源】** 漂浮在冰冷深空中的“尘埃岛”小穹顶城市。 |
+
+### 2. 缺失 CG 资源的 AI 生成提示词 (Prompts)
+
+由于 `cg_galaxy_era.png` 与 `cg_stardust_era.png` 在资产库中缺失，请使用以下专业提示词通过 Midjourney / DALL-E 3 生成并放入 `public/images/` 下：
+
+#### 📷 银河纪元 CG 提示词 (`cg_galaxy_era.png`)
+> **英文 Prompt**:  
+> *An epic sci-fi CG illustration of thousands of warp-drive starships leaving long cyan light-trails behind, traveling towards a massive, swirling spiral galaxy in deep space. In the foreground, a solar system is collapsing and flattening into a colorful, paper-thin two-dimensional glowing grid film. Melancholy, cinematic lighting, 8k resolution, hard science fiction concept art. --ar 16:9*  
+> **视觉要点**：远景是灿烂庞大的螺旋银河，中景是拖曳着长长青蓝色光尾的逃亡光速飞船，近景是已经彻底扁平化、泛着霓虹七彩光晕的二维太阳系薄膜。
+
+#### 📷 星屑纪元 CG 提示词 (`cg_stardust_era.png`)
+> **英文 Prompt**:  
+> *A melancholic hard sci-fi concept art of a scattered human colony built on a field of floating space debris, asteroids, and stardust islands in a cold, dim universe. Tiny dome cities and heavy fusion engines glowing with warm orange light on the floating rocks. In the distant background, a dying, fragmented galaxy is glowing with faint silver light. Post-apocalyptic space survival, epic, lonely, highly detailed, photorealistic, 8k resolution. --ar 16:9*  
+> **视觉要点**：冰冷、黯淡的深空，无数太空岩石与飞船碎片相互吸附构成漂浮的“星尘陆地”，其上搭建着亮着点点重核聚变发动机橙光的小穹顶城市，背景是碎裂且极其微弱的银灰冷色银河残骸。
+
