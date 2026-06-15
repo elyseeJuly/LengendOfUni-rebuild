@@ -111,11 +111,12 @@
 
 #### 📷 银河纪元 CG 提示词 (`cg_galaxy_era.png`)
 > **英文 Prompt**:  
-> *An epic sci-fi CG illustration of thousands of warp-drive starships leaving long cyan light-trails behind, traveling towards a massive, swirling spiral galaxy in deep space. In the foreground, a solar system is collapsing and flattening into a colorful, paper-thin two-dimensional glowing grid film. Melancholy, cinematic lighting, 8k resolution, hard science fiction concept art. --ar 16:9*  
+> *Epic sci-fi concept art, thousands of warp-drive starships leaving long cyan light-trails behind, traveling towards a massive, swirling spiral galaxy in deep space. In the foreground, a solar system is collapsing and flattening into a colorful, paper-thin two-dimensional glowing grid film. Melancholy, cinematic high contrast, dramatic lighting. Minimalist composition, expressive digital brushstrokes. Masterpiece, Craig Mullins style. --ar 21:9 --style raw --v 6.0*  
 > **视觉要点**：远景是灿烂庞大的螺旋银河，中景是拖曳着长长青蓝色光尾的逃亡光速飞船，近景是已经彻底扁平化、泛着霓虹七彩光晕的二维太阳系薄膜。
 
 #### 📷 星屑纪元 CG 提示词 (`cg_stardust_era.png`)
 > **英文 Prompt**:  
-> *A melancholic hard sci-fi concept art of a scattered human colony built on a field of floating space debris, asteroids, and stardust islands in a cold, dim universe. Tiny dome cities and heavy fusion engines glowing with warm orange light on the floating rocks. In the distant background, a dying, fragmented galaxy is glowing with faint silver light. Post-apocalyptic space survival, epic, lonely, highly detailed, photorealistic, 8k resolution. --ar 16:9*  
+> *Epic sci-fi concept art, a melancholic human colony built on a field of floating space debris, asteroids, and stardust islands in a cold, dim universe. Tiny dome cities and heavy fusion engines glowing with warm orange light on the floating rocks. In the distant background, a dying, fragmented galaxy is glowing with faint silver light. Post-apocalyptic space survival, lonely, high contrast, dramatic shadows. Minimalist composition, expressive brushstrokes. Masterpiece, Craig Mullins style. --ar 21:9 --style raw --v 6.0*  
 > **视觉要点**：冰冷、黯淡的深空，无数太空岩石与飞船碎片相互吸附构成漂浮的“星尘陆地”，其上搭建着亮着点点重核聚变发动机橙光的小穹顶城市，背景是碎裂且极其微弱的银灰冷色银河残骸。
+
 
