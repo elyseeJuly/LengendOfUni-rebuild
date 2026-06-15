@@ -522,7 +522,7 @@ export class Game {
     }
 
     if (prevEpoch !== this.epoch) {
-      const epochNames = ["危机纪元", "威慑纪元", "广播纪元", "掩体纪元", "银河纪元"];
+      const epochNames = ["危机纪元", "威慑纪元", "广播纪元", "掩体纪元", "银河纪元", "星屑纪元"];
       this.addHistory(`【纪元更替】进入${epochNames[this.epoch]}！`);
       this.playerTimeline.push({ year: this.year, event: `【纪元更替】人类正式进入${epochNames[this.epoch]}` });
 
@@ -533,6 +533,7 @@ export class Game {
         2: 'broadcast_era',
         3: 'bunker_era_deep',
         4: 'galaxy_era_deep',
+        5: 'stardust_era_deep',
       };
       const tagId = epochTagMap[this.epoch];
       if (tagId) {
@@ -551,6 +552,51 @@ export class Game {
       // 自动触发氛围重评估
       const newAtmos = this.atmosphereEngine.evaluate(this.tagManager, this.earthCivi);
       this.atmosphereEngine.transitionTo(newAtmos);
+
+      // 自动弹窗 Epoch CG Event
+      const epochCGMap: Record<number, string> = {
+        0: 'event_crisis_start',
+        1: 'event_deterrence_established',
+        2: 'event_gravitational_broadcast',
+        3: 'event_bunker_world',
+        4: 'event_galaxy_era',
+        5: 'event_stardust_era',
+      };
+
+      const epochContents: Record<number, string> = {
+        0: "人类发现了三体舰队，全世界进入危机纪元。行星防御理事会正式启动面壁计划，基础物理已被智子封锁，人类必须寻找在围剿下存活的手段！",
+        1: "威慑平衡正式建立，人类世界进入威慑纪元。在执剑人的威慑威压下，三体文明被迫停止了向太阳系的扩张，进入脆弱而短暂的和平冷战期。",
+        2: "威慑宣告中止，万有引力号启动了坐标广播，人类正式步入广播纪元。两个世界的坐标已暴露在黑暗森林法则的枪口之下，毁灭倒计时开始。",
+        3: "太阳系黑暗森林打击临近，掩体世界群宣告落成，人类迈进掩体纪元。数十座宏伟太空城散布在气态行星背面，人类试图借此躲过光粒打击。",
+        4: "太阳系终遭降维打击，大批光速飞船破空而去，逃亡银河系，开启银河纪元。地球不再是人类唯一的家园，人类火种从此散布在浩瀚星海。",
+        5: "大宇宙的结构在战争中进一步降维碎裂。太阳系乃至银河系的核心都已退化崩缩，人类分散在各个漂浮的碎星和微型星云间挣扎求生。这是一个万物归尘、同时也是最后的星屑纪元。"
+      };
+
+      const epochCG = epochCGMap[this.epoch] || 'event_crisis_start';
+      const epochContent = epochContents[this.epoch] || '';
+      const newEpochName = epochNames[this.epoch];
+
+      const newEpochEvent: GameEventPayload = {
+        id: `event_epoch_transition_${this.epoch}`,
+        title: `纪元更替：${newEpochName}`,
+        dialogQueue: [{
+          speakerName: "历史观测记录",
+          avatarUrl: epochCG,
+          content: epochContent,
+          isCG: true
+        }],
+        choices: [{
+          label: `进入${newEpochName}`,
+          action: () => {
+            if (this.epoch === EpochType.STARDUST) {
+              this.addFlag("stardust_era_active");
+              this.earthCivi.culture += 300;
+              this.addHistory("【星屑遗泽】步入最后的纪元，古老的火种在灰烬中复燃，文化产出大幅提升！");
+            }
+          }
+        }]
+      };
+      this.eventQueue.unshift(newEpochEvent);
 
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('epoch-changed'));

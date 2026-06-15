@@ -36,7 +36,8 @@ export enum EpochType {
   BROADCAST = 2,
   BUNKER = 3,
   GALAXY = 4,
-  COUNT = 5
+  STARDUST = 5,
+  COUNT = 6
 }
 
 export enum AiPersonality {

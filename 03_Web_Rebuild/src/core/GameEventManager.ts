@@ -40,6 +40,8 @@ export class GameEventManager {
         if (name.startsWith("event_deterrence_broken")) return getImageUrl("cg_deterrence_broken.png");
         if (name.startsWith("event_gravitational_broadcast")) return getImageUrl("cg_gravitational_broadcast.png");
         if (name.startsWith("event_bunker_world")) return getImageUrl("cg_bunker_world.png");
+        if (name.startsWith("event_galaxy_era")) return getImageUrl("cg_galaxy_era.png");
+        if (name.startsWith("event_stardust_era")) return getImageUrl("cg_stardust_era.png");
 
         const fileName = bmpName.replace(/^\/?images\//, "");
         return getImageUrl(fileName);

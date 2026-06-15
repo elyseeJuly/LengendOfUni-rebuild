@@ -10,6 +10,9 @@ function setupGame() {
   game.earthCivi.culture = 500;
   game.earthCivi.deterrenceValue = 50;
   game.earthCivi.treachery = 0;
+  game.updateEpoch();
+  game.eventQueue = [];
+  game.currentEvent = null;
   return game;
 }
 
